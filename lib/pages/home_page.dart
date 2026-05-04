@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:plazaku/pages/detail_product_page.dart';
-import 'package:plazaku/pages/search_page.dart';
-import 'package:plazaku/services/app_service.dart';
-import 'package:plazaku/widgets/banner_header.dart';
-import 'package:plazaku/widgets/categories_widget.dart';
-import 'package:plazaku/widgets/product_card.dart';
+import 'package:xrpl2_plazaku/pages/search_page.dart';
 
+import '../services/app_service.dart';
 import '../widgets/banner_header.dart';
 import '../widgets/categories_widget.dart';
 import '../widgets/product_card.dart';
+import 'detail_product_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
