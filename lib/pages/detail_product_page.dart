@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/cart_page.dart';
 import 'package:xrpl2_plazaku/pages/search_page.dart';
 
 import '../models/product_model.dart';
@@ -298,35 +297,16 @@ class _DetailProductPageState extends State<DetailProductPage> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(12),
         color: Colors.white,
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CartPage()),
-                );
-              },
-              icon: Icon(Icons.shopping_cart_outlined),
+        child: ElevatedButton(
+          onPressed: handleAddToCart,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            padding: EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-            SizedBox(width: 10),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: handleAddToCart,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  "Add to Cart",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
+          ),
+          child: Text("Add to Cart", style: TextStyle(color: Colors.white)),
         ),
       ),
     );
