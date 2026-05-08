@@ -27,7 +27,7 @@ List<UserModel> users = [
     password: 'rarara',
     isSeller: true,
     role: Role.seller,
-    currentMode: AppMode.buyer,
+    currentMode: AppMode.seller,
     shopName: 'Rafi Store',
   ),
 ];
