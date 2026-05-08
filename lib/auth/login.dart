@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/auth/register.dart';
 import 'package:xrpl2_plazaku/datas/data_account.dart';
 import 'package:xrpl2_plazaku/models/user_model.dart';
+import 'package:xrpl2_plazaku/pages/main_dashboard_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
-import '../pages/buyer/dashboard_page.dart';
 import '../widgets/custom_input_field.dart';
 import 'forgot_pass.dart';
 
@@ -187,7 +187,7 @@ class _LoginState extends State<Login> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DashboardPage(),
+                                    builder: (context) => MainDashboardPage(),
                                   ),
                                 );
                               }
