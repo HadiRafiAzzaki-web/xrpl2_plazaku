@@ -5,12 +5,20 @@ class WishlistService {
 
   List<ProductModel> get items => _wishlist;
 
+  //add product to wishlist
   void addWishlist(ProductModel product) {
     product.isFavorite = !product.isFavorite;
 
     if (product.isFavorite) {
       _wishlist.add(product);
-    } else {
+    }
+  }
+
+  //remove product from wishlist
+  void removeWishlist(ProductModel product) {
+    product.isFavorite = false;
+
+    if (product.isFavorite == false) {
       _wishlist.remove(product);
     }
   }
