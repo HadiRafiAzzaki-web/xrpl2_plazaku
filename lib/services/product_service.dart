@@ -17,6 +17,7 @@ class ProductService {
       ],
       location: 'Jakarta',
       isFavorite: false,
+      isChosenCart: false,
     ),
     //FASHION
     ProductModel(
@@ -31,6 +32,7 @@ class ProductService {
       ],
       location: 'Malang',
       isFavorite: false,
+      isChosenCart: false,
     ),
     ProductModel(
       title: 'Tas Wanita Premium',
@@ -44,6 +46,7 @@ class ProductService {
       ],
       location: 'Semarang',
       isFavorite: false,
+      isChosenCart: false,
     ),
     //SPORT
     ProductModel(
@@ -58,6 +61,7 @@ class ProductService {
       ],
       location: 'Batu',
       isFavorite: false,
+      isChosenCart: false,
     ),
     ProductModel(
       title: 'Jaket Olahraga',
@@ -71,6 +75,7 @@ class ProductService {
       ],
       location: 'Bandung',
       isFavorite: false,
+      isChosenCart: false,
     ),
     //OTOMOTIF
     ProductModel(
@@ -85,6 +90,7 @@ class ProductService {
       ],
       location: 'Yogyakarta',
       isFavorite: false,
+      isChosenCart: false,
     ),
     ProductModel(
       title: 'Cat Mobil',
@@ -98,6 +104,7 @@ class ProductService {
       ],
       location: 'Medan',
       isFavorite: false,
+      isChosenCart: false,
     ),
   ];
 }
