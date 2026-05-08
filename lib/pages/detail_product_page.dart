@@ -56,6 +56,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
     ).showSnackBar(SnackBar(content: Text("Product added to cart")));
   }
 
+  //add product to wishlist
+  void handleAddWishlist() {
+    widget.wishlistService.addWishlist(widget.product);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,9 +154,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.wishlistService.addWishlist(
-                                    widget.product,
-                                  );
+                                  handleAddWishlist();
                                 });
                               },
                               icon: Icon(
@@ -298,7 +301,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
         padding: EdgeInsets.all(12),
         color: Colors.white,
         child: ElevatedButton(
-          onPressed: handleAddToCart,
+          onPressed: () {
+            setState(() {
+              handleAddToCart();
+            });
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
             padding: EdgeInsets.symmetric(vertical: 14),
