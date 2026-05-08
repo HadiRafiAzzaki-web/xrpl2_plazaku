@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../pages/category_page.dart';
+import '../pages/buyer/category_page.dart';
 import '../services/category_service.dart';
 
 class CategoriesWidget extends StatelessWidget {

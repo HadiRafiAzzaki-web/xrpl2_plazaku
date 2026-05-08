@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/auth/register.dart';
+import 'package:xrpl2_plazaku/datas/data_account.dart';
+import 'package:xrpl2_plazaku/models/user_model.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 
-import '../datas/data_account.dart';
-import '../pages/dashboard_page.dart';
+import '../pages/buyer/dashboard_page.dart';
 import '../widgets/custom_input_field.dart';
 import 'forgot_pass.dart';
 
@@ -159,20 +161,17 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             setState(() {
                               if (_key.currentState!.validate()) {
-                                final user = users.any(
-                                  (element) =>
-                                      element.username == _name.text &&
-                                      element.password == _password.text,
-                                );
-
-                                if (user) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DashboardPage(),
-                                    ),
+                                UserModel? user;
+                                try {
+                                  user = users.firstWhere(
+                                    (element) =>
+                                        element.username == _name.text &&
+                                        element.password == _password.text,
                                   );
-                                } else {
+                                } catch (e) {
+                                  user = null;
+                                }
+                                if (user == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
@@ -181,7 +180,16 @@ class _LoginState extends State<Login> {
                                       backgroundColor: Colors.red,
                                     ),
                                   );
+                                  return;
                                 }
+                                appService.login(user);
+
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DashboardPage(),
+                                  ),
+                                );
                               }
                             });
                           },

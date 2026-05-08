@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/modeOrRole/app_mode.dart';
+import 'package:xrpl2_plazaku/modeOrRole/role.dart';
 
 import '../datas/data_account.dart';
 import '../models/user_model.dart';
@@ -209,6 +211,9 @@ class _RegisterState extends State<Register> {
                                     username: _name.text,
                                     email: _email.text,
                                     password: _password.text,
+                                    isSeller: false,
+                                    role: Role.buyer,
+                                    currentMode: AppMode.buyer,
                                   ),
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
