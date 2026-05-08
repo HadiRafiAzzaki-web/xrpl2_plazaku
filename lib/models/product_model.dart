@@ -22,8 +22,10 @@ class ProductModel {
   final String location;
   final List<VariantModel> variants;
   bool isFavorite = false;
+  bool isChosenCart = false;
 
   ProductModel({
+    required this.isChosenCart,
     required this.isFavorite,
     required this.location,
     required this.category,

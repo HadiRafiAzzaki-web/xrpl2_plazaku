@@ -78,6 +78,7 @@ class _WishlistPageState extends State<WishlistPage> {
                     child: ListView.builder(
                       itemCount: wishlistProduct.length,
                       itemBuilder: (context, index) => Container(
+                        margin: EdgeInsets.only(bottom: 12),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
