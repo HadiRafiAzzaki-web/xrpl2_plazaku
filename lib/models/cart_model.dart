@@ -4,6 +4,12 @@ class CartModel {
   final ProductModel product;
   final Map<String, String> variants;
   int quantity;
+  bool isSelected;
 
-  CartModel({required this.product, required this.variants, this.quantity = 1});
+  CartModel({
+    required this.product,
+    required this.variants,
+    this.quantity = 1,
+    this.isSelected = false,
+  });
 }
