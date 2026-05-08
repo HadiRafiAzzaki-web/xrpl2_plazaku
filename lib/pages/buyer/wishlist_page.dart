@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
 import 'package:xrpl2_plazaku/services/wishlist_service.dart';
 
-import '../utils/price_format.dart';
+import '../../utils/price_format.dart';
 import 'detail_product_page.dart';
 
 class WishlistPage extends StatefulWidget {
@@ -21,9 +20,14 @@ class WishlistPage extends StatefulWidget {
 }
 
 class _WishlistPageState extends State<WishlistPage> {
+  var searchController = TextEditingController();
+  String search = '';
+
   @override
   Widget build(BuildContext context) {
-    final wishlistProduct = widget.wishlistService.items;
+    final wishlistProduct = widget.wishlistService.items
+        .where((element) => element.title.toLowerCase().contains(search))
+        .toList();
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -39,6 +43,36 @@ class _WishlistPageState extends State<WishlistPage> {
             icon: Icon(Icons.notifications, color: Colors.black, size: 40),
           ),
         ],
+        //search bar
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: TextField(
+                textAlign: TextAlign.start,
+                controller: searchController,
+                onChanged: (value) {
+                  setState(() {
+                    search = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search),
+                  hintText: 'Search wishlist',
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: wishlistProduct.isEmpty
           ? Center(child: Text('Wishlist empty'))
@@ -46,33 +80,6 @@ class _WishlistPageState extends State<WishlistPage> {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SearchPage()),
-                      );
-                    },
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        children: [
-                          Icon(Icons.search, color: Colors.grey),
-                          SizedBox(width: 8),
-                          Text(
-                            'Search your product here',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 15),
                   Expanded(
                     child: ListView.builder(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 
-import '../models/product_model.dart';
-import '../services/app_service.dart';
-import '../widgets/product_card.dart';
+import '../../models/product_model.dart';
+import '../../services/app_service.dart';
+import '../../widgets/product_card.dart';
 import 'detail_product_page.dart';
 
 class CategoryPage extends StatefulWidget {

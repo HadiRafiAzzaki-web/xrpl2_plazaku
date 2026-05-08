@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 
-import '../services/app_service.dart';
-import '../widgets/banner_header.dart';
-import '../widgets/categories_widget.dart';
-import '../widgets/product_card.dart';
+import '../../services/app_service.dart';
+import '../../widgets/banner_header.dart';
+import '../../widgets/categories_widget.dart';
+import '../../widgets/product_card.dart';
 import 'detail_product_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,7 +91,6 @@ class _HomePageState extends State<HomePage> {
             Container(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
               color: Colors.white,
-              height: 220,
               child: CategoriesWidget(),
             ),
             SizedBox(height: 10),

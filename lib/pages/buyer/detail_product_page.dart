@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 
-import '../models/product_model.dart';
-import '../services/cart_service.dart';
-import '../services/wishlist_service.dart';
-import '../utils/price_format.dart';
+import '../../models/product_model.dart';
+import '../../services/cart_service.dart';
+import '../../services/wishlist_service.dart';
+import '../../utils/price_format.dart';
 
 class DetailProductPage extends StatefulWidget {
   final ProductModel product;
@@ -58,7 +58,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   //add product to wishlist
   void handleAddWishlist() {
-    widget.wishlistService.addWishlist(widget.product);
+    if (widget.product.isFavorite) {
+      widget.wishlistService.removeWishlist(widget.product);
+    } else {
+      widget.wishlistService.addWishlist(widget.product);
+    }
   }
 
   @override

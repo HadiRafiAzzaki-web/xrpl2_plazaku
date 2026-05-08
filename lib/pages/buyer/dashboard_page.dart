@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/wishlist_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/wishlist_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 import 'account_page.dart';

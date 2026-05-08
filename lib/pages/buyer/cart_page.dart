@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
 
-import '../utils/price_format.dart';
+import '../../utils/price_format.dart';
 
 class CartPage extends StatefulWidget {
   final CartService cartService;
@@ -14,9 +14,17 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  var searchController = TextEditingController();
+  String search = '';
+  bool isAll = false;
+
   @override
   Widget build(BuildContext context) {
-    final cartProduct = widget.cartService.item;
+    final cartProduct = widget.cartService.item
+        .where(
+          (element) => element.product.title.toLowerCase().contains(search),
+        )
+        .toList();
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -32,7 +40,38 @@ class _CartPageState extends State<CartPage> {
             icon: Icon(Icons.notifications, color: Colors.black, size: 40),
           ),
         ],
+        //search bar
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: TextField(
+                textAlign: TextAlign.start,
+                controller: searchController,
+                onChanged: (value) {
+                  setState(() {
+                    search = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search),
+                  hintText: 'Search cart',
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
+      //check if cart has product or not
       body: cartProduct.isEmpty
           ? Center(child: Text('Cart empty'))
           : Padding(
@@ -188,11 +227,14 @@ class _CartPageState extends State<CartPage> {
                               Column(
                                 children: [
                                   Checkbox(
-                                    value: item.product.isChosenCart,
+                                    value: item.isSelected,
                                     onChanged: (value) {
                                       setState(() {
-                                        item.product.isChosenCart =
-                                            !item.product.isChosenCart;
+                                        item.isSelected = value!;
+
+                                        isAll = cartProduct.every(
+                                          (element) => element.isSelected,
+                                        );
                                       });
                                     },
                                   ),
@@ -207,6 +249,53 @@ class _CartPageState extends State<CartPage> {
                 ],
               ),
             ),
+      //bottom navbar
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFFFFF), Color(0xFF999999)],
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Checkbox(
+                  value: isAll,
+                  onChanged: (value) {
+                    setState(() {
+                      isAll = value!;
+
+                      for (var product in cartProduct) {
+                        product.isSelected = isAll;
+                      }
+                    });
+                  },
+                ),
+                Text('All'),
+              ],
+            ),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(formatRupiah(widget.cartService.selectedTotalPrice)),
+                Card(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      'Checkout (${widget.cartService.selectedItemCount})',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
