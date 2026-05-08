@@ -9,18 +9,18 @@ class WishlistService {
   void addWishlist(ProductModel product) {
     product.isFavorite = !product.isFavorite;
 
-    if (product.isFavorite) {
+    final isExist = _wishlist.contains(product);
+
+    if (!isExist) {
       _wishlist.add(product);
+      product.isFavorite = true;
     }
   }
 
   //remove product from wishlist
   void removeWishlist(ProductModel product) {
+    _wishlist.remove(product);
     product.isFavorite = false;
-
-    if (product.isFavorite == false) {
-      _wishlist.remove(product);
-    }
   }
 
   bool isFavorite(ProductModel product) {
