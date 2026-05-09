@@ -214,6 +214,8 @@ class _RegisterState extends State<Register> {
                                     isSeller: false,
                                     role: Role.buyer,
                                     currentMode: AppMode.buyer,
+                                    id: DateTime.now().millisecondsSinceEpoch
+                                        .toString(),
                                   ),
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(

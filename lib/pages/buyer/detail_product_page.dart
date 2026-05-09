@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 
 import '../../models/product_model.dart';
 import '../../services/cart_service.dart';
@@ -23,6 +24,7 @@ class DetailProductPage extends StatefulWidget {
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
+  final user = appService.currentUser!;
   Map<String, String> selectedVariants = {};
 
   //get product variant
@@ -49,6 +51,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
     widget.cartService.addCart(
       product: widget.product,
       variants: selectedVariants,
+      userId: user.id,
     );
 
     ScaffoldMessenger.of(
@@ -59,9 +62,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
   //add product to wishlist
   void handleAddWishlist() {
     if (widget.product.isFavorite) {
-      widget.wishlistService.removeWishlist(widget.product);
+      widget.wishlistService.removeWishlist(
+        product: widget.product,
+        userId: user.id,
+      );
     } else {
-      widget.wishlistService.addWishlist(widget.product);
+      widget.wishlistService.addWishlist(
+        product: widget.product,
+        userId: user.id,
+      );
     }
   }
 

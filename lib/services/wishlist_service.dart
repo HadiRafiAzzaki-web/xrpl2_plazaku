@@ -1,29 +1,40 @@
 import '../models/product_model.dart';
+import '../models/wishlist_model.dart';
 
 class WishlistService {
-  final List<ProductModel> _wishlist = [];
+  final List<WishlistModel> _wishlist = [];
 
-  List<ProductModel> get items => _wishlist;
+  List<WishlistModel> get items => _wishlist;
 
-  //add product to wishlist
-  void addWishlist(ProductModel product) {
-    product.isFavorite = !product.isFavorite;
-
-    final isExist = _wishlist.contains(product);
+  //add wishlist
+  void addWishlist({required ProductModel product, required String userId}) {
+    final isExist = _wishlist.any(
+      (e) => e.userId == userId && e.product.id == product.id,
+    );
 
     if (!isExist) {
-      _wishlist.add(product);
+      _wishlist.add(WishlistModel(userId: userId, product: product));
       product.isFavorite = true;
     }
   }
 
-  //remove product from wishlist
-  void removeWishlist(ProductModel product) {
-    _wishlist.remove(product);
+  //remove wishlist
+  void removeWishlist({required ProductModel product, required String userId}) {
+    _wishlist.removeWhere(
+      (e) => e.userId == userId && e.product.id == product.id,
+    );
     product.isFavorite = false;
   }
 
-  bool isFavorite(ProductModel product) {
-    return _wishlist.contains(product);
+  //user wishlist
+  List<WishlistModel> userWishlist(String userId) {
+    return _wishlist.where((e) => e.userId == userId).toList();
+  }
+
+  //check favorite
+  bool isFavorite({required ProductModel product, required String userId}) {
+    return _wishlist.any(
+      (e) => e.userId == userId && e.product.id == product.id,
+    );
   }
 }

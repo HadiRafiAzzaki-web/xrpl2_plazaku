@@ -13,6 +13,9 @@ enum Category {
 }
 
 class ProductModel {
+  final int id;
+  final String sellerId;
+  final int stock;
   final String title;
   final int price;
   final String image;
@@ -21,12 +24,16 @@ class ProductModel {
   final Category category;
   final String location;
   final List<VariantModel> variants;
-  bool isFavorite = false;
-  bool isChosenCart = false;
 
-  ProductModel({
-    required this.isChosenCart,
-    required this.isFavorite,
+  bool isFavorite;
+  bool isChosenCart;
+
+  ProductModel(
+    this.id,
+    this.sellerId,
+    this.stock, {
+    this.isChosenCart = false,
+    this.isFavorite = false,
     required this.location,
     required this.category,
     required this.title,
