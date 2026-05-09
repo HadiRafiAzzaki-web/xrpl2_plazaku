@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
@@ -56,6 +58,7 @@ class _CartPageState extends State<CartPage> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: TextField(
+                keyboardType: TextInputType.text,
                 textAlign: TextAlign.start,
                 controller: searchController,
                 onChanged: (value) {
@@ -92,15 +95,26 @@ class _CartPageState extends State<CartPage> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          item.product.image,
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      if (cartProduct[index].product.image.isNotEmpty)
+                        cartProduct[index].product.image.startsWith('assets/')
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(
+                                  item.product.image,
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.file(
+                                  File(item.product.image),
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                       SizedBox(width: 12),
                       Expanded(
                         child: Column(

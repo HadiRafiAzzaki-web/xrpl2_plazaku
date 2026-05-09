@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../utils/price_format.dart';
@@ -36,15 +38,30 @@ class ProductCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                imageUrl,
-                height: 100,
-                fit: BoxFit.fill,
-                width: double.infinity,
-              ),
-            ),
+            if (imageUrl.isNotEmpty)
+              imageUrl.startsWith('assets/')
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                      child: Image.asset(
+                        imageUrl,
+                        height: 100,
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                      child: Image.file(
+                        File(imageUrl),
+                        height: 100,
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                      ),
+                    ),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Column(

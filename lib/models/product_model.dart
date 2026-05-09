@@ -15,6 +15,7 @@ enum Category {
 class ProductModel {
   final int id;
   final String sellerId;
+  final String? description;
   final int stock;
   final String title;
   final int price;
@@ -31,7 +32,8 @@ class ProductModel {
   ProductModel(
     this.id,
     this.sellerId,
-    this.stock, {
+    this.stock,
+    this.description, {
     this.isChosenCart = false,
     this.isFavorite = false,
     required this.location,

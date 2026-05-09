@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
@@ -62,6 +64,7 @@ class _WishlistPageState extends State<WishlistPage> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: TextField(
+                keyboardType: TextInputType.text,
                 textAlign: TextAlign.start,
                 controller: searchController,
                 onChanged: (value) {
@@ -94,15 +97,26 @@ class _WishlistPageState extends State<WishlistPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        wishlistProduct[index].product.image,
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    if (wishlistProduct[index].product.image.isNotEmpty)
+                      wishlistProduct[index].product.image.startsWith('assets/')
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                wishlistProduct[index].product.image,
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                File(wishlistProduct[index].product.image),
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                     SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
+import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 
 import '../../models/product_model.dart';
 import '../../services/cart_service.dart';
@@ -133,12 +136,20 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 width: double.infinity,
                 child: PageView(
                   children: [
-                    Image.asset(
-                      widget.product.image,
-                      width: double.infinity,
-                      height: 300,
-                      fit: BoxFit.cover,
-                    ),
+                    if (widget.product.image.isNotEmpty)
+                      widget.product.image.startsWith('assets/')
+                          ? Image.asset(
+                              widget.product.image,
+                              width: double.infinity,
+                              height: 300,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(widget.product.image),
+                              width: double.infinity,
+                              height: 300,
+                              fit: BoxFit.cover,
+                            ),
                   ],
                 ),
               ),
@@ -313,20 +324,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(12),
         color: Colors.white,
-        child: ElevatedButton(
+        child: CustomButton(
+          title: 'Add to Cart',
           onPressed: () {
             setState(() {
               handleAddToCart();
             });
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black,
-            padding: EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          child: Text("Add to Cart", style: TextStyle(color: Colors.white)),
+          color: Colors.black,
+          textColor: Colors.white,
         ),
       ),
     );

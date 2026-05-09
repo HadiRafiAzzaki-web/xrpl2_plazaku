@@ -27,7 +27,7 @@ class CustomInputField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide(color: Color(0xFF000000)),
         ),
         filled: true,
