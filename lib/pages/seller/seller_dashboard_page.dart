@@ -28,9 +28,18 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         backgroundColor: Colors.white,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black,
+        showUnselectedLabels: true,
+        selectedLabelStyle: TextStyle(
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelStyle: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.white70,
         onTap: (value) {
           setState(() {
             if (value == 0) {
@@ -51,58 +60,29 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.white,
-              shadows: [BoxShadow(color: Colors.black)],
-              size: 35,
-            ),
+            icon: Icon(Icons.home, size: 30),
+            activeIcon: Icon(Icons.home, size: 35),
             label: 'Home',
-            activeIcon: Icon(Icons.home, color: Colors.black, size: 50),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.shopping_bag,
-              color: Colors.white,
-              shadows: [BoxShadow(color: Colors.black)],
-              size: 35,
-            ),
+            icon: Icon(Icons.shopping_bag, size: 30),
+            activeIcon: Icon(Icons.shopping_bag, size: 35),
             label: 'Product',
-            activeIcon: Icon(Icons.shopping_bag, color: Colors.black, size: 50),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-              shadows: [BoxShadow(color: Colors.black)],
-              size: 35,
-            ),
+            icon: Icon(Icons.shopping_cart, size: 30),
+            activeIcon: Icon(Icons.shopping_cart, size: 35),
             label: 'Order',
-            activeIcon: Icon(
-              Icons.shopping_cart,
-              color: Colors.black,
-              size: 50,
-            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.money,
-              color: Colors.white,
-              shadows: [BoxShadow(color: Colors.black)],
-              size: 35,
-            ),
+            icon: Icon(Icons.money, size: 30),
+            activeIcon: Icon(Icons.money, size: 35),
             label: 'Finance',
-            activeIcon: Icon(Icons.money, color: Colors.black, size: 50),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-              shadows: [BoxShadow(color: Colors.black)],
-              size: 35,
-            ),
+            icon: Icon(Icons.person, size: 30),
+            activeIcon: Icon(Icons.person, size: 35),
             label: 'Account',
-            activeIcon: Icon(Icons.person, color: Colors.black, size: 50),
           ),
         ],
       ),

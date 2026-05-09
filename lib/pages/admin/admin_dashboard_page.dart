@@ -10,6 +10,6 @@ class AdminDashboardPage extends StatefulWidget {
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(drawer: Drawer());
   }
 }
