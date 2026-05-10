@@ -56,7 +56,7 @@ class _CategoryPageState extends State<CategoryPage> {
           itemCount: products.length,
           itemBuilder: (context, index) => ProductCard(
             title: products[index].title,
-            imageUrl: products[index].image,
+            imageUrl: products[index],
             price: products[index].price,
             rating: products[index].rating,
             review: products[index].review,

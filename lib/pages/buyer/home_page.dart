@@ -95,38 +95,36 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 10),
             //products
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.9,
-                ),
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: products.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCard(
-                    title: products[index].title,
-                    imageUrl: products[index].image,
-                    price: products[index].price,
-                    rating: products[index].rating,
-                    review: products[index].review,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailProductPage(
-                            product: products[index],
-                            wishlistService: wishlistService,
-                            cartService: cartService,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
+            GridView.builder(
+              padding: EdgeInsets.all(20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.9,
               ),
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: products.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ProductCard(
+                  title: products[index].title,
+                  imageUrl: products[index],
+                  price: products[index].price,
+                  rating: products[index].rating,
+                  review: products[index].review,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailProductPage(
+                          product: products[index],
+                          wishlistService: wishlistService,
+                          cartService: cartService,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

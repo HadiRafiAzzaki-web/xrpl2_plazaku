@@ -1,6 +1,7 @@
 import 'package:xrpl2_plazaku/modeOrRole/app_mode.dart';
 import 'package:xrpl2_plazaku/modeOrRole/role.dart';
 import 'package:xrpl2_plazaku/models/user_model.dart';
+import 'package:xrpl2_plazaku/services/order_service.dart';
 import 'package:xrpl2_plazaku/services/product_service.dart';
 import 'package:xrpl2_plazaku/services/sales_service.dart';
 import 'package:xrpl2_plazaku/services/wishlist_service.dart';
@@ -14,6 +15,7 @@ final filterService = FilterService(
   wishlistService,
   cartService,
 );
+final orderService = OrderService();
 final cartService = CartService();
 final wishlistService = WishlistService();
 final appService = AppService();

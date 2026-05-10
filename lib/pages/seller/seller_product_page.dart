@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_add_product.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
+import 'package:xrpl2_plazaku/utils/product_image.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 
 class SellerProductPage extends StatefulWidget {
@@ -53,7 +52,7 @@ class _SellerProductPageState extends State<SellerProductPage> {
                 },
                 decoration: InputDecoration(
                   icon: Icon(Icons.search),
-                  hintText: 'Search cart',
+                  hintText: 'Search product',
                   border: InputBorder.none,
                 ),
               ),
@@ -82,21 +81,11 @@ class _SellerProductPageState extends State<SellerProductPage> {
                           myProducts[index].image.startsWith('assets/')
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.asset(
-                                    myProducts[index].image,
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: buildProductImage(myProducts[index]),
                                 )
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    File(myProducts[index].image),
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: buildProductImage(myProducts[index]),
                                 ),
                         SizedBox(width: 10),
                         Column(

@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
 import 'package:xrpl2_plazaku/services/wishlist_service.dart';
 
 import '../../utils/price_format.dart';
+import '../../utils/product_image.dart';
 import 'detail_product_page.dart';
 
 class WishlistPage extends StatefulWidget {
@@ -86,6 +85,7 @@ class _WishlistPageState extends State<WishlistPage> {
           ? Center(child: Text('Wishlist empty'))
           : ListView.builder(
               padding: EdgeInsets.all(20),
+              scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemCount: wishlistProduct.length,
               itemBuilder: (context, index) => Container(
@@ -97,71 +97,65 @@ class _WishlistPageState extends State<WishlistPage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (wishlistProduct[index].product.image.isNotEmpty)
-                      wishlistProduct[index].product.image.startsWith('assets/')
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                wishlistProduct[index].product.image,
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.file(
-                                File(wishlistProduct[index].product.image),
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: buildProductImage(
+                          wishlistProduct[index].product,
+                          heightSize: 100,
+                          widthSize: 100,
+                        ),
+                      ),
+                    ),
                     SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          wishlistProduct[index].product.title,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
-                        Text(
-                          formatRupiah(wishlistProduct[index].product.price),
-                          style: TextStyle(color: Colors.grey, fontSize: 18),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  widget.wishlistService.removeWishlist(
-                                    userId: user.id,
-                                    product: wishlistProduct[index].product,
-                                  );
-                                });
-                              },
-                              icon: Icon(Icons.favorite, color: Colors.red),
-                            ),
-
-                            IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => DetailProductPage(
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            wishlistProduct[index].product.title,
+                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          ),
+                          Text(
+                            formatRupiah(wishlistProduct[index].product.price),
+                            style: TextStyle(color: Colors.grey, fontSize: 18),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    widget.wishlistService.removeWishlist(
+                                      userId: user.id,
                                       product: wishlistProduct[index].product,
-                                      wishlistService: widget.wishlistService,
-                                      cartService: widget.cartService,
+                                    );
+                                  });
+                                },
+                                icon: Icon(Icons.favorite, color: Colors.red),
+                              ),
+
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => DetailProductPage(
+                                        product: wishlistProduct[index].product,
+                                        wishlistService: widget.wishlistService,
+                                        cartService: widget.cartService,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.shopping_cart),
-                            ),
-                          ],
-                        ),
-                      ],
+                                  );
+                                },
+                                icon: Icon(Icons.shopping_cart),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

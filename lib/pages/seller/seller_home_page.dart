@@ -1,11 +1,12 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
+import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/widgets/seller_card.dart';
-import 'package:xrpl2_plazaku/widgets/seller_chart.dart';
 import 'package:xrpl2_plazaku/widgets/seller_date_picker.dart';
 import 'package:xrpl2_plazaku/widgets/seller_order_in.dart';
 
-import '../../utils/price_format.dart';
+import '../../widgets/seller_chart.dart';
 
 class SellerHomePage extends StatefulWidget {
   const SellerHomePage({super.key});
@@ -17,6 +18,40 @@ class SellerHomePage extends StatefulWidget {
 class _SellerHomePageState extends State<SellerHomePage> {
   DateTimeRange? selectedDate;
 
+  //generate chart
+  List<FlSpot> generateChartData() {
+    //get all finish order
+    try {
+      var orders = orderService.allOrders
+          .where((o) => o.status == 'Finish')
+          .toList();
+
+      if (selectedDate != null) {
+        orders = orders.where((o) {
+          return o.date.isAfter(
+                selectedDate!.start.subtract(const Duration(days: 1)),
+              ) &&
+              o.date.isBefore(selectedDate!.end.add(const Duration(days: 1)));
+        }).toList();
+      }
+
+      orders.sort((a, b) => a.date.compareTo(b.date));
+
+      if (orders.isEmpty) {
+        return [
+          const FlSpot(0, 0),
+        ]; // Kembalikan titik nol agar chart tidak error
+      }
+
+      return List.generate(orders.length, (i) {
+        return FlSpot(i.toDouble(), orders[i].totalAmount.toDouble());
+      });
+    } catch (e) {
+      return [const FlSpot(0, 0)];
+    }
+  }
+
+  //get date from dropdown
   Future<void> pickDateRange() async {
     final result = await showDateRangePicker(
       context: context,
@@ -34,7 +69,11 @@ class _SellerHomePageState extends State<SellerHomePage> {
   @override
   Widget build(BuildContext context) {
     final user = appService.currentUser!;
-    final totalSales = salesService.totalSales(selectedDate);
+    final pending = orderService.countByStatus('Pending');
+    final processed = orderService.countByStatus('Processed');
+    final sent = orderService.countByStatus('Sent');
+    final finish = orderService.countByStatus('Finish');
+    final totalOrderIn = orderService.allOrders.length;
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -82,23 +121,24 @@ class _SellerHomePageState extends State<SellerHomePage> {
                     children: [
                       SellerCard(
                         title: 'Total Sales',
-                        value: formatRupiah(totalSales),
-                        percentage: 12.2,
+                        value: formatRupiah(orderService.totalRevenue),
+                        percentage: 12.5,
                       ),
                       SellerCard(
-                        title: 'Total Order',
-                        value: '129',
-                        percentage: 12.2,
+                        title: 'Total Orders',
+                        value: '${orderService.allOrders.length}',
+                        percentage: 12.5,
                       ),
                       SellerCard(
-                        title: 'Product',
-                        value: '56',
-                        percentage: 2.5,
+                        title: 'Products',
+                        value:
+                            '${productService.sellerProducts(user.id).length}',
+                        percentage: 12.5,
                       ),
                       SellerCard(
-                        title: 'Visitor',
-                        value: '1.267',
-                        percentage: 6.5,
+                        title: 'Visitors',
+                        value: '1.2K',
+                        percentage: 12.5,
                       ),
                     ],
                   ),
@@ -107,7 +147,13 @@ class _SellerHomePageState extends State<SellerHomePage> {
                 ],
               ),
               SizedBox(height: 20),
-              SellerOrderIn(),
+              SellerOrderIn(
+                finish: finish,
+                pending: pending,
+                processed: processed,
+                sent: sent,
+                total: totalOrderIn,
+              ),
             ],
           ),
         ),

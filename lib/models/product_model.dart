@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:xrpl2_plazaku/models/variant_model.dart';
 
 //product by category
@@ -20,6 +22,7 @@ class ProductModel {
   final String title;
   final int price;
   final String image;
+  final Uint8List? webImage;
   final double rating;
   final int review;
   final Category category;
@@ -36,6 +39,7 @@ class ProductModel {
     this.description, {
     this.isChosenCart = false,
     this.isFavorite = false,
+    required this.webImage,
     required this.location,
     required this.category,
     required this.title,

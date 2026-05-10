@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
+import 'package:xrpl2_plazaku/utils/product_image.dart';
 
 import '../../utils/price_format.dart';
 
@@ -80,6 +79,7 @@ class _CartPageState extends State<CartPage> {
       body: cartProduct.isEmpty
           ? Center(child: Text('Cart empty'))
           : ListView.builder(
+              scrollDirection: Axis.vertical,
               padding: EdgeInsets.all(20),
               shrinkWrap: true,
               itemCount: cartProduct.length,
@@ -95,27 +95,19 @@ class _CartPageState extends State<CartPage> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (cartProduct[index].product.image.isNotEmpty)
-                        cartProduct[index].product.image.startsWith('assets/')
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  item.product.image,
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.file(
-                                  File(item.product.image),
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                      SizedBox(width: 12),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: buildProductImage(
+                            item.product,
+                            heightSize: 100,
+                            widthSize: 100,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

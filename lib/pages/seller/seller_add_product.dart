@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,14 +28,18 @@ class _SellerAddProductState extends State<SellerAddProduct> {
   Category? selectedCategory;
 
   File? imageFile;
+  Uint8List? webImage;
   final picker = ImagePicker();
 
   Future<void> pickImage() async {
-    final picked = await picker.pickImage(source: ImageSource.gallery);
+    ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    if (picked != null) {
+    if (image != null) {
+      var f = await image.readAsBytes();
       setState(() {
-        imageFile = File(picked.path);
+        webImage = f;
+        imageFile = File(image.path);
       });
     }
   }
@@ -51,6 +56,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
       user.id,
       int.parse(stockController.text),
       descriptionController.text,
+      webImage: webImage,
       title: nameController.text,
       image: imageFile?.path ?? 'assets/images/no-image.png',
       price: int.parse(priceController.text),
@@ -85,12 +91,9 @@ class _SellerAddProductState extends State<SellerAddProduct> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AddProductImagePicker(
-                onTap: () {
-                  setState(() {
-                    pickImage();
-                  });
-                },
+                onTap: pickImage,
                 imageFile: imageFile,
+                webImage: webImage,
               ),
               SizedBox(height: 20),
               Text(

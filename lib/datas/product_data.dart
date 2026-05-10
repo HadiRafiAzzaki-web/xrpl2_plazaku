@@ -6,7 +6,10 @@ List<ProductModel> dataProducts = [
     0,
     '2',
     20,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Samsung Galaxy A07',
     image: 'assets/images/samsung-galaxy07.webp',
     price: 1200000,
@@ -25,7 +28,10 @@ List<ProductModel> dataProducts = [
     1,
     '2',
     15,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Tas Wanita',
     image: 'assets/images/pouche.jpg',
     price: 120000,
@@ -43,7 +49,10 @@ List<ProductModel> dataProducts = [
     2,
     'seller_merlin',
     10,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Tas Wanita Premium',
     image: 'assets/images/tas.jpg',
     price: 150000,
@@ -61,7 +70,10 @@ List<ProductModel> dataProducts = [
     3,
     '2',
     30,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Sepatu Lari',
     image: 'assets/images/run-shoe.jpg',
     price: 200000,
@@ -79,7 +91,10 @@ List<ProductModel> dataProducts = [
     4,
     '2',
     12,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Jaket Olahraga',
     image: 'assets/images/sportswear.webp',
     price: 200000,
@@ -97,7 +112,10 @@ List<ProductModel> dataProducts = [
     5,
     'seller_hadi',
     50,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Oli Mobil',
     image: 'assets/images/car-oil.jpg',
     price: 50000,
@@ -115,7 +133,10 @@ List<ProductModel> dataProducts = [
     6,
     'seller_hadi',
     18,
+    //product description
     '',
+    //web image
+    webImage: null,
     title: 'Cat Mobil',
     image: 'assets/images/repairing-paint.jpg',
     price: 80000,

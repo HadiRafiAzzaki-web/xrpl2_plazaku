@@ -2,7 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_see_all_page.dart';
 
 class SellerOrderIn extends StatelessWidget {
-  const SellerOrderIn({super.key});
+  final int total;
+  final int pending;
+  final int processed;
+  final int sent;
+  final int finish;
+
+  const SellerOrderIn({
+    super.key,
+    required this.total,
+    required this.pending,
+    required this.processed,
+    required this.sent,
+    required this.finish,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +61,7 @@ class SellerOrderIn extends StatelessWidget {
             SizedBox(height: 10),
             //total order
             Text(
-              '45',
+              '$total',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -57,27 +70,23 @@ class SellerOrderIn extends StatelessWidget {
               children: [
                 Expanded(
                   child: buildOrderStatus(
-                    title: '12',
+                    title: '$pending',
                     subtitle: 'Pending',
                     color: Color(0xFFFFF8E7),
                   ),
                 ),
-
                 SizedBox(width: 10),
-
                 Expanded(
                   child: buildOrderStatus(
-                    title: '18',
+                    title: '$processed',
                     subtitle: 'Processed',
                     color: Color(0xFFEFF4FF),
                   ),
                 ),
-
                 SizedBox(width: 10),
-
                 Expanded(
                   child: buildOrderStatus(
-                    title: '10',
+                    title: '$sent',
                     subtitle: 'Sent',
                     color: Color(0xFFEAFBF3),
                   ),
@@ -87,7 +96,7 @@ class SellerOrderIn extends StatelessWidget {
 
                 Expanded(
                   child: buildOrderStatus(
-                    title: '5',
+                    title: '$finish',
                     subtitle: 'Finish',
                     color: Color(0xFFF5F5F5),
                   ),

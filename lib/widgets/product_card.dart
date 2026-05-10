@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/product_model.dart';
+import 'package:xrpl2_plazaku/utils/product_image.dart';
 
 import '../utils/price_format.dart';
 
 class ProductCard extends StatelessWidget {
   final String title;
-  final String imageUrl;
+  final ProductModel imageUrl;
   final int price;
   final double rating;
   final int review;
@@ -38,30 +38,14 @@ class ProductCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (imageUrl.isNotEmpty)
-              imageUrl.startsWith('assets/')
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                      child: Image.asset(
-                        imageUrl,
-                        height: 100,
-                        fit: BoxFit.fill,
-                        width: double.infinity,
-                      ),
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                      child: Image.file(
-                        File(imageUrl),
-                        height: 100,
-                        fit: BoxFit.fill,
-                        width: double.infinity,
-                      ),
-                    ),
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              child: buildProductImage(
+                imageUrl,
+                widthSize: double.infinity,
+                heightSize: 100,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
