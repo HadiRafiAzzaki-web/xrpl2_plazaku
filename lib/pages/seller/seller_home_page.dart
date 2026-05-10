@@ -38,9 +38,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
       orders.sort((a, b) => a.date.compareTo(b.date));
 
       if (orders.isEmpty) {
-        return [
-          const FlSpot(0, 0),
-        ]; // Kembalikan titik nol agar chart tidak error
+        return [const FlSpot(0, 0)];
       }
 
       return List.generate(orders.length, (i) {
@@ -111,39 +109,76 @@ class _SellerHomePageState extends State<SellerHomePage> {
               SizedBox(height: 20),
               Column(
                 children: [
-                  GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 1.2,
-                    children: [
-                      SellerCard(
-                        title: 'Total Sales',
-                        value: formatRupiah(orderService.totalRevenue),
-                        percentage: 12.5,
-                      ),
-                      SellerCard(
-                        title: 'Total Orders',
-                        value: '${orderService.allOrders.length}',
-                        percentage: 12.5,
-                      ),
-                      SellerCard(
-                        title: 'Products',
-                        value:
-                            '${productService.sellerProducts(user.id).length}',
-                        percentage: 12.5,
-                      ),
-                      SellerCard(
-                        title: 'Visitors',
-                        value: '1.2K',
-                        percentage: 12.5,
-                      ),
-                    ],
-                  ),
+                  selectedDate != null
+                      ? GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 1.2,
+                          children: [
+                            SellerCard(
+                              title: 'Total Sales',
+                              value: formatRupiah(
+                                orderService.totalRevenueByDate(selectedDate),
+                              ),
+                              percentage: 12.5,
+                            ),
+                            SellerCard(
+                              title: 'Total Orders',
+                              value:
+                                  '${orderService.totalOrdersByDate(selectedDate)}',
+                              percentage: 12.5,
+                            ),
+                            SellerCard(
+                              title: 'Products',
+                              value:
+                                  '${productService.sellerProducts(user.id).length}',
+                              percentage: 12.5,
+                            ),
+                            SellerCard(
+                              title: 'Visitors',
+                              value: '1.2K',
+                              percentage: 12.5,
+                            ),
+                          ],
+                        )
+                      : GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 1.2,
+                          children: [
+                            SellerCard(
+                              title: 'Total Sales',
+                              value: formatRupiah(orderService.totalRevenue),
+                              percentage: 12.5,
+                            ),
+                            SellerCard(
+                              title: 'Total Orders',
+                              value: '${orderService.allOrders.length}',
+                              percentage: 12.5,
+                            ),
+                            SellerCard(
+                              title: 'Products',
+                              value:
+                                  '${productService.sellerProducts(user.id).length}',
+                              percentage: 12.5,
+                            ),
+                            SellerCard(
+                              title: 'Visitors',
+                              value: '1.2K',
+                              percentage: 12.5,
+                            ),
+                          ],
+                        ),
                   SizedBox(height: 20),
-                  SellerChart(),
+                  selectedDate != null
+                      ? SellerChart(selectedDate: selectedDate)
+                      : SellerChart(),
                 ],
               ),
               SizedBox(height: 20),

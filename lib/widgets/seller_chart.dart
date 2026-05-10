@@ -9,7 +9,7 @@ class SellerChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rawData = orderService.chartData;
+    final rawData = orderService.chartDataByDate(selectedDate);
 
     return Card(
       elevation: 0,

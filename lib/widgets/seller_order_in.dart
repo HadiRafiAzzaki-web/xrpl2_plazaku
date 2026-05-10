@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/seller/seller_see_all_page.dart';
+import 'package:xrpl2_plazaku/pages/seller/seller_order_page.dart';
 
 class SellerOrderIn extends StatelessWidget {
   final int total;
@@ -50,7 +50,7 @@ class SellerOrderIn extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SellerSeeAllPage(),
+                        builder: (context) => SellerOrderPage(),
                       ),
                     );
                   },
