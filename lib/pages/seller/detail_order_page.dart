@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
-import 'package:xrpl2_plazaku/services/product_service.dart';
 import 'package:xrpl2_plazaku/utils/display_status.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/utils/product_image.dart';
@@ -16,8 +16,6 @@ class DetailOrderPage extends StatefulWidget {
 }
 
 class _DetailOrderPageState extends State<DetailOrderPage> {
-  final productService = ProductService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +48,9 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${widget.orders.date}',
+                          DateFormat(
+                            'dd MMM yyyy - HH:mm',
+                          ).format(widget.orders.date),
                           style: TextStyle(color: Colors.grey),
                         ),
                         Card(
@@ -72,7 +72,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                     ),
                     Divider(),
                     Text('Customer Data'),
-                    SizedBox(height: 10),
+                    SizedBox(height: 5),
                     Text(
                       widget.orders.userName,
                       style: TextStyle(
@@ -85,7 +85,13 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       style: TextStyle(color: Colors.grey),
                     ),
                     Divider(),
-                    Text('Product', style: TextStyle(fontSize: 18)),
+                    Text(
+                      'Product',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     SizedBox(height: 15),
                     ListView.builder(
                       itemCount: widget.orders.items.length,
@@ -97,22 +103,20 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: buildProductImage(
-                              product,
+                              product.product,
                               heightSize: 60,
                               widthSize: 60,
                             ),
                           ),
                           title: Text(
-                            product.title,
+                            product.product.title,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            formatRupiah(product.price),
+                            formatRupiah(product.product.price),
                             style: TextStyle(color: Colors.grey),
                           ),
-                          trailing: Text(
-                            '${widget.orders.totalAmount / widget.orders.totalPrice}',
-                          ),
+                          trailing: Text('${product.quantity}'),
                         );
                       },
                     ),
@@ -126,7 +130,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          formatRupiah(widget.orders.totalAmount),
+                          formatRupiah(widget.orders.totalPrice),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],

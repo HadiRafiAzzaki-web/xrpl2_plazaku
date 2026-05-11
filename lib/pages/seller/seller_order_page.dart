@@ -31,7 +31,6 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
     if (selectedTab != ProductStatus.all) {
       orders = orders.where((o) => o.status == selectedTab).toList();
     }
-
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(

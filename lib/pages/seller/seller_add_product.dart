@@ -70,32 +70,32 @@ class _SellerAddProductState extends State<SellerAddProduct> {
   void saveProduct() {
     if (!_formKey.currentState!.validate()) {
       return;
+    } else {
+      final user = appService.currentUser!;
+
+      final product = ProductModel(
+        sellerId: user.sellerId!,
+        id: DateTime.now().millisecondsSinceEpoch,
+        stock: int.parse(stockController.text),
+        descriptionController.text,
+        webImage: webImage,
+        title: nameController.text,
+        image: imageFile?.path ?? 'assets/images/no-image.png',
+        price: int.parse(priceController.text),
+        category: selectedCategory!,
+        rating: 0,
+        review: 0,
+        location: locationController.text,
+        variants: productVariants,
+      );
+
+      productService.addProduct(product);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Product added'), backgroundColor: Colors.green),
+      );
+      Navigator.pop(context);
     }
-
-    final user = appService.currentUser!;
-
-    final product = ProductModel(
-      sellerId: user.sellerId!,
-      id: DateTime.now().millisecondsSinceEpoch,
-      stock: int.parse(stockController.text),
-      descriptionController.text,
-      webImage: webImage,
-      title: nameController.text,
-      image: imageFile?.path ?? 'assets/images/no-image.png',
-      price: int.parse(priceController.text),
-      category: selectedCategory!,
-      rating: 0,
-      review: 0,
-      location: locationController.text,
-      variants: productVariants,
-    );
-
-    productService.addProduct(product);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Product added'), backgroundColor: Colors.green),
-    );
-    Navigator.pop(context);
   }
 
   @override
@@ -197,7 +197,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 suffixIcon: Icon(null),
                 validator: (p0) {
                   if (p0 == null || p0.isEmpty) {
-                    return null;
+                    return 'Location required';
                   }
                   return null;
                 },

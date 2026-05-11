@@ -20,7 +20,7 @@ class _SellerProductPageState extends State<SellerProductPage> {
   Widget build(BuildContext context) {
     final user = appService.currentUser!;
     final myProducts = productService
-        .sellerProducts(user.id)
+        .sellerProducts(user.sellerId!)
         .where((element) => element.title.toLowerCase().contains(search))
         .toList();
     return Scaffold(
@@ -64,6 +64,7 @@ class _SellerProductPageState extends State<SellerProductPage> {
           ? Center(child: Text('My Product empty'))
           : SingleChildScrollView(
               child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.all(20),
                 shrinkWrap: true,
                 itemCount: myProducts.length,

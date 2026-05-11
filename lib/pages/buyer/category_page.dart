@@ -18,7 +18,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   //save filtered data
-  late List<ProductModel> products = [];
+  List<ProductModel> products = [];
 
   @override
   void initState() {
@@ -56,7 +56,6 @@ class _CategoryPageState extends State<CategoryPage> {
           itemCount: products.length,
           itemBuilder: (context, index) => ProductCard(
             product: products[index],
-            imageUrl: products[index],
             onTap: () {
               Navigator.push(
                 context,

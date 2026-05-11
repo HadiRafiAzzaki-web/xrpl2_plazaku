@@ -4,7 +4,7 @@ import '../models/variant_model.dart';
 List<ProductModel> dataProducts = [
   ProductModel(
     id: 0,
-    sellerId: 2,
+    sellerId: 0,
     stock: 20,
     //product description
     '',
@@ -26,7 +26,7 @@ List<ProductModel> dataProducts = [
   ),
   ProductModel(
     id: 1,
-    sellerId: 2,
+    sellerId: 0,
     stock: 15,
     //product description
     '',
@@ -47,7 +47,7 @@ List<ProductModel> dataProducts = [
   ),
   ProductModel(
     id: 2,
-    sellerId: 2,
+    sellerId: 0,
     stock: 10,
     //product description
     '',
@@ -68,7 +68,7 @@ List<ProductModel> dataProducts = [
   ),
   ProductModel(
     id: 3,
-    sellerId: 2,
+    sellerId: 0,
     stock: 30,
     //product description
     '',
@@ -89,7 +89,7 @@ List<ProductModel> dataProducts = [
   ),
   ProductModel(
     id: 4,
-    sellerId: 2,
+    sellerId: 0,
     stock: 12,
     //product description
     '',
@@ -110,7 +110,7 @@ List<ProductModel> dataProducts = [
   ),
   ProductModel(
     id: 5,
-    sellerId: 2,
+    sellerId: 0,
     stock: 50,
     //product description
     '',
@@ -131,7 +131,7 @@ List<ProductModel> dataProducts = [
   ),
   ProductModel(
     id: 6,
-    sellerId: 2,
+    sellerId: 0,
     stock: 18,
     //product description
     '',

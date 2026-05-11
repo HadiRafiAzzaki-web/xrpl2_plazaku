@@ -107,7 +107,6 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (BuildContext context, int index) {
                 return ProductCard(
                   product: products[index],
-                  imageUrl: products[index],
                   onTap: () {
                     Navigator.push(
                       context,

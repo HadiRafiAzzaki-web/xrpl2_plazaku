@@ -93,7 +93,7 @@ class SellerOrderCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  formatRupiah(order.totalAmount),
+                  formatRupiah(order.totalPrice),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
               ],

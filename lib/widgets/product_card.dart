@@ -6,15 +6,9 @@ import '../utils/price_format.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
-  final ProductModel imageUrl;
   final VoidCallback? onTap;
 
-  const ProductCard({
-    super.key,
-    required this.product,
-    required this.imageUrl,
-    this.onTap,
-  });
+  const ProductCard({super.key, required this.product, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +29,7 @@ class ProductCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
               child: buildProductImage(
-                imageUrl,
+                product,
                 widthSize: double.infinity,
                 heightSize: 100,
               ),

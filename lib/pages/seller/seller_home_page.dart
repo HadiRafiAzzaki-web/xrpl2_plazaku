@@ -43,7 +43,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
       }
 
       return List.generate(orders.length, (i) {
-        return FlSpot(i.toDouble(), orders[i].totalAmount.toDouble());
+        return FlSpot(i.toDouble(), orders[i].totalPrice.toDouble());
       });
     } catch (e) {
       return [const FlSpot(0, 0)];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 import '../models/order_model.dart';
@@ -10,33 +11,36 @@ class OrderService {
       id: 0,
       userId: 0,
       userName: 'Dika Maulana',
-      items: [productService.products[0], productService.products[3]],
-      totalAmount: 463000,
+      items: [
+        ProductQuantityModel(product: productService.products[0], quantity: 1),
+        ProductQuantityModel(product: productService.products[2], quantity: 5),
+      ],
       status: ProductStatus.pending,
       date: DateTime.now().subtract(const Duration(hours: 2)),
-      totalPrice: 463000,
       location: 'Malang',
     ),
     OrderModel(
       id: 1,
       userId: 1,
       userName: 'Siti Aisyah',
-      items: [productService.products[0], productService.products[3]],
-      totalAmount: 199000,
-      status: ProductStatus.sent,
+      items: [
+        ProductQuantityModel(product: productService.products[0], quantity: 1),
+        ProductQuantityModel(product: productService.products[2], quantity: 5),
+      ],
+      status: ProductStatus.finish,
       date: DateTime.now().subtract(const Duration(days: 1)),
-      totalPrice: 463000,
       location: 'Batu',
     ),
     OrderModel(
       id: 2,
       userId: 2,
       userName: 'Budi Santoso',
-      items: [productService.products[0], productService.products[3]],
-      totalAmount: 750000,
+      items: [
+        ProductQuantityModel(product: productService.products[0], quantity: 1),
+        ProductQuantityModel(product: productService.products[2], quantity: 5),
+      ],
       status: ProductStatus.finish,
       date: DateTime.now().subtract(const Duration(days: 2)),
-      totalPrice: 463000,
       location: 'Jakarta',
     ),
   ];
@@ -75,7 +79,7 @@ class OrderService {
     for (var order in finishOrders) {
       String dateKey = DateFormat('dd/MM').format(order.date);
 
-      data[dateKey] = (data[dateKey] ?? 0) + order.totalAmount.toDouble();
+      data[dateKey] = (data[dateKey] ?? 0) + order.totalPrice.toDouble();
     }
 
     return data;
@@ -101,13 +105,13 @@ class OrderService {
   int get totalRevenue {
     return allOrders
         .where((order) => order.status == ProductStatus.finish)
-        .fold(0, (sum, item) => sum + item.totalAmount);
+        .fold(0, (sum, item) => sum + item.totalPrice);
   }
 
   int totalRevenueByDate(DateTimeRange? range) {
     final orders = getOrdersByDate(range);
 
-    return orders.fold(0, (sum, order) => sum + order.totalAmount);
+    return orders.fold(0, (sum, order) => sum + order.totalPrice);
   }
 }
 
