@@ -2,7 +2,8 @@ import 'package:xrpl2_plazaku/modeOrRole/app_mode.dart';
 import 'package:xrpl2_plazaku/modeOrRole/role.dart';
 
 class UserModel {
-  final String id;
+  final int id;
+  int? sellerId;
   String username;
   String email;
   String password;
@@ -15,6 +16,7 @@ class UserModel {
 
   UserModel({
     required this.id,
+    this.sellerId,
     required this.isSeller,
     required this.username,
     required this.email,

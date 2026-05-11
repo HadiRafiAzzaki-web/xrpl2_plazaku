@@ -5,7 +5,7 @@ class ProductService {
   List<ProductModel> products = dataProducts;
 
   // seller product
-  List<ProductModel> sellerProducts(String sellerId) {
+  List<ProductModel> sellerProducts(int sellerId) {
     return products.where((e) => e.sellerId == sellerId).toList();
   }
 

@@ -16,7 +16,7 @@ enum Category {
 
 class ProductModel {
   final int id;
-  final String sellerId;
+  final int sellerId;
   final String? description;
   final int stock;
   final String title;
@@ -33,10 +33,10 @@ class ProductModel {
   bool isChosenCart;
 
   ProductModel(
-    this.id,
-    this.sellerId,
-    this.stock,
     this.description, {
+    required this.sellerId,
+    required this.stock,
+    required this.id,
     this.isChosenCart = false,
     this.isFavorite = false,
     required this.webImage,

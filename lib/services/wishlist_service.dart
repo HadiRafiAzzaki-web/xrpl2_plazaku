@@ -7,7 +7,7 @@ class WishlistService {
   List<WishlistModel> get items => _wishlist;
 
   //add wishlist
-  void addWishlist({required ProductModel product, required String userId}) {
+  void addWishlist({required ProductModel product, required int userId}) {
     final isExist = _wishlist.any(
       (e) => e.userId == userId && e.product.id == product.id,
     );
@@ -19,7 +19,7 @@ class WishlistService {
   }
 
   //remove wishlist
-  void removeWishlist({required ProductModel product, required String userId}) {
+  void removeWishlist({required ProductModel product, required int userId}) {
     _wishlist.removeWhere(
       (e) => e.userId == userId && e.product.id == product.id,
     );
@@ -27,12 +27,12 @@ class WishlistService {
   }
 
   //user wishlist
-  List<WishlistModel> userWishlist(String userId) {
+  List<WishlistModel> userWishlist(int userId) {
     return _wishlist.where((e) => e.userId == userId).toList();
   }
 
   //check favorite
-  bool isFavorite({required ProductModel product, required String userId}) {
+  bool isFavorite({required ProductModel product, required int userId}) {
     return _wishlist.any(
       (e) => e.userId == userId && e.product.id == product.id,
     );

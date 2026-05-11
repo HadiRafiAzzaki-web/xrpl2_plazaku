@@ -55,11 +55,8 @@ class _CategoryPageState extends State<CategoryPage> {
           shrinkWrap: true,
           itemCount: products.length,
           itemBuilder: (context, index) => ProductCard(
-            title: products[index].title,
+            product: products[index],
             imageUrl: products[index],
-            price: products[index].price,
-            rating: products[index].rating,
-            review: products[index].review,
             onTap: () {
               Navigator.push(
                 context,

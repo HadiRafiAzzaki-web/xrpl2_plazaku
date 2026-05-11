@@ -3,9 +3,9 @@ import '../models/variant_model.dart';
 
 List<ProductModel> dataProducts = [
   ProductModel(
-    0,
-    '2',
-    20,
+    id: 0,
+    sellerId: 2,
+    stock: 20,
     //product description
     '',
     //web image
@@ -25,9 +25,9 @@ List<ProductModel> dataProducts = [
     isChosenCart: false,
   ),
   ProductModel(
-    1,
-    '2',
-    15,
+    id: 1,
+    sellerId: 2,
+    stock: 15,
     //product description
     '',
     //web image
@@ -46,9 +46,9 @@ List<ProductModel> dataProducts = [
     isChosenCart: false,
   ),
   ProductModel(
-    2,
-    'seller_merlin',
-    10,
+    id: 2,
+    sellerId: 2,
+    stock: 10,
     //product description
     '',
     //web image
@@ -67,9 +67,9 @@ List<ProductModel> dataProducts = [
     isChosenCart: false,
   ),
   ProductModel(
-    3,
-    '2',
-    30,
+    id: 3,
+    sellerId: 2,
+    stock: 30,
     //product description
     '',
     //web image
@@ -88,9 +88,9 @@ List<ProductModel> dataProducts = [
     isChosenCart: false,
   ),
   ProductModel(
-    4,
-    '2',
-    12,
+    id: 4,
+    sellerId: 2,
+    stock: 12,
     //product description
     '',
     //web image
@@ -109,9 +109,9 @@ List<ProductModel> dataProducts = [
     isChosenCart: false,
   ),
   ProductModel(
-    5,
-    'seller_hadi',
-    50,
+    id: 5,
+    sellerId: 2,
+    stock: 50,
     //product description
     '',
     //web image
@@ -130,9 +130,9 @@ List<ProductModel> dataProducts = [
     isChosenCart: false,
   ),
   ProductModel(
-    6,
-    'seller_hadi',
-    18,
+    id: 6,
+    sellerId: 2,
+    stock: 18,
     //product description
     '',
     //web image

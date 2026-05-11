@@ -9,17 +9,17 @@ import 'package:xrpl2_plazaku/services/wishlist_service.dart';
 import 'cart_service.dart';
 import 'filter_service.dart';
 
+final appService = AppService();
 final productService = ProductService();
+final cartService = CartService();
+final wishlistService = WishlistService();
+final orderService = OrderService();
+final salesService = SalesService();
 final filterService = FilterService(
   productService,
   wishlistService,
   cartService,
 );
-final orderService = OrderService();
-final cartService = CartService();
-final wishlistService = WishlistService();
-final appService = AppService();
-final salesService = SalesService();
 
 class AppService {
   UserModel? currentUser;
@@ -46,6 +46,7 @@ class AppService {
   void createStore({required String shopName}) {
     if (currentUser == null) return;
 
+    currentUser?.sellerId = DateTime.now().millisecondsSinceEpoch;
     currentUser?.isSeller = true;
     currentUser?.role = Role.seller;
     currentUser?.shopName = shopName;

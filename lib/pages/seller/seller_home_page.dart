@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/order_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/widgets/seller_card.dart';
@@ -23,7 +24,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
     //get all finish order
     try {
       var orders = orderService.allOrders
-          .where((o) => o.status == 'Finish')
+          .where((o) => o.status == ProductStatus.finish)
           .toList();
 
       if (selectedDate != null) {
@@ -67,10 +68,10 @@ class _SellerHomePageState extends State<SellerHomePage> {
   @override
   Widget build(BuildContext context) {
     final user = appService.currentUser!;
-    final pending = orderService.countByStatus('Pending');
-    final processed = orderService.countByStatus('Processed');
-    final sent = orderService.countByStatus('Sent');
-    final finish = orderService.countByStatus('Finish');
+    final pending = orderService.countByStatus(ProductStatus.pending);
+    final processed = orderService.countByStatus(ProductStatus.processed);
+    final sent = orderService.countByStatus(ProductStatus.sent);
+    final finish = orderService.countByStatus(ProductStatus.finish);
     final totalOrderIn = orderService.allOrders.length;
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),

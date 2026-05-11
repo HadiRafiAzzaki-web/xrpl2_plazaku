@@ -159,7 +159,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
               elevation: 3,
               child: Container(
                 width: double.infinity,
-                height: 200,
                 padding: EdgeInsets.fromLTRB(15, 5, 10, 15),
                 color: Colors.white,
                 child: Column(
@@ -248,7 +247,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
             Card(
               elevation: 3,
               child: Container(
-                height: 200,
                 width: double.infinity,
                 padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                 decoration: BoxDecoration(
@@ -267,15 +265,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           variant.name,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-
                         SizedBox(height: 10),
-
                         Wrap(
                           spacing: 8,
+                          runSpacing: 8,
                           children: variant.options.map((option) {
                             final isSelected =
                                 selectedVariants[variant.name] == option;
-
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -310,7 +306,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             );
                           }).toList(),
                         ),
-
                         SizedBox(height: 15),
                       ],
                     );

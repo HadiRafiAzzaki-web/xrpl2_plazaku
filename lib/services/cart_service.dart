@@ -8,7 +8,7 @@ class CartService {
 
   //add product to cart cart
   void addCart({
-    required String userId,
+    required int userId,
     required ProductModel product,
     required Map<String, String> variants,
   }) {
@@ -35,7 +35,7 @@ class CartService {
   }
 
   //user product cart
-  List<CartModel> userCart(String userId) {
+  List<CartModel> userCart(int userId) {
     return _cart.where((element) => element.userId == userId).toList();
   }
 

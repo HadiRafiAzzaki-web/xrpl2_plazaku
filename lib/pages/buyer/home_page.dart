@@ -106,11 +106,8 @@ class _HomePageState extends State<HomePage> {
               itemCount: products.length,
               itemBuilder: (BuildContext context, int index) {
                 return ProductCard(
-                  title: products[index].title,
+                  product: products[index],
                   imageUrl: products[index],
-                  price: products[index].price,
-                  rating: products[index].rating,
-                  review: products[index].review,
                   onTap: () {
                     Navigator.push(
                       context,

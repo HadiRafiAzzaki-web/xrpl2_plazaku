@@ -9,6 +9,7 @@ import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 import 'package:xrpl2_plazaku/widgets/custom_input_field.dart';
 
 import '../../models/product_model.dart';
+import '../../models/variant_model.dart';
 import '../../services/app_service.dart';
 
 class SellerAddProduct extends StatefulWidget {
@@ -24,11 +25,15 @@ class _SellerAddProductState extends State<SellerAddProduct> {
   final priceController = TextEditingController();
   final stockController = TextEditingController();
   final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
+  final variantNameController = TextEditingController();
+  final variantOptionsController = TextEditingController();
 
   Category? selectedCategory;
 
   File? imageFile;
   Uint8List? webImage;
+  List<VariantModel> productVariants = [];
   final picker = ImagePicker();
 
   Future<void> pickImage() async {
@@ -44,6 +49,24 @@ class _SellerAddProductState extends State<SellerAddProduct> {
     }
   }
 
+  void addVariant() {
+    String name = variantNameController.text.trim();
+    String optionsRaw = variantOptionsController.text.trim();
+
+    if (name.isNotEmpty && optionsRaw.isNotEmpty) {
+      List<String> optionsList = optionsRaw
+          .split(',')
+          .map((e) => e.trim())
+          .toList();
+
+      setState(() {
+        productVariants.add(VariantModel(name: name, options: optionsList));
+        variantNameController.clear();
+        variantOptionsController.clear();
+      });
+    }
+  }
+
   void saveProduct() {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -52,9 +75,9 @@ class _SellerAddProductState extends State<SellerAddProduct> {
     final user = appService.currentUser!;
 
     final product = ProductModel(
-      DateTime.now().millisecondsSinceEpoch,
-      user.id,
-      int.parse(stockController.text),
+      sellerId: user.sellerId!,
+      id: DateTime.now().millisecondsSinceEpoch,
+      stock: int.parse(stockController.text),
       descriptionController.text,
       webImage: webImage,
       title: nameController.text,
@@ -63,8 +86,8 @@ class _SellerAddProductState extends State<SellerAddProduct> {
       category: selectedCategory!,
       rating: 0,
       review: 0,
-      location: 'Indonesia',
-      variants: [],
+      location: locationController.text,
+      variants: productVariants,
     );
 
     productService.addProduct(product);
@@ -163,6 +186,75 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 obscure: false,
                 hint: 'Enter product description',
                 suffixIcon: Icon(null),
+              ),
+              SizedBox(height: 20),
+              Text('Location', style: TextStyle(fontWeight: FontWeight.bold)),
+              CustomInputField(
+                controller: locationController,
+                keyboardType: TextInputType.text,
+                obscure: false,
+                hint: 'Enter your location',
+                suffixIcon: Icon(null),
+                validator: (p0) {
+                  if (p0 == null || p0.isEmpty) {
+                    return null;
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Add Variant',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Column(
+                children: [
+                  CustomInputField(
+                    controller: variantNameController,
+                    hint: 'Variant Name (example: Color, Size)',
+                    obscure: false,
+                    suffixIcon: Icon(null),
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(height: 8),
+                  CustomInputField(
+                    controller: variantOptionsController,
+                    hint: 'Option (separate with commas,, example: Red, Blue)',
+                    obscure: false,
+                    suffixIcon: Icon(null),
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(height: 8),
+                  ElevatedButton.icon(
+                    onPressed: addVariant,
+                    icon: Icon(Icons.add),
+                    label: Text("Add Variant to product"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue.shade50,
+                      foregroundColor: Color(0xFF002AFF),
+                    ),
+                  ),
+                ],
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: productVariants.length,
+                itemBuilder: (context, index) {
+                  final variant = productVariants[index];
+                  return ListTile(
+                    title: Text(
+                      variant.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text("Option: ${variant.options.join(', ')}"),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () =>
+                          setState(() => productVariants.removeAt(index)),
+                    ),
+                  );
+                },
               ),
             ],
           ),

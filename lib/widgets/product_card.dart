@@ -5,20 +5,14 @@ import 'package:xrpl2_plazaku/utils/product_image.dart';
 import '../utils/price_format.dart';
 
 class ProductCard extends StatelessWidget {
-  final String title;
+  final ProductModel product;
   final ProductModel imageUrl;
-  final int price;
-  final double rating;
-  final int review;
   final VoidCallback? onTap;
 
   const ProductCard({
     super.key,
-    required this.title,
+    required this.product,
     required this.imageUrl,
-    required this.price,
-    required this.rating,
-    required this.review,
     this.onTap,
   });
 
@@ -51,12 +45,16 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, maxLines: 2, overflow: TextOverflow.ellipsis),
-                  Text(formatRupiah(price)),
+                  Text(
+                    product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(formatRupiah(product.price)),
                   Row(
                     children: [
                       Icon(Icons.star, size: 14, color: Colors.orange),
-                      Text("$rating ($review)"),
+                      Text("${product.rating} (${product.review})"),
                     ],
                   ),
                 ],

@@ -7,40 +7,45 @@ import '../models/order_model.dart';
 class OrderService {
   List<OrderModel> allOrders = [
     OrderModel(
-      id: '#INV/2405/00123',
-      userId: 'user_01',
+      id: 0,
+      userId: 0,
       userName: 'Dika Maulana',
       items: [productService.products[0], productService.products[3]],
       totalAmount: 463000,
-      status: 'Finish',
+      status: ProductStatus.pending,
       date: DateTime.now().subtract(const Duration(hours: 2)),
       totalPrice: 463000,
+      location: 'Malang',
     ),
     OrderModel(
-      id: '#INV/2405/00122',
-      userId: 'user_02',
+      id: 1,
+      userId: 1,
       userName: 'Siti Aisyah',
       items: [productService.products[0], productService.products[3]],
       totalAmount: 199000,
-      status: 'Finish',
+      status: ProductStatus.sent,
       date: DateTime.now().subtract(const Duration(days: 1)),
       totalPrice: 463000,
+      location: 'Batu',
     ),
     OrderModel(
-      id: '#INV/2405/00121',
-      userId: 'user_03',
+      id: 2,
+      userId: 2,
       userName: 'Budi Santoso',
       items: [productService.products[0], productService.products[3]],
       totalAmount: 750000,
-      status: 'Finish',
+      status: ProductStatus.finish,
       date: DateTime.now().subtract(const Duration(days: 2)),
       totalPrice: 463000,
+      location: 'Jakarta',
     ),
   ];
 
   //filter orders by selected date
   List<OrderModel> getOrdersByDate(DateTimeRange? range) {
-    var orders = allOrders.where((o) => o.status == 'Finish').toList();
+    var orders = allOrders
+        .where((o) => o.status == ProductStatus.finish)
+        .toList();
 
     if (range != null) {
       orders = orders.where((o) {
@@ -54,7 +59,9 @@ class OrderService {
 
   List<OrderModel> get filteredOrdersForChart {
     //get finish order for chart
-    return allOrders.where((order) => order.status == 'Finish').toList();
+    return allOrders
+        .where((order) => order.status == ProductStatus.finish)
+        .toList();
   }
 
   //get data for chart
@@ -81,19 +88,19 @@ class OrderService {
   //get total sales from finish status
   int get totalSales {
     return allOrders
-        .where((order) => order.status == 'Finish')
+        .where((order) => order.status == ProductStatus.finish)
         .fold(0, (sum, order) => sum + order.items.length);
   }
 
   //get total order according status (for see all)
-  int countByStatus(String status) {
+  int countByStatus(ProductStatus status) {
     return allOrders.where((order) => order.status == status).length;
   }
 
   //get total revenue (for card in home page)
   int get totalRevenue {
     return allOrders
-        .where((order) => order.status == 'Finish')
+        .where((order) => order.status == ProductStatus.finish)
         .fold(0, (sum, item) => sum + item.totalAmount);
   }
 

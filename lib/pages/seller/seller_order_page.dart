@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/order_model.dart';
+import 'package:xrpl2_plazaku/pages/seller/detail_order_page.dart';
+import 'package:xrpl2_plazaku/utils/display_status.dart';
 import 'package:xrpl2_plazaku/widgets/seller_order_card.dart';
 
 import '../../services/app_service.dart';
@@ -11,14 +14,21 @@ class SellerOrderPage extends StatefulWidget {
 }
 
 class _SellerOrderPageState extends State<SellerOrderPage> {
-  String selectedTab = 'All';
-  final List<String> tabs = ['All', 'Pending', 'Processed', 'Sent', 'Finish'];
+  ProductStatus selectedTab = ProductStatus.all;
+  final List<ProductStatus> tabs = [
+    ProductStatus.all,
+    ProductStatus.pending,
+    ProductStatus.processed,
+    ProductStatus.sent,
+    ProductStatus.finish,
+    ProductStatus.rejected,
+  ];
 
   @override
   Widget build(BuildContext context) {
     // get data and filter
     var orders = orderService.allOrders;
-    if (selectedTab != 'All') {
+    if (selectedTab != ProductStatus.all) {
       orders = orders.where((o) => o.status == selectedTab).toList();
     }
 
@@ -53,8 +63,20 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
                     padding: EdgeInsets.all(16),
                     itemCount: orders.length,
                     separatorBuilder: (context, index) => SizedBox(height: 12),
-                    itemBuilder: (context, index) =>
-                        SellerOrderCard(order: orders[index]),
+                    itemBuilder: (context, index) => SellerOrderCard(
+                      order: orders[index],
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DetailOrderPage(orders: orders[index]),
+                          ),
+                        ).then((value) {
+                          setState(() {});
+                        });
+                      },
+                    ),
                   ),
           ),
         ],
@@ -62,7 +84,7 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
     );
   }
 
-  Widget _buildTabItem(String label) {
+  Widget _buildTabItem(ProductStatus label) {
     bool isActive = selectedTab == label;
     return GestureDetector(
       onTap: () => setState(() => selectedTab = label),
@@ -76,7 +98,7 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
               : null,
         ),
         child: Text(
-          label,
+          label.displayName,
           style: TextStyle(
             color: isActive ? Colors.blue : Colors.grey,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,

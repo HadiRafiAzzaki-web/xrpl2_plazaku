@@ -6,7 +6,8 @@ import '../models/user_model.dart';
 //save users account
 List<UserModel> users = [
   UserModel(
-    id: '0',
+    id: 0,
+    sellerId: null,
     username: 'Hadi',
     email: 'rafirofu4@gmail.com',
     password: 'tytyty',
@@ -15,7 +16,8 @@ List<UserModel> users = [
     currentMode: AppMode.admin,
   ),
   UserModel(
-    id: '1',
+    id: 1,
+    sellerId: null,
     username: 'Merlin',
     email: 'rafirofu2@gmail.com',
     password: 'rerere',
@@ -24,7 +26,8 @@ List<UserModel> users = [
     currentMode: AppMode.buyer,
   ),
   UserModel(
-    id: '2',
+    id: 2,
+    sellerId: 0,
     username: 'Rafi',
     email: 'rafirofu1@gmail.com',
     password: 'rarara',

@@ -126,7 +126,9 @@ class _SellerProductPageState extends State<SellerProductPage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SellerAddProduct()),
-            );
+            ).then((value) {
+              setState(() {});
+            });
           },
           color: Color(0xFF002AFF),
           textColor: Colors.white,
