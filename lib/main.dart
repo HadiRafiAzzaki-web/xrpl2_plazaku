@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/account_page.dart';
-import 'package:xrpl2_plazaku/pages/myProfile.dart';
 import 'package:xrpl2_plazaku/pages/splash_screen.dart';
 
 void main() {
@@ -12,6 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: AccountPage(), debugShowCheckedModeBanner: false);
+    return MaterialApp(home: SplashScreen(), debugShowCheckedModeBanner: false);
   }
 }

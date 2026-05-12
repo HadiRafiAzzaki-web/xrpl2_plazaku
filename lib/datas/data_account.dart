@@ -36,5 +36,14 @@ List<UserModel> users = [
     currentMode: AppMode.seller,
     shopName: 'Rafi Store',
   ),
-  UserModel(username: "Deni", email: "Denuno@gmail.com", password: 'help')
+  UserModel(
+    username: "Deni",
+    email: "Denuno@gmail.com",
+    password: 'help',
+    currentMode: AppMode.buyer,
+    id: 3,
+    isSeller: false,
+    role: Role.buyer,
+    sellerId: null,
+  ),
 ];
