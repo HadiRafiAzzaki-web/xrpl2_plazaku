@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 
-import '../models/product_model.dart';
-import '../services/app_service.dart';
-import '../widgets/product_card.dart';
+import '../../models/product_model.dart';
+import '../../services/app_service.dart';
+import '../../widgets/product_card.dart';
 import 'detail_product_page.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -18,7 +18,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   //save filtered data
-  late List<ProductModel> products = [];
+  List<ProductModel> products = [];
 
   @override
   void initState() {
@@ -55,11 +55,7 @@ class _CategoryPageState extends State<CategoryPage> {
           shrinkWrap: true,
           itemCount: products.length,
           itemBuilder: (context, index) => ProductCard(
-            title: products[index].title,
-            imageUrl: products[index].image,
-            price: products[index].price,
-            rating: products[index].rating,
-            review: products[index].review,
+            product: products[index],
             onTap: () {
               Navigator.push(
                 context,

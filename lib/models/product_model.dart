@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:xrpl2_plazaku/models/variant_model.dart';
 
 //product by category
@@ -13,18 +15,31 @@ enum Category {
 }
 
 class ProductModel {
+  final int id;
+  final int sellerId;
+  final String? description;
+  final int stock;
   final String title;
   final int price;
   final String image;
+  final Uint8List? webImage;
   final double rating;
   final int review;
   final Category category;
   final String location;
   final List<VariantModel> variants;
-  bool isFavorite = false;
 
-  ProductModel({
-    required this.isFavorite,
+  bool isFavorite;
+  bool isChosenCart;
+
+  ProductModel(
+    this.description, {
+    required this.sellerId,
+    required this.stock,
+    required this.id,
+    this.isChosenCart = false,
+    this.isFavorite = false,
+    required this.webImage,
     required this.location,
     required this.category,
     required this.title,

@@ -28,6 +28,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  fl_chart: ^0.68.0
+  image_picker: ^1.1.2
+  intl: ^0.18.0
   flutter:
     sdk: flutter
 
@@ -36,7 +39,6 @@ dependencies:
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
-  intl: ^0.18.0
   flutter_test:
     sdk: flutter
 

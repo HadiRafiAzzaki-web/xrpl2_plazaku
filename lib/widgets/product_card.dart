@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/product_model.dart';
+import 'package:xrpl2_plazaku/utils/product_image.dart';
 
 import '../utils/price_format.dart';
 
 class ProductCard extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final int price;
-  final double rating;
-  final int review;
+  final ProductModel product;
   final VoidCallback? onTap;
 
-  const ProductCard({
-    super.key,
-    required this.title,
-    required this.imageUrl,
-    required this.price,
-    required this.rating,
-    required this.review,
-    this.onTap,
-  });
+  const ProductCard({super.key, required this.product, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +27,11 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                imageUrl,
-                height: 100,
-                fit: BoxFit.fill,
-                width: double.infinity,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              child: buildProductImage(
+                product,
+                widthSize: double.infinity,
+                heightSize: 100,
               ),
             ),
             Padding(
@@ -50,12 +39,16 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, maxLines: 2, overflow: TextOverflow.ellipsis),
-                  Text(formatRupiah(price)),
+                  Text(
+                    product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(formatRupiah(product.price)),
                   Row(
                     children: [
                       Icon(Icons.star, size: 14, color: Colors.orange),
-                      Text("$rating ($review)"),
+                      Text("${product.rating} (${product.review})"),
                     ],
                   ),
                 ],

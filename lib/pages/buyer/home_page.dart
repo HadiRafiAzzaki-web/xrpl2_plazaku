@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 
-import '../services/app_service.dart';
-import '../widgets/banner_header.dart';
-import '../widgets/categories_widget.dart';
-import '../widgets/product_card.dart';
+import '../../services/app_service.dart';
+import '../../widgets/banner_header.dart';
+import '../../widgets/categories_widget.dart';
+import '../../widgets/product_card.dart';
 import 'detail_product_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,43 +91,36 @@ class _HomePageState extends State<HomePage> {
             Container(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
               color: Colors.white,
-              height: 220,
               child: CategoriesWidget(),
             ),
             SizedBox(height: 10),
             //products
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.9,
-                ),
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: products.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCard(
-                    title: products[index].title,
-                    imageUrl: products[index].image,
-                    price: products[index].price,
-                    rating: products[index].rating,
-                    review: products[index].review,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailProductPage(
-                            product: products[index],
-                            wishlistService: wishlistService,
-                            cartService: cartService,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
+            GridView.builder(
+              padding: EdgeInsets.all(20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.9,
               ),
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: products.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ProductCard(
+                  product: products[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailProductPage(
+                          product: products[index],
+                          wishlistService: wishlistService,
+                          cartService: cartService,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

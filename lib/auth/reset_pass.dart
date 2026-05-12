@@ -172,7 +172,7 @@ class _ResetPassState extends State<ResetPass> {
                                   ),
                                 );
 
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => Login(),

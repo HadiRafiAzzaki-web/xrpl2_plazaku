@@ -102,7 +102,7 @@ class _ForgotPassState extends State<ForgotPass> {
                                 (element) => element.email == _email.text,
                               );
                               if (isEmailExist) {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>

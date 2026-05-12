@@ -1,11 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/cart_page.dart';
-import 'package:xrpl2_plazaku/pages/search_page.dart';
+import 'dart:io';
 
-import '../models/product_model.dart';
-import '../services/cart_service.dart';
-import '../services/wishlist_service.dart';
-import '../utils/price_format.dart';
+import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
+import 'package:xrpl2_plazaku/widgets/custom_button.dart';
+
+import '../../models/product_model.dart';
+import '../../services/cart_service.dart';
+import '../../services/wishlist_service.dart';
+import '../../utils/price_format.dart';
 
 class DetailProductPage extends StatefulWidget {
   final ProductModel product;
@@ -24,6 +27,7 @@ class DetailProductPage extends StatefulWidget {
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
+  final user = appService.currentUser!;
   Map<String, String> selectedVariants = {};
 
   //get product variant
@@ -50,11 +54,27 @@ class _DetailProductPageState extends State<DetailProductPage> {
     widget.cartService.addCart(
       product: widget.product,
       variants: selectedVariants,
+      userId: user.id,
     );
 
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text("Product added to cart")));
+  }
+
+  //add product to wishlist
+  void handleAddWishlist() {
+    if (widget.product.isFavorite) {
+      widget.wishlistService.removeWishlist(
+        product: widget.product,
+        userId: user.id,
+      );
+    } else {
+      widget.wishlistService.addWishlist(
+        product: widget.product,
+        userId: user.id,
+      );
+    }
   }
 
   @override
@@ -116,12 +136,20 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 width: double.infinity,
                 child: PageView(
                   children: [
-                    Image.asset(
-                      widget.product.image,
-                      width: double.infinity,
-                      height: 300,
-                      fit: BoxFit.cover,
-                    ),
+                    if (widget.product.image.isNotEmpty)
+                      widget.product.image.startsWith('assets/')
+                          ? Image.asset(
+                              widget.product.image,
+                              width: double.infinity,
+                              height: 300,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(widget.product.image),
+                              width: double.infinity,
+                              height: 300,
+                              fit: BoxFit.cover,
+                            ),
                   ],
                 ),
               ),
@@ -131,7 +159,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
               elevation: 3,
               child: Container(
                 width: double.infinity,
-                height: 200,
                 padding: EdgeInsets.fromLTRB(15, 5, 10, 15),
                 color: Colors.white,
                 child: Column(
@@ -150,9 +177,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.wishlistService.addWishlist(
-                                    widget.product,
-                                  );
+                                  handleAddWishlist();
                                 });
                               },
                               icon: Icon(
@@ -222,7 +247,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
             Card(
               elevation: 3,
               child: Container(
-                height: 200,
                 width: double.infinity,
                 padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                 decoration: BoxDecoration(
@@ -241,15 +265,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           variant.name,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-
                         SizedBox(height: 10),
-
                         Wrap(
                           spacing: 8,
+                          runSpacing: 8,
                           children: variant.options.map((option) {
                             final isSelected =
                                 selectedVariants[variant.name] == option;
-
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -284,7 +306,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             );
                           }).toList(),
                         ),
-
                         SizedBox(height: 15),
                       ],
                     );
@@ -298,35 +319,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(12),
         color: Colors.white,
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CartPage()),
-                );
-              },
-              icon: Icon(Icons.shopping_cart_outlined),
-            ),
-            SizedBox(width: 10),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: handleAddToCart,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  "Add to Cart",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
+        child: CustomButton(
+          title: 'Add to Cart',
+          onPressed: () {
+            setState(() {
+              handleAddToCart();
+            });
+          },
+          color: Colors.black,
+          textColor: Colors.white,
         ),
       ),
     );
