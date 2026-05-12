@@ -7,4 +7,5 @@ List<UserModel> users = [
     email: 'rafirofu2@gmail.com',
     password: 'rerere',
   ),
+  UserModel(username: "Deni", email: "Denuno@gmail.com", password: 'help')
 ];
