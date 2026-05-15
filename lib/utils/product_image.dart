@@ -4,6 +4,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/product_model.dart';
 
+class ProductImage extends StatelessWidget {
+  final ProductModel product;
+  final double height;
+  final double width;
+
+  const ProductImage({
+    super.key,
+    required this.product,
+    required this.height,
+    required this.width,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: width, height: height, decoration: BoxDecoration());
+  }
+}
+
 Widget buildProductImage(
   ProductModel product, {
   double heightSize = 100,

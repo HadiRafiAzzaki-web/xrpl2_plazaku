@@ -18,7 +18,7 @@ class _SellerProductPageState extends State<SellerProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.currentUser!;
+    final user = appService.userModel!;
     final myProducts = productService
         .sellerProducts(user.sellerId!)
         .where((element) => element.title.toLowerCase().contains(search))
@@ -122,6 +122,8 @@ class _SellerProductPageState extends State<SellerProductPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
         child: CustomButton(
+          height: 55,
+          width: double.infinity,
           title: '+ Add Product',
           onPressed: () {
             Navigator.push(

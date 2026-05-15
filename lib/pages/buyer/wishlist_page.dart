@@ -27,9 +27,9 @@ class _WishlistPageState extends State<WishlistPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.currentUser!;
+    final user = appService.userModel;
     final wishlistProduct = widget.wishlistService
-        .userWishlist(user.id)
+        .userWishlist(user!.id)
         .where(
           (element) => element.product.title.toLowerCase().contains(search),
         )
@@ -129,21 +129,21 @@ class _WishlistPageState extends State<WishlistPage> {
                                 onPressed: () {
                                   setState(() {
                                     widget.wishlistService.removeWishlist(
-                                      userId: user.id,
-                                      product: wishlistProduct[index].product,
+                                      wishlistProduct[index].product,
+                                      user.id,
                                     );
                                   });
                                 },
                                 icon: Icon(Icons.favorite, color: Colors.red),
                               ),
-
                               IconButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => DetailProductPage(
-                                        product: wishlistProduct[index].product,
+                                      builder: (context) => DetailProductPage(
+                                        productModel:
+                                            wishlistProduct[index].product,
                                         wishlistService: widget.wishlistService,
                                         cartService: widget.cartService,
                                       ),

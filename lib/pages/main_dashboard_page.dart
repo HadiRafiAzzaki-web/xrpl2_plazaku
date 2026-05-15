@@ -16,9 +16,9 @@ class MainDashboardPage extends StatefulWidget {
 class _MainDashboardPageState extends State<MainDashboardPage> {
   @override
   Widget build(BuildContext context) {
-    final user = appService.currentUser!;
+    final user = appService.userModel!;
 
-    if (user.currentMode == AppMode.seller) {
+    if (user.currentMode == AppMode.seller && user.role == Role.seller) {
       return SellerDashboardPage();
     }
 

@@ -14,6 +14,7 @@ List<UserModel> users = [
     isSeller: false,
     role: Role.admin,
     currentMode: AppMode.admin,
+    location: 'Malang',
   ),
   UserModel(
     id: 1,
@@ -24,6 +25,7 @@ List<UserModel> users = [
     isSeller: false,
     role: Role.buyer,
     currentMode: AppMode.buyer,
+    location: 'Jakarta',
   ),
   UserModel(
     id: 2,
@@ -35,6 +37,7 @@ List<UserModel> users = [
     role: Role.seller,
     currentMode: AppMode.seller,
     shopName: 'Rafi Store',
+    location: 'Medan',
   ),
   UserModel(
     username: "Deni",
@@ -45,5 +48,6 @@ List<UserModel> users = [
     isSeller: false,
     role: Role.buyer,
     sellerId: null,
+    location: 'Semarang',
   ),
 ];

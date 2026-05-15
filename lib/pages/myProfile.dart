@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 
 class Myprofile extends StatefulWidget {
   const Myprofile({super.key});
@@ -11,6 +12,7 @@ class Myprofile extends StatefulWidget {
 class _MyprofileState extends State<Myprofile> {
   @override
   Widget build(BuildContext context) {
+    final user = appService.userModel!;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -65,7 +67,7 @@ class _MyprofileState extends State<Myprofile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'USERNAME',
+                      user.username,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -82,7 +84,7 @@ class _MyprofileState extends State<Myprofile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'username@gmail.com',
+                      user.email,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -97,7 +99,7 @@ class _MyprofileState extends State<Myprofile> {
               child: ListTile(
                 leading: Icon(Icons.person),
                 title: Text("Name"),
-                subtitle: Text("You name"),
+                subtitle: Text(user.username),
               ),
             ),
             Positioned.fill(
@@ -105,7 +107,7 @@ class _MyprofileState extends State<Myprofile> {
               child: ListTile(
                 leading: Icon(Icons.mail_outline),
                 title: Text("email"),
-                subtitle: Text("Youemail@gmail.com"),
+                subtitle: Text(user.email),
               ),
             ),
             Positioned.fill(

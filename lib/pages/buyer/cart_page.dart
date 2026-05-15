@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/checkout_model.dart';
+import 'package:xrpl2_plazaku/models/payment_method_model.dart';
+import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
+import 'package:xrpl2_plazaku/pages/buyer/checkout_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cart_service.dart';
 import 'package:xrpl2_plazaku/utils/product_image.dart';
@@ -21,11 +25,13 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.currentUser!;
+    final user = appService.userModel!;
     final cartProduct = widget.cartService
         .userCart(user.id)
         .where(
-          (element) => element.product.title.toLowerCase().contains(search),
+          (element) => element.product.title.toLowerCase().contains(
+            search.toLowerCase(),
+          ),
         )
         .toList();
     return Scaffold(
@@ -81,10 +87,8 @@ class _CartPageState extends State<CartPage> {
           : ListView.builder(
               scrollDirection: Axis.vertical,
               padding: EdgeInsets.all(20),
-              shrinkWrap: true,
               itemCount: cartProduct.length,
               itemBuilder: (context, index) {
-                final item = cartProduct[index];
                 return Container(
                   margin: EdgeInsets.only(bottom: 12),
                   padding: EdgeInsets.all(10),
@@ -101,7 +105,7 @@ class _CartPageState extends State<CartPage> {
                           height: 100,
                           width: 100,
                           child: buildProductImage(
-                            item.product,
+                            cartProduct[index].product,
                             heightSize: 100,
                             widthSize: 100,
                           ),
@@ -113,7 +117,7 @@ class _CartPageState extends State<CartPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item.product.title,
+                              cartProduct[index].product.title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -124,7 +128,7 @@ class _CartPageState extends State<CartPage> {
                             ),
                             SizedBox(height: 6),
                             Text(
-                              formatRupiah(item.product.price),
+                              formatRupiah(cartProduct[index].product.price),
                               style: TextStyle(fontSize: 16),
                             ),
                             Wrap(
@@ -136,11 +140,11 @@ class _CartPageState extends State<CartPage> {
                                   size: 20,
                                 ),
                                 Text(
-                                  '${item.product.rating}',
+                                  '${cartProduct[index].product.rating}',
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 Text(
-                                  '(${item.product.review})',
+                                  '(${cartProduct[index].product.review})',
                                   style: TextStyle(color: Colors.black),
                                 ),
                               ],
@@ -160,10 +164,16 @@ class _CartPageState extends State<CartPage> {
                                     padding: EdgeInsets.zero,
                                     onPressed: () {
                                       setState(() {
-                                        if (item.quantity > 1) {
-                                          item.quantity--;
+                                        if (cartProduct[index].quantity > 1) {
+                                          cartProduct[index].quantity--;
                                         } else {
-                                          widget.cartService.removeCart(index);
+                                          setState(() {
+                                            widget.cartService
+                                                .removeProductFromCart(
+                                                  cartProduct[index],
+                                                  user.id,
+                                                );
+                                          });
                                         }
                                       });
                                     },
@@ -174,7 +184,7 @@ class _CartPageState extends State<CartPage> {
                                       horizontal: 10,
                                     ),
                                     child: Text(
-                                      '${item.quantity}',
+                                      '${cartProduct[index].quantity}',
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),
@@ -183,7 +193,7 @@ class _CartPageState extends State<CartPage> {
                                     padding: EdgeInsets.zero,
                                     onPressed: () {
                                       setState(() {
-                                        item.quantity++;
+                                        cartProduct[index].quantity++;
                                       });
                                     },
                                     icon: Icon(Icons.add, size: 18),
@@ -197,14 +207,13 @@ class _CartPageState extends State<CartPage> {
                       Column(
                         children: [
                           Checkbox(
-                            value: item.isSelected,
+                            value: cartProduct[index].isSelected,
                             onChanged: (value) {
                               setState(() {
-                                item.isSelected = value!;
-
-                                isAll = cartProduct.every(
-                                  (element) => element.isSelected,
-                                );
+                                cartProduct[index].isSelected = value!;
+                                isAll = widget.cartService
+                                    .userCart(user.id)
+                                    .every((element) => element.isSelected);
                               });
                             },
                           ),
@@ -217,6 +226,7 @@ class _CartPageState extends State<CartPage> {
             ),
       //bottom navbar
       bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFFFFFFF), Color(0xFF999999)],
@@ -233,31 +243,67 @@ class _CartPageState extends State<CartPage> {
                   onChanged: (value) {
                     setState(() {
                       isAll = value!;
-
-                      for (var product in cartProduct) {
-                        product.isSelected = isAll;
-                      }
+                      widget.cartService
+                          .userCart(user.id)
+                          .forEach((element) => element.isSelected = isAll);
                     });
                   },
                 ),
                 Text('All'),
               ],
             ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(formatRupiah(widget.cartService.selectedTotalPrice)),
-                Card(
-                  color: Colors.black,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      'Checkout (${widget.cartService.selectedItemCount})',
-                      style: TextStyle(color: Colors.white),
+            GestureDetector(
+              onTap: () {
+                final selectedProduct = cartProduct
+                    .where((element) => element.isSelected)
+                    .map(
+                      (e) => ProductQuantityModel(
+                        product: e.product,
+                        quantity: e.quantity,
+                        variants: e.variants,
+                      ),
+                    )
+                    .toList();
+                final checkout = CheckoutModel(
+                  userId: user.id,
+                  productsQuantity: selectedProduct,
+                  location: user.location,
+                  paymentMethod: PaymentMethodModel(
+                    id: 1,
+                    title: 'Cash on delivery',
+                    type: PaymentType.cod,
+                  ),
+                );
+                if (selectedProduct.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CheckoutPage(checkoutModel: checkout),
+                    ),
+                  );
+                }
+              },
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    formatRupiah(
+                      widget.cartService.selectedProductCartPrice(user.id),
                     ),
                   ),
-                ),
-              ],
+                  Card(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Text(
+                        'Checkout (${widget.cartService.selectedProductCartCount(user.id)})',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

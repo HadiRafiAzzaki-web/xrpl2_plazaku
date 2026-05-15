@@ -40,10 +40,4 @@ List<CatModel> mod = [
     icon: Icons.sell_outlined,
     page: Center(),
   ),
-  CatModel(
-    text: 'Log Out ',
-    color: Colors.black,
-    icon: Icons.logout_outlined,
-    page: SplashScreen(),
-  ),
 ];

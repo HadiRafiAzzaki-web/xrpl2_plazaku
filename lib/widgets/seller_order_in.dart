@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_order_page.dart';
+import 'package:xrpl2_plazaku/widgets/order_status.dart';
 
 class SellerOrderIn extends StatelessWidget {
   final int total;
@@ -69,7 +70,7 @@ class SellerOrderIn extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: buildOrderStatus(
+                  child: OrderStatus(
                     title: '$pending',
                     subtitle: 'Pending',
                     color: Color(0xFFFFF8E7),
@@ -77,7 +78,7 @@ class SellerOrderIn extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: buildOrderStatus(
+                  child: OrderStatus(
                     title: '$processed',
                     subtitle: 'Processed',
                     color: Color(0xFFEFF4FF),
@@ -85,17 +86,15 @@ class SellerOrderIn extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: buildOrderStatus(
+                  child: OrderStatus(
                     title: '$sent',
                     subtitle: 'Sent',
                     color: Color(0xFFEAFBF3),
                   ),
                 ),
-
                 SizedBox(width: 10),
-
                 Expanded(
-                  child: buildOrderStatus(
+                  child: OrderStatus(
                     title: '$finish',
                     subtitle: 'Finish',
                     color: Color(0xFFF5F5F5),
@@ -105,34 +104,6 @@ class SellerOrderIn extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget buildOrderStatus({
-    required String title,
-    required String subtitle,
-    required Color color,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 14),
-
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12),
-      ),
-
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-
-          SizedBox(height: 4),
-
-          Text(subtitle, style: TextStyle(color: Colors.black54, fontSize: 13)),
-        ],
       ),
     );
   }
