@@ -39,11 +39,11 @@ List<UserModel> users = [
   UserModel(
     username: "Deni",
     email: "Denuno@gmail.com",
-    password: 'help',
-    currentMode: AppMode.buyer,
+    password: 'helpme',
+    currentMode: AppMode.seller,
     id: 3,
     isSeller: false,
-    role: Role.buyer,
+    role: Role.seller,
     sellerId: null,
   ),
 ];

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/services/cat_service.dart';
-import 'package:xrpl2_plazaku/widgets/cat_widget.dart';
+import '../../services/cat_service.dart';
+import '../../widgets/cat_widget.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+class AccountSellerPage extends StatefulWidget {
+  const AccountSellerPage({super.key});
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<AccountSellerPage> createState() => _AccountSellerPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _AccountSellerPageState extends State<AccountSellerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,7 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ),
             ),
-            Positioned(
+             Positioned(
               height: 330,
               left: 0,
               right: 0,
@@ -58,20 +58,19 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ),
             ),
-            Positioned(
-              height: 360,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  "vanesha@gmail.com",
-                  style: TextStyle(fontSize: 15),
+              Positioned(
+                height: 360,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Text(
+                    "vanesha@gmail.com",
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
               ),
-            ),
-
             Positioned(
-            height:475,top: 200,
+              height:475,top: 200,
               child: Container(
                 width: 500,
                 padding: EdgeInsets.all(12),

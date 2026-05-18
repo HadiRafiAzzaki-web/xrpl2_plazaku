@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/cat_model.dart';
+import 'package:xrpl2_plazaku/pages/main_dashboard_page.dart';
 import 'package:xrpl2_plazaku/pages/myProfile.dart';
 import 'package:xrpl2_plazaku/pages/splash_screen.dart';
 
@@ -45,5 +46,11 @@ List<CatModel> mod = [
     color: Colors.black,
     icon: Icons.logout_outlined,
     page: SplashScreen(),
+  ),
+  CatModel(
+    text: "buyer",
+    color: Colors.black,
+    icon: Icons.shopping_bag_outlined,
+    page: MainDashboardPage(),
   ),
 ];
