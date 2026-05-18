@@ -30,6 +30,7 @@ class TabItemNav extends StatelessWidget {
         child: Text(
           label.displayName,
           style: TextStyle(
+            fontSize: 18,
             color: isActive ? Colors.blue : Colors.grey,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           ),

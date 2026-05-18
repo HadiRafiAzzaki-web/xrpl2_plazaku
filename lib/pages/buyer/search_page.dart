@@ -20,6 +20,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
+        toolbarHeight: 80,
         backgroundColor: Color(0xFFF5F5F5),
         title: TextField(
           controller: search,

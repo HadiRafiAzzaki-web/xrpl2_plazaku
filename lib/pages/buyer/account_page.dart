@@ -15,7 +15,7 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-    final previewCount = mod.length > 6 ? 6 : mod.length;
+    final previewCount = mod.length + 1;
     final user = appService.userModel!;
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +66,7 @@ class _AccountPageState extends State<AccountPage> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: previewCount,
-                itemBuilder: (context, index) => index == previewCount - 1
+                itemBuilder: (context, index) => index == mod.length
                     ? Card(
                         elevation: 1,
                         child: ListTile(
@@ -76,24 +76,24 @@ class _AccountPageState extends State<AccountPage> {
                               builder: (context) => AlertDialog(
                                 title: Text('Log out?'),
                                 content: Text(
-                                  'Are you sure you want to log ou?',
+                                  'Are you sure you want to log out?',
                                 ),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text('No'),
+                                    child: Text('Cancel'),
                                   ),
                                   TextButton(
                                     onPressed: () {
+                                      appService.logout();
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => SplashScreen(),
                                         ),
                                       );
-                                      appService.logout();
                                     },
                                     child: Text('Yes'),
                                   ),
@@ -118,6 +118,7 @@ class _AccountPageState extends State<AccountPage> {
                         color: mod[index].color,
                         icon: mod[index].icon,
                         page: mod[index].page,
+                        onTap: mod[index].onTap,
                       ),
               ),
             ),

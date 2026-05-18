@@ -28,7 +28,9 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
     // get data and filter
     var orders = orderService.allOrders;
     if (selectedTab != ProductStatus.all) {
-      orders = orders.where((o) => o.status == selectedTab).toList();
+      orders = orders
+          .where((element) => element.status == selectedTab)
+          .toList();
     }
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),

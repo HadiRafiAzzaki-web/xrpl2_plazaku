@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/models/checkout_model.dart';
 import 'package:xrpl2_plazaku/models/user_model.dart';
 
 class AddressCard extends StatelessWidget {
   final UserModel user;
-  final CheckoutModel checkoutModel;
 
-  const AddressCard({
-    super.key,
-    required this.checkoutModel,
-    required this.user,
-  });
+  const AddressCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +47,7 @@ class AddressCard extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(user.location ?? 'Malang'),
-          ),
+          Padding(padding: EdgeInsets.all(10), child: Text(user.location)),
         ],
       ),
     );

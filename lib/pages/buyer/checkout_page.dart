@@ -41,7 +41,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            AddressCard(checkoutModel: widget.checkoutModel, user: user),
+            AddressCard(user: user),
             SizedBox(height: 20),
             Text(
               'Delivery Time',

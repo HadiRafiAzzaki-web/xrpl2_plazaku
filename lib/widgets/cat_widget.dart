@@ -5,21 +5,26 @@ class CatWidget extends StatelessWidget {
   final Color color;
   final IconData icon;
   final Widget page;
+  final VoidCallback? onTap;
+
   const CatWidget({
     super.key,
     required this.text,
     required this.color,
     required this.icon,
     required this.page,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => page),
-      ),
+      onTap: () {
+        if (onTap != null) {
+          onTap!();
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      },
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
