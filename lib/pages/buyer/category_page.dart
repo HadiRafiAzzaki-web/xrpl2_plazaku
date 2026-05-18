@@ -61,7 +61,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailProductPage(
-                    product: products[index],
+                    productModel: products[index],
                     wishlistService: wishlistService,
                     cartService: cartService,
                   ),

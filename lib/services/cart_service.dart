@@ -1,86 +1,71 @@
-import '../models/cart_model.dart';
+import 'package:flutter/foundation.dart';
+import 'package:xrpl2_plazaku/models/cart_model.dart';
+import 'package:xrpl2_plazaku/models/variant_model.dart';
+
 import '../models/product_model.dart';
 
 class CartService {
-  final List<CartModel> _cart = [];
+  final List<CartModel> carts = [];
 
-  List<CartModel> get item => _cart;
-
-  //add product to cart cart
-  void addCart({
-    required int userId,
-    required ProductModel product,
-    required Map<String, String> variants,
-  }) {
-    //get index product, userId and variant
-    final index = _cart.indexWhere(
+  void addProductToCart(
+    int userId,
+    ProductModel product,
+    List<VariantModel> variants,
+  ) {
+    final productIndex = carts.indexWhere(
       (element) =>
-          element.product == product &&
           element.userId == userId &&
-          _mapEquals(element.variants, variants),
+          element.product.id == product.id &&
+          listEquals(element.variants, variants),
     );
-
-    //check product from cart exist or not
-    if (index != -1) {
-      _cart[index].quantity++;
+    if (productIndex != -1) {
+      //add product quantity
+      carts[productIndex].quantity++;
     } else {
-      _cart.add(
+      //make new item product to cart
+      carts.add(
         CartModel(
-          product: product,
-          variants: Map.from(variants),
           userId: userId,
+          product: product,
+          variants: List.from(variants),
         ),
       );
     }
   }
 
-  //user product cart
+  //filter cart used userId
   List<CartModel> userCart(int userId) {
-    return _cart.where((element) => element.userId == userId).toList();
+    return carts.where((element) => element.userId == userId).toList();
   }
 
-  //remove product from cart
-  void removeCart(int index) {
-    _cart.removeAt(index);
-  }
-
-  //get total price product
-  int get totalPrice {
-    return _cart.fold(
-      0,
-      (sum, item) => sum + item.product.price * item.quantity,
+  void removeProductFromCart(CartModel cart, int userId) {
+    carts.removeWhere(
+      (element) =>
+          element.userId == userId &&
+          element.product.id == cart.product.id &&
+          listEquals(element.variants, cart.variants),
     );
   }
 
-  //get check product total price
-  int get selectedTotalPrice {
+  int cartTotalPrice(int userId) {
+    return userCart(userId).fold(
+      0,
+      (previousValue, element) =>
+          previousValue + (element.product.price * element.quantity),
+    );
+  }
+
+  int selectedProductCartPrice(int userId) {
     int total = 0;
-
-    for (var cart in item) {
-      if (cart.isSelected) {
-        total += cart.product.price * cart.quantity;
+    userCart(userId).forEach((element) {
+      if (element.isSelected) {
+        total += element.product.price * element.quantity;
       }
-    }
-
+    });
     return total;
   }
 
-  //get product count
-  int get selectedItemCount {
-    return item.where((e) => e.isSelected).length;
-  }
-
-  bool _mapEquals(Map a, Map b) {
-    if (a.length != b.length) {
-      return false;
-    }
-
-    for (final key in a.keys) {
-      if (a[key] != b[key]) {
-        return false;
-      }
-    }
-
-    return true;
+  int selectedProductCartCount(int userId) {
+    return userCart(userId).where((element) => element.isSelected).length;
   }
 }

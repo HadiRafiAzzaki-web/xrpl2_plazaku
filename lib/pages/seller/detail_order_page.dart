@@ -140,6 +140,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       Column(
                         children: [
                           CustomButton(
+                            height: 55,
+                            width: double.infinity,
                             title: 'Accept Order',
                             onPressed: () {
                               setState(() {
@@ -157,6 +159,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                           ),
                           SizedBox(height: 10),
                           CustomButton(
+                            width: double.infinity,
+                            height: 55,
                             title: 'Reject Order',
                             onPressed: rejectedShowDialog,
                             color: Colors.red,

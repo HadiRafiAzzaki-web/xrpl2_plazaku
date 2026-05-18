@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../services/order_service.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 
 class SellerChart extends StatelessWidget {
   final DateTimeRange? selectedDate;

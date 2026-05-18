@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
+import 'package:xrpl2_plazaku/pages/splash_screen.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/widgets/seller_card.dart';
@@ -24,50 +25,35 @@ class _SellerHomePageState extends State<SellerHomePage> {
     //get all finish order
     try {
       var orders = orderService.allOrders
-          .where((o) => o.status == ProductStatus.finish)
+          .where((element) => element.status == ProductStatus.finish)
           .toList();
 
       if (selectedDate != null) {
-        orders = orders.where((o) {
-          return o.date.isAfter(
-                selectedDate!.start.subtract(const Duration(days: 1)),
+        orders = orders.where((element) {
+          return element.date.isAfter(
+                selectedDate!.start.subtract(Duration(days: 1)),
               ) &&
-              o.date.isBefore(selectedDate!.end.add(const Duration(days: 1)));
+              element.date.isBefore(selectedDate!.end.add(Duration(days: 1)));
         }).toList();
       }
 
       orders.sort((a, b) => a.date.compareTo(b.date));
 
       if (orders.isEmpty) {
-        return [const FlSpot(0, 0)];
+        return [FlSpot(0, 0)];
       }
 
       return List.generate(orders.length, (i) {
         return FlSpot(i.toDouble(), orders[i].totalPrice.toDouble());
       });
     } catch (e) {
-      return [const FlSpot(0, 0)];
-    }
-  }
-
-  //get date from dropdown
-  Future<void> pickDateRange() async {
-    final result = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2030),
-    );
-
-    if (result != null) {
-      setState(() {
-        selectedDate = result;
-      });
+      return [FlSpot(0, 0)];
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.currentUser!;
+    final user = appService.userModel!;
     final pending = orderService.countByStatus(ProductStatus.pending);
     final processed = orderService.countByStatus(ProductStatus.processed);
     final sent = orderService.countByStatus(ProductStatus.sent);
@@ -89,7 +75,12 @@ class _SellerHomePageState extends State<SellerHomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SplashScreen()),
+              );
+            },
             icon: Icon(Icons.notifications, size: 40, color: Colors.black),
           ),
         ],
@@ -135,7 +126,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                             SellerCard(
                               title: 'Products',
                               value:
-                                  '${productService.sellerProducts(user.id).length}',
+                                  '${productService.sellerProducts(user.sellerId).length}',
                               percentage: 12.5,
                             ),
                             SellerCard(
@@ -166,7 +157,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                             SellerCard(
                               title: 'Products',
                               value:
-                                  '${productService.sellerProducts(user.id).length}',
+                                  '${productService.sellerProducts(user.sellerId).length}',
                               percentage: 12.5,
                             ),
                             SellerCard(
@@ -195,5 +186,20 @@ class _SellerHomePageState extends State<SellerHomePage> {
         ),
       ),
     );
+  }
+
+  //get date from dropdown
+  Future<void> pickDateRange() async {
+    final result = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2030),
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDate = result;
+      });
+    }
   }
 }

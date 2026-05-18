@@ -1,64 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
-import 'package:xrpl2_plazaku/services/app_service.dart';
+import 'package:xrpl2_plazaku/datas/order_data.dart';
 
 import '../models/order_model.dart';
 
 class OrderService {
-  List<OrderModel> allOrders = [
-    OrderModel(
-      id: 0,
-      userId: 0,
-      userName: 'Dika Maulana',
-      items: [
-        ProductQuantityModel(product: productService.products[0], quantity: 1),
-        ProductQuantityModel(product: productService.products[2], quantity: 5),
-      ],
-      status: ProductStatus.pending,
-      date: DateTime.now().subtract(const Duration(hours: 2)),
-      location: 'Malang',
-    ),
-    OrderModel(
-      id: 1,
-      userId: 1,
-      userName: 'Siti Aisyah',
-      items: [
-        ProductQuantityModel(product: productService.products[0], quantity: 1),
-        ProductQuantityModel(product: productService.products[2], quantity: 5),
-      ],
-      status: ProductStatus.finish,
-      date: DateTime.now().subtract(const Duration(days: 1)),
-      location: 'Batu',
-    ),
-    OrderModel(
-      id: 2,
-      userId: 2,
-      userName: 'Budi Santoso',
-      items: [
-        ProductQuantityModel(product: productService.products[0], quantity: 1),
-        ProductQuantityModel(product: productService.products[2], quantity: 5),
-      ],
-      status: ProductStatus.finish,
-      date: DateTime.now().subtract(const Duration(days: 2)),
-      location: 'Jakarta',
-    ),
-  ];
+  List<OrderModel> allOrders = orders;
 
   //filter orders by selected date
-  List<OrderModel> getOrdersByDate(DateTimeRange? range) {
-    var orders = allOrders
-        .where((o) => o.status == ProductStatus.finish)
+  List<OrderModel> getOrdersByDate(DateTimeRange? date) {
+    var filtered = allOrders
+        .where((element) => element.status == ProductStatus.finish)
         .toList();
 
-    if (range != null) {
-      orders = orders.where((o) {
-        return o.date.isAfter(range.start.subtract(const Duration(days: 1))) &&
-            o.date.isBefore(range.end.add(const Duration(days: 1)));
+    if (date != null) {
+      filtered = filtered.where((element) {
+        return element.date.isAfter(date.start) &&
+            element.date.isBefore(date.end);
       }).toList();
     }
 
-    return orders;
+    return filtered;
   }
 
   List<OrderModel> get filteredOrdersForChart {
@@ -69,10 +31,10 @@ class OrderService {
   }
 
   //get data for chart
-  Map<String, double> chartDataByDate(DateTimeRange? range) {
+  Map<String, double> chartDataByDate(DateTimeRange? dateRange) {
     Map<String, double> data = {};
 
-    var finishOrders = getOrdersByDate(range);
+    var finishOrders = getOrdersByDate(dateRange);
 
     finishOrders.sort((a, b) => a.date.compareTo(b.date));
 
@@ -85,15 +47,23 @@ class OrderService {
     return data;
   }
 
-  int totalOrdersByDate(DateTimeRange? range) {
-    return getOrdersByDate(range).length;
+  int totalOrdersByDate(DateTimeRange? dateRange) {
+    return getOrdersByDate(dateRange).length;
   }
 
   //get total sales from finish status
   int get totalSales {
     return allOrders
         .where((order) => order.status == ProductStatus.finish)
-        .fold(0, (sum, order) => sum + order.items.length);
+        .fold(
+          0,
+          (previousValue, element) =>
+              previousValue +
+              element.items.fold(
+                0,
+                (previousValue, element) => previousValue + element.quantity,
+              ),
+        );
   }
 
   //get total order according status (for see all)
@@ -114,5 +84,3 @@ class OrderService {
     return orders.fold(0, (sum, order) => sum + order.totalPrice);
   }
 }
-
-final orderService = OrderService();

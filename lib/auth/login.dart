@@ -183,7 +183,6 @@ class _LoginState extends State<Login> {
                                   return;
                                 }
                                 appService.login(user);
-
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

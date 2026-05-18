@@ -10,6 +10,7 @@ class UserModel {
   String? imageProfile;
   String? shopName;
   String? shopImage;
+  String location;
   bool isSeller;
   Role role;
   AppMode currentMode;
@@ -26,5 +27,6 @@ class UserModel {
     this.imageProfile,
     this.shopImage,
     this.shopName,
+    required this.location,
   });
 }

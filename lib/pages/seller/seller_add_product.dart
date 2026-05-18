@@ -36,19 +36,6 @@ class _SellerAddProductState extends State<SellerAddProduct> {
   List<VariantModel> productVariants = [];
   final picker = ImagePicker();
 
-  Future<void> pickImage() async {
-    ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      var f = await image.readAsBytes();
-      setState(() {
-        webImage = f;
-        imageFile = File(image.path);
-      });
-    }
-  }
-
   void addVariant() {
     String name = variantNameController.text.trim();
     String optionsRaw = variantOptionsController.text.trim();
@@ -71,7 +58,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
     if (!_formKey.currentState!.validate()) {
       return;
     } else {
-      final user = appService.currentUser!;
+      final user = appService.userModel!;
 
       final product = ProductModel(
         sellerId: user.sellerId!,
@@ -88,9 +75,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
         location: locationController.text,
         variants: productVariants,
       );
-
       productService.addProduct(product);
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Product added'), backgroundColor: Colors.green),
       );
@@ -263,6 +248,8 @@ class _SellerAddProductState extends State<SellerAddProduct> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(12),
         child: CustomButton(
+          width: double.infinity,
+          height: 55,
           title: '+ Save Product',
           onPressed: () {
             setState(() {
@@ -274,5 +261,18 @@ class _SellerAddProductState extends State<SellerAddProduct> {
         ),
       ),
     );
+  }
+
+  Future<void> pickImage() async {
+    ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      var f = await image.readAsBytes();
+      setState(() {
+        webImage = f;
+        imageFile = File(image.path);
+      });
+    }
   }
 }

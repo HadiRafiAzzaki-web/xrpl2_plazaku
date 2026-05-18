@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 
-import '../../services/app_service.dart';
 import '../../widgets/banner_header.dart';
 import '../../widgets/categories_widget.dart';
 import '../../widgets/product_card.dart';
@@ -112,12 +112,14 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailProductPage(
-                          product: products[index],
+                          productModel: products[index],
                           wishlistService: wishlistService,
                           cartService: cartService,
                         ),
                       ),
-                    );
+                    ).then((value) {
+                      setState(() {});
+                    });
                   },
                 );
               },

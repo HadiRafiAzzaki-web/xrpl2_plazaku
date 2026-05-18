@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/variant_model.dart';
 import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
+import 'package:xrpl2_plazaku/utils/product_image.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 
 import '../../models/product_model.dart';
@@ -11,13 +11,13 @@ import '../../services/wishlist_service.dart';
 import '../../utils/price_format.dart';
 
 class DetailProductPage extends StatefulWidget {
-  final ProductModel product;
+  final ProductModel productModel;
   final WishlistService wishlistService;
   final CartService cartService;
 
   const DetailProductPage({
     super.key,
-    required this.product,
+    required this.productModel,
     required this.wishlistService,
     required this.cartService,
   });
@@ -27,35 +27,35 @@ class DetailProductPage extends StatefulWidget {
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
-  final user = appService.currentUser!;
+  final user = appService.userModel!;
   Map<String, String> selectedVariants = {};
+  List<VariantModel> selected = [];
 
-  //get product variant
+  //get default product variant
   @override
   void initState() {
-    for (var v in widget.product.variants) {
-      if (v.options.isNotEmpty) {
-        selectedVariants[v.name] = v.options.first;
+    for (var variant in widget.productModel.variants) {
+      if (variant.options.isNotEmpty) {
+        selectedVariants[variant.name] = variant.options.first;
+        selected.add(
+          VariantModel(name: variant.name, options: variant.options),
+        );
       }
     }
     super.initState();
   }
 
   //add product to cart
-  void handleAddToCart() {
+  void addToCart() {
     //check if all variant has been selected
-    if (selectedVariants.length != widget.product.variants.length) {
+    if (selectedVariants.length != widget.productModel.variants.length) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Select all variant first")));
       return;
     }
 
-    widget.cartService.addCart(
-      product: widget.product,
-      variants: selectedVariants,
-      userId: user.id,
-    );
+    widget.cartService.addProductToCart(user.id, widget.productModel, selected);
 
     ScaffoldMessenger.of(
       context,
@@ -63,17 +63,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
   }
 
   //add product to wishlist
-  void handleAddWishlist() {
-    if (widget.product.isFavorite) {
-      widget.wishlistService.removeWishlist(
-        product: widget.product,
-        userId: user.id,
-      );
+  void addWishlist() {
+    if (widget.productModel.isFavorite) {
+      widget.wishlistService.removeWishlist(widget.productModel, user.id);
     } else {
-      widget.wishlistService.addWishlist(
-        product: widget.product,
-        userId: user.id,
-      );
+      widget.wishlistService.addWishlist(widget.productModel, user.id);
     }
   }
 
@@ -135,22 +129,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 height: 300,
                 width: double.infinity,
                 child: PageView(
-                  children: [
-                    if (widget.product.image.isNotEmpty)
-                      widget.product.image.startsWith('assets/')
-                          ? Image.asset(
-                              widget.product.image,
-                              width: double.infinity,
-                              height: 300,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              File(widget.product.image),
-                              width: double.infinity,
-                              height: 300,
-                              fit: BoxFit.cover,
-                            ),
-                  ],
+                  children: [buildProductImage(widget.productModel)],
                 ),
               ),
             ),
@@ -171,18 +150,18 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              formatRupiah(widget.product.price),
+                              formatRupiah(widget.productModel.price),
                               style: TextStyle(fontSize: 20),
                             ),
                             IconButton(
                               onPressed: () {
                                 setState(() {
-                                  handleAddWishlist();
+                                  addWishlist();
                                 });
                               },
                               icon: Icon(
                                 Icons.favorite,
-                                color: widget.product.isFavorite
+                                color: widget.productModel.isFavorite
                                     ? Colors.red
                                     : Colors.grey,
                                 size: 20,
@@ -191,7 +170,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           ],
                         ),
                         Text(
-                          widget.product.title,
+                          widget.productModel.title,
                           style: TextStyle(color: Colors.grey, fontSize: 18),
                         ),
                       ],
@@ -205,7 +184,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Icon(Icons.star, color: Colors.orange, size: 18),
-                              Text('${widget.product.rating}'),
+                              Text('${widget.productModel.rating}'),
                             ],
                           ),
                           SizedBox(width: 10),
@@ -216,7 +195,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            '${widget.product.review} Sale',
+                            '${widget.productModel.review} Sale',
                             style: TextStyle(fontSize: 14),
                           ),
                           SizedBox(width: 10),
@@ -231,7 +210,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             children: [
                               Icon(Icons.location_on, size: 18),
                               Text(
-                                widget.product.location,
+                                widget.productModel.location,
                                 style: TextStyle(fontSize: 14),
                               ),
                             ],
@@ -244,75 +223,77 @@ class _DetailProductPageState extends State<DetailProductPage> {
               ),
             ),
             SizedBox(height: 10),
-            Card(
-              elevation: 3,
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(30),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: widget.product.variants.map((variant) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          variant.name,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+            widget.productModel.variants.isNotEmpty
+                ? Card(
+                    elevation: 3,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(30),
                         ),
-                        SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: variant.options.map((option) {
-                            final isSelected =
-                                selectedVariants[variant.name] == option;
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedVariants[variant.name] = option;
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? Colors.black
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: isSelected
-                                        ? Colors.black
-                                        : Colors.grey,
-                                  ),
-                                ),
-                                child: Text(
-                                  option,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: widget.productModel.variants.map((variant) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                variant.name,
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(height: 15),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
+                              SizedBox(height: 10),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: variant.options.map((e) {
+                                  final isSelected =
+                                      selectedVariants[variant.name] == e;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedVariants[variant.name] = e;
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? Colors.black
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: isSelected
+                                              ? Colors.black
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        e,
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              SizedBox(height: 15),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  )
+                : Center(child: Text('Variant empty')),
           ],
         ),
       ),
@@ -320,10 +301,12 @@ class _DetailProductPageState extends State<DetailProductPage> {
         padding: EdgeInsets.all(12),
         color: Colors.white,
         child: CustomButton(
+          height: 55,
+          width: double.infinity,
           title: 'Add to Cart',
           onPressed: () {
             setState(() {
-              handleAddToCart();
+              addToCart();
             });
           },
           color: Colors.black,

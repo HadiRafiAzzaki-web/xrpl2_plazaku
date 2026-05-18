@@ -15,7 +15,7 @@ class SellerFinancePage extends StatefulWidget {
 class _SellerFinancePageState extends State<SellerFinancePage> {
   @override
   Widget build(BuildContext context) {
-    final user = appService.currentUser!;
+    final user = appService.userModel!;
     //get seller order
     final sellerOrders = orderService.allOrders.where((order) {
       return order.items.any(
@@ -59,10 +59,7 @@ class _SellerFinancePageState extends State<SellerFinancePage> {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 5),
-                  Text(
-                    formatRupiah(totalRevenue),
-                    style: TextStyle(fontSize: 18),
-                  ),
+                  Text(formatRupiah(100000000), style: TextStyle(fontSize: 18)),
                   SizedBox(height: 5),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -109,6 +106,7 @@ class _SellerFinancePageState extends State<SellerFinancePage> {
               'Transaction History',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
             ),
+            SizedBox(height: 10),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               itemCount: finishedOrders.length,

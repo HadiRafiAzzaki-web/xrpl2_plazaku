@@ -1,3 +1,4 @@
+import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 
 enum ProductStatus { all, pending, processed, sent, finish, rejected }
@@ -6,12 +7,14 @@ class OrderModel {
   final int id;
   final int userId;
   final String userName;
-  String location;
+  final String location;
   final List<ProductQuantityModel> items;
+  final PaymentMethodModel paymentMethod;
   ProductStatus status;
   final DateTime date;
 
   OrderModel({
+    required this.paymentMethod,
     required this.location,
     required this.id,
     required this.userId,

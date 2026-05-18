@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/pages/splash_screen.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cat_service.dart';
-import 'package:xrpl2_plazaku/widgets/cat_widget.dart';
+
+import '../../widgets/cat_widget.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -12,6 +15,8 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
+    final previewCount = mod.length > 6 ? 6 : mod.length;
+    final user = appService.userModel!;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -27,71 +32,93 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ),
       ),
-      body: SizedBox(
-        height: double.infinity,
-        child: Stack(
-          clipBehavior: Clip.none,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
           children: [
-            Positioned(
-              top: 100 - 60,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: CircleAvatar(
-                  radius: 55,
-                  backgroundColor: Colors.white10,
-                  child: CircleAvatar(
-                    radius: 55,
-                    backgroundImage: AssetImage('assets/images/milea.jpg'),
-                  ),
-                ),
+            CircleAvatar(
+              radius: 55,
+              backgroundColor: Colors.white10,
+              child: CircleAvatar(
+                radius: 55,
+                backgroundImage: AssetImage('assets/images/milea.jpg'),
               ),
             ),
-            Positioned(
-              height: 330,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  "Vanesha",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+            SizedBox(height: 10),
+            Center(
+              child: Text(
+                user.username,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            Positioned(
-              height: 360,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  "vanesha@gmail.com",
-                  style: TextStyle(fontSize: 15),
+            SizedBox(height: 8),
+            Center(child: Text(user.email, style: TextStyle(fontSize: 15))),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(12),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 8,
                 ),
-              ),
-            ),
-
-            Positioned(
-            height:475,top: 200,
-              child: Container(
-                width: 500,
-                padding: EdgeInsets.all(12),
-                child: Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 9,
-                    ),
-                    itemCount: mod.length,
-                    itemBuilder: (context, index) => CatWidget(
-                      text: mod[index].text,
-                      color: mod[index].color,
-                      icon: mod[index].icon,
-                      page: mod[index].page,
-                    ),
-                  ),
-                ),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: previewCount,
+                itemBuilder: (context, index) => index == previewCount - 1
+                    ? Card(
+                        elevation: 1,
+                        child: ListTile(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text('Log out?'),
+                                content: Text(
+                                  'Are you sure you want to log ou?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SplashScreen(),
+                                        ),
+                                      );
+                                      appService.logout();
+                                    },
+                                    child: Text('Yes'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          title: Text(
+                            'Log out',
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          leading: Icon(Icons.logout, color: Colors.black),
+                        ),
+                      )
+                    : CatWidget(
+                        text: mod[index].text,
+                        color: mod[index].color,
+                        icon: mod[index].icon,
+                        page: mod[index].page,
+                      ),
               ),
             ),
           ],
