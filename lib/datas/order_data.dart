@@ -27,7 +27,7 @@ List<OrderModel> orders = [
     paymentMethod: PaymentMethodModel(
       id: 0,
       title: 'Bank Transfer',
-      type: PaymentType.transfer,
+      paymentMethod: PaymentMethod.transfer,
     ),
   ),
   OrderModel(
@@ -52,7 +52,7 @@ List<OrderModel> orders = [
     paymentMethod: PaymentMethodModel(
       id: 1,
       title: 'Bank Transfer',
-      type: PaymentType.transfer,
+      paymentMethod: PaymentMethod.transfer,
     ),
   ),
   OrderModel(
@@ -77,7 +77,7 @@ List<OrderModel> orders = [
     paymentMethod: PaymentMethodModel(
       id: 2,
       title: 'Cod',
-      type: PaymentType.cod,
+      paymentMethod: PaymentMethod.cod,
     ),
   ),
 ];

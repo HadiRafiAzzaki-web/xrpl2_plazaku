@@ -271,7 +271,7 @@ class _CartPageState extends State<CartPage> {
                   paymentMethod: PaymentMethodModel(
                     id: 1,
                     title: 'Cash on delivery',
-                    type: PaymentType.cod,
+                    paymentMethod: PaymentMethod.cod,
                   ),
                 );
                 if (selectedProduct.isNotEmpty) {

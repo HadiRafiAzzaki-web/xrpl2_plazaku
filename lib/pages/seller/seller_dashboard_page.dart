@@ -42,20 +42,13 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
         type: BottomNavigationBarType.fixed,
         onTap: (value) {
           setState(() {
-            if (value == 0) {
-              selectedIndex = 0;
-            } else if (value == 1) {
+            if (value == 1) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SellerProductPage()),
               );
-            } else if (value == 2) {
-              selectedIndex = 2;
-            } else if (value == 3) {
-              selectedIndex = 3;
-            } else if (value == 4) {
-              selectedIndex = 4;
             }
+            selectedIndex = value;
           });
         },
         items: [
