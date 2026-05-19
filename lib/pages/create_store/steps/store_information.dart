@@ -71,19 +71,19 @@ class _StoreInformationState extends State<StoreInformation> {
             CreateStoreInputWidget(
               controller: shopAddress,
               hint: 'Enter shop address',
-              title: 'Shop address',
+              title: 'Shop Address',
             ),
             SizedBox(height: 20),
             CreateStoreInputWidget(
               controller: shopPhoneNum,
               hint: 'Enter shop phone number',
-              title: 'Shop phone number',
+              title: 'Shop Phone Number',
             ),
             SizedBox(height: 20),
             CreateStoreInputWidget(
               controller: shopEmail,
-              hint: 'Enter shop phone number',
-              title: 'Shop email',
+              hint: 'Enter shop email',
+              title: 'Shop Email',
             ),
           ],
         ),

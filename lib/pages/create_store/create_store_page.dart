@@ -41,35 +41,35 @@ class _CreateStorePageState extends State<CreateStorePage> {
               children: [
                 StepsWidget(
                   steps: 1,
-                  borderColor: selectedSteps == 0 ? Colors.blue : Colors.grey,
-                  containerColor: selectedSteps == 0
+                  borderColor: selectedSteps >= 0 ? Colors.blue : Colors.grey,
+                  containerColor: selectedSteps >= 0
                       ? Colors.blue
                       : Colors.white,
-                  textColor: selectedSteps == 0 ? Colors.white : Colors.black,
+                  textColor: selectedSteps >= 0 ? Colors.white : Colors.black,
                 ),
                 StepsWidget(
                   steps: 2,
-                  borderColor: selectedSteps == 1 ? Colors.blue : Colors.grey,
-                  containerColor: selectedSteps == 1
+                  borderColor: selectedSteps >= 1 ? Colors.blue : Colors.grey,
+                  containerColor: selectedSteps >= 1
                       ? Colors.blue
                       : Colors.white,
-                  textColor: selectedSteps == 1 ? Colors.white : Colors.black,
+                  textColor: selectedSteps >= 1 ? Colors.white : Colors.black,
                 ),
                 StepsWidget(
                   steps: 3,
-                  borderColor: selectedSteps == 2 ? Colors.blue : Colors.grey,
-                  containerColor: selectedSteps == 2
+                  borderColor: selectedSteps >= 2 ? Colors.blue : Colors.grey,
+                  containerColor: selectedSteps >= 2
                       ? Colors.blue
                       : Colors.white,
-                  textColor: selectedSteps == 2 ? Colors.white : Colors.black,
+                  textColor: selectedSteps >= 2 ? Colors.white : Colors.black,
                 ),
                 StepsWidget(
                   steps: 4,
-                  borderColor: selectedSteps == 3 ? Colors.blue : Colors.grey,
-                  containerColor: selectedSteps == 3
+                  borderColor: selectedSteps >= 3 ? Colors.blue : Colors.grey,
+                  containerColor: selectedSteps >= 3
                       ? Colors.blue
                       : Colors.white,
-                  textColor: selectedSteps == 3 ? Colors.white : Colors.black,
+                  textColor: selectedSteps >= 3 ? Colors.white : Colors.black,
                 ),
               ],
             ),

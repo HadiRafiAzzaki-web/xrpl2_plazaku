@@ -17,9 +17,13 @@ class _CreateStoreSuccessState extends State<CreateStoreSuccess> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Text('Shop Created Successfully')],
+          children: [
+            Text('Shop Created Successfully'),
+            SizedBox(height: 10),
+            Text(
+              'Your shop is ready to use. Start adding your first product and selling now',
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Padding(

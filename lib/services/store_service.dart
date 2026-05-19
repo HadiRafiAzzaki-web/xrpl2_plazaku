@@ -24,6 +24,7 @@ class StoreService {
           emailStore: store.emailStore,
           phoneNum: store.phoneNum,
           storeDescription: store.storeDescription,
+          deliveryMethod: store.deliveryMethod,
         ),
       );
       appService.userModel!.currentMode = AppMode.seller;

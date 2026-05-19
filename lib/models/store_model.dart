@@ -1,3 +1,4 @@
+import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
 import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_model.dart';
 
@@ -12,9 +13,11 @@ class StoreModel {
   final String emailStore;
   final String storeDescription;
   final PaymentMethodModel paymentMethod;
+  final DeliveryMethodModel deliveryMethod;
   final List<ProductModel>? products;
 
   StoreModel({
+    required this.deliveryMethod,
     required this.paymentMethod,
     required this.address,
     required this.emailStore,
