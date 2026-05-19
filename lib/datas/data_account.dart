@@ -42,12 +42,12 @@ List<UserModel> users = [
   UserModel(
     username: "Deni",
     email: "Denuno@gmail.com",
-    password: 'helpme',
-    currentMode: AppMode.seller,
+    password: 'helppp',
+    currentMode: AppMode.admin,
     id: 3,
-    isSeller: false,
-    role: Role.seller,
-    sellerId: null,
+    isSeller: true,
+    role: Role.admin,
+    sellerId: 1,
     location: 'Semarang',
   ),
 ];

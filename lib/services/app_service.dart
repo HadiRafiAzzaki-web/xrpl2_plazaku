@@ -5,6 +5,7 @@ import 'package:xrpl2_plazaku/services/checkout_service.dart';
 import 'package:xrpl2_plazaku/services/order_service.dart';
 import 'package:xrpl2_plazaku/services/product_service.dart';
 import 'package:xrpl2_plazaku/services/search_service.dart';
+import 'package:xrpl2_plazaku/services/store_service.dart';
 import 'package:xrpl2_plazaku/services/wishlist_service.dart';
 
 import 'cart_service.dart';
@@ -46,6 +47,7 @@ final cartService = CartService();
 final wishlistService = WishlistService();
 final orderService = OrderService();
 final checkoutService = CheckoutService();
+final storeService = StoreService();
 final filterService = FilterService(
   productService,
   wishlistService,

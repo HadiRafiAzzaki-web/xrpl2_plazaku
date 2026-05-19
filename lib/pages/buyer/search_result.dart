@@ -23,6 +23,7 @@ class _SearchResultState extends State<SearchResult> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
+        toolbarHeight: 80,
         backgroundColor: Color(0xFFF5F5F5),
         title: TextField(
           onTap: () {
@@ -37,7 +38,7 @@ class _SearchResultState extends State<SearchResult> {
             prefixIcon: Icon(Icons.search, color: Colors.grey),
             hint: Text(
               widget.search,
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+              style: TextStyle(color: Colors.grey, fontSize: 18),
             ),
           ),
         ),
@@ -45,7 +46,7 @@ class _SearchResultState extends State<SearchResult> {
       body: filteredProducts.isEmpty
           ? Center(child: Text('Product empty'))
           : GridView.builder(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(16),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.9,

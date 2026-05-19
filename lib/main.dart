@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/splash_screen.dart';
+import 'package:xrpl2_plazaku/pages/admin/admin_dashboard_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,6 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: SplashScreen(), debugShowCheckedModeBanner: false);
+    return MaterialApp(home: AdminDashboardPage(), debugShowCheckedModeBanner: false);
   }
 }
