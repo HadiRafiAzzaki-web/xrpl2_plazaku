@@ -1,23 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
-import 'package:xrpl2_plazaku/utils/display_status.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/utils/product_image.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 
 class DetailOrderPage extends StatefulWidget {
-  final OrderModel orders;
+  final int id;
 
-  const DetailOrderPage({super.key, required this.orders});
+  const DetailOrderPage({super.key, required this.id});
 
   @override
   State<DetailOrderPage> createState() => _DetailOrderPageState();
 }
 
 class _DetailOrderPageState extends State<DetailOrderPage> {
+  late OrderModel order;
+
+  @override
+  void initState() {
+    order = orderService.allOrders.firstWhere(
+      (element) => element.id == widget.id,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Color statusColor = Colors.grey;
+    Color bgColor = Colors.grey.shade100;
+    String title = '';
+
+    if (order.status == ProductStatus.pending) {
+      statusColor = Colors.orange;
+      bgColor = Colors.orange.shade50;
+      title = 'Pending';
+    } else if (order.status == ProductStatus.processed) {
+      statusColor = Colors.blue;
+      bgColor = Colors.blue.shade50;
+      title = 'Processed';
+    } else if (order.status == ProductStatus.sent) {
+      statusColor = Colors.green;
+      bgColor = Colors.green.shade50;
+      title = 'Sent';
+    } else if (order.status == ProductStatus.rejected) {
+      statusColor = Colors.red;
+      bgColor = Color(0xFFFFEBEE);
+      title = 'Rejected';
+    } else {
+      statusColor = Colors.grey;
+      bgColor = Colors.grey.shade50;
+      title = 'Finish';
+    }
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -38,7 +73,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${widget.orders.id}',
+                      '${order.id}',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -48,20 +83,17 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          DateFormat(
-                            'dd MMM yyyy - HH:mm',
-                          ).format(widget.orders.date),
+                          DateFormat('dd MMM yyyy - HH:mm').format(order.date),
                           style: TextStyle(color: Colors.grey),
                         ),
                         Card(
-                          color:
-                              widget.orders.status.backgroundColor ??
-                              Color(0xFFFFFFFF),
+                          color: bgColor,
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Text(
-                              widget.orders.status.displayName,
+                              title,
                               style: TextStyle(
+                                color: statusColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                               ),
@@ -74,16 +106,13 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                     Text('Customer Data'),
                     SizedBox(height: 5),
                     Text(
-                      widget.orders.userName,
+                      order.userName,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      widget.orders.location,
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                    Text(order.location, style: TextStyle(color: Colors.grey)),
                     Divider(),
                     Text(
                       'Product',
@@ -94,29 +123,28 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                     ),
                     SizedBox(height: 15),
                     ListView.builder(
-                      itemCount: widget.orders.items.length,
+                      itemCount: order.items.length,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        final product = widget.orders.items[index];
                         return ListTile(
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: buildProductImage(
-                              product.product,
+                            child: ProductImage(
+                              image: order.items[index].product.image,
                               heightSize: 60,
                               widthSize: 60,
                             ),
                           ),
                           title: Text(
-                            product.product.title,
+                            order.items[index].product.title,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            formatRupiah(product.product.price),
+                            formatRupiah(order.items[index].product.price),
                             style: TextStyle(color: Colors.grey),
                           ),
-                          trailing: Text('${product.quantity}'),
+                          trailing: Text('${order.items[index].quantity}'),
                         );
                       },
                     ),
@@ -130,13 +158,13 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          formatRupiah(widget.orders.totalPrice),
+                          formatRupiah(order.totalPrice),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     SizedBox(height: 15),
-                    if (widget.orders.status == ProductStatus.pending)
+                    if (order.status == ProductStatus.pending)
                       Column(
                         children: [
                           CustomButton(
@@ -145,7 +173,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                             title: 'Accept Order',
                             onPressed: () {
                               setState(() {
-                                widget.orders.status = ProductStatus.processed;
+                                order.status = ProductStatus.processed;
                               });
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -196,7 +224,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           TextButton(
             onPressed: () {
               setState(() {
-                widget.orders.status = ProductStatus.rejected;
+                order.status = ProductStatus.rejected;
               });
               Navigator.pop(context);
               Navigator.pop(context);

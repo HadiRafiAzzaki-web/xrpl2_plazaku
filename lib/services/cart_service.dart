@@ -22,9 +22,10 @@ class CartService {
       //add product quantity
       carts[productIndex].quantity++;
     } else {
-      //make new item product to cart
+      //make new card product to cart
       carts.add(
         CartModel(
+          id: DateTime.now().millisecondsSinceEpoch,
           userId: userId,
           product: product,
           variants: List.from(variants),
@@ -44,14 +45,6 @@ class CartService {
           element.userId == userId &&
           element.product.id == cart.product.id &&
           listEquals(element.variants, cart.variants),
-    );
-  }
-
-  int cartTotalPrice(int userId) {
-    return userCart(userId).fold(
-      0,
-      (previousValue, element) =>
-          previousValue + (element.product.price * element.quantity),
     );
   }
 

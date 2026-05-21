@@ -188,7 +188,9 @@ class _LoginState extends State<Login> {
                                   MaterialPageRoute(
                                     builder: (context) => MainDashboardPage(),
                                   ),
-                                );
+                                ).then((value) {
+                                  setState(() {});
+                                });
                               }
                             });
                           },

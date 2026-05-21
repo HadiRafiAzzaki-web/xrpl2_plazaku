@@ -4,15 +4,12 @@ import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 import 'package:xrpl2_plazaku/pages/buyer/checkout_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
-import 'package:xrpl2_plazaku/services/cart_service.dart';
 import 'package:xrpl2_plazaku/utils/product_image.dart';
 
 import '../../utils/price_format.dart';
 
 class CartPage extends StatefulWidget {
-  final CartService cartService;
-
-  const CartPage({super.key, required this.cartService});
+  const CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -26,7 +23,8 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     final user = appService.userModel!;
-    final cartProduct = widget.cartService
+    final cart = cartService;
+    final cartProduct = cart
         .userCart(user.id)
         .where(
           (element) => element.product.title.toLowerCase().contains(
@@ -104,8 +102,8 @@ class _CartPageState extends State<CartPage> {
                         child: SizedBox(
                           height: 100,
                           width: 100,
-                          child: buildProductImage(
-                            cartProduct[index].product,
+                          child: ProductImage(
+                            image: cartProduct[index].product.image,
                             heightSize: 100,
                             widthSize: 100,
                           ),
@@ -168,11 +166,10 @@ class _CartPageState extends State<CartPage> {
                                           cartProduct[index].quantity--;
                                         } else {
                                           setState(() {
-                                            widget.cartService
-                                                .removeProductFromCart(
-                                                  cartProduct[index],
-                                                  user.id,
-                                                );
+                                            cart.removeProductFromCart(
+                                              cartProduct[index],
+                                              user.id,
+                                            );
                                           });
                                         }
                                       });
@@ -211,7 +208,7 @@ class _CartPageState extends State<CartPage> {
                             onChanged: (value) {
                               setState(() {
                                 cartProduct[index].isSelected = value!;
-                                isAll = widget.cartService
+                                isAll = cart
                                     .userCart(user.id)
                                     .every((element) => element.isSelected);
                               });
@@ -243,7 +240,7 @@ class _CartPageState extends State<CartPage> {
                   onChanged: (value) {
                     setState(() {
                       isAll = value!;
-                      widget.cartService
+                      cart
                           .userCart(user.id)
                           .forEach((element) => element.isSelected = isAll);
                     });
@@ -287,17 +284,13 @@ class _CartPageState extends State<CartPage> {
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Text(
-                    formatRupiah(
-                      widget.cartService.selectedProductCartPrice(user.id),
-                    ),
-                  ),
+                  Text(formatRupiah(cart.selectedProductCartPrice(user.id))),
                   Card(
                     color: Colors.black,
                     child: Padding(
                       padding: EdgeInsets.all(20),
                       child: Text(
-                        'Checkout (${widget.cartService.selectedProductCartCount(user.id)})',
+                        'Checkout (${cartService.selectedProductCartCount(user.id)})',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

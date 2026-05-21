@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/buyer/wishlist_page.dart';
-import 'package:xrpl2_plazaku/services/app_service.dart';
 
 import 'account_page.dart';
 import 'cart_page.dart';
@@ -40,19 +39,12 @@ class _DashboardPageState extends State<DashboardPage> {
               } else if (value == 1) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => WishlistPage(
-                      wishlistService: wishlistService,
-                      cartService: cartService,
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (context) => WishlistPage()),
                 );
               } else if (value == 2) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(cartService: cartService),
-                  ),
+                  MaterialPageRoute(builder: (context) => CartPage()),
                 );
               } else if (value == 3) {
                 selectedIndex = 3;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/seller/seller_account_page.dart';
+import 'package:xrpl2_plazaku/pages/seller/account_seller_page.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_finance_page.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_home_page.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_order_page.dart';
@@ -19,7 +19,7 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
     0: SellerHomePage(),
     2: SellerOrderPage(),
     3: SellerFinancePage(),
-    4: SellerAccountPage(),
+    4: AccountSellerPage(),
   };
 
   @override
@@ -42,13 +42,20 @@ class _SellerDashboardPageState extends State<SellerDashboardPage> {
         type: BottomNavigationBarType.fixed,
         onTap: (value) {
           setState(() {
-            if (value == 1) {
+            if (value == 0) {
+              selectedIndex = 0;
+            } else if (value == 1) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SellerProductPage()),
               );
+            } else if (value == 2) {
+              selectedIndex = 2;
+            } else if (value == 3) {
+              selectedIndex = 3;
+            } else if (value == 4) {
+              selectedIndex = 4;
             }
-            selectedIndex = value;
           });
         },
         items: [

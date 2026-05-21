@@ -25,7 +25,8 @@ class AppService {
   void switchBetweenBuyerSeller() {
     if (userModel == null) return;
 
-    if (userModel?.currentMode == AppMode.buyer) {
+    if (userModel?.currentMode == AppMode.buyer &&
+        userModel?.role == Role.seller) {
       userModel?.currentMode = AppMode.seller;
     } else {
       userModel?.currentMode = AppMode.buyer;

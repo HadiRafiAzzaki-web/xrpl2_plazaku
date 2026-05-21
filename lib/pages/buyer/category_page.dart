@@ -60,11 +60,8 @@ class _CategoryPageState extends State<CategoryPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailProductPage(
-                    productModel: products[index],
-                    wishlistService: wishlistService,
-                    cartService: cartService,
-                  ),
+                  builder: (context) =>
+                      DetailProductPage(id: products[index].id),
                 ),
               );
             },

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../../services/app_service.dart';
 import '../../services/cat_service.dart';
 import '../../widgets/cat_widget.dart';
+import '../splash_screen.dart';
 
 class AccountSellerPage extends StatefulWidget {
   const AccountSellerPage({super.key});
@@ -12,7 +15,10 @@ class AccountSellerPage extends StatefulWidget {
 class _AccountSellerPageState extends State<AccountSellerPage> {
   @override
   Widget build(BuildContext context) {
+    final previewCount = mod.length + 1;
+    final user = appService.userModel!;
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,77 +26,126 @@ class _AccountSellerPageState extends State<AccountSellerPage> {
         ),
         flexibleSpace: Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFFFFFFF), Color(0xFF999999)],
-            ),
-          ),
+          decoration: BoxDecoration(color: Color(0xFFF5F5F5)),
         ),
       ),
-      body: SizedBox(
-        height: double.infinity,
-        child: Stack(
-          clipBehavior: Clip.none,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
           children: [
-            Positioned(
-              top: 100 - 60,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: CircleAvatar(
-                  radius: 55,
-                  backgroundColor: Colors.white10,
-                  child: CircleAvatar(
-                    radius: 55,
-                    backgroundImage: AssetImage('assets/images/milea.jpg'),
-                  ),
-                ),
+            CircleAvatar(
+              radius: 55,
+              backgroundColor: Colors.white10,
+              child: CircleAvatar(
+                radius: 55,
+                backgroundImage: AssetImage('assets/images/milea.jpg'),
               ),
             ),
-             Positioned(
-              height: 330,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  "Vanesha",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+            SizedBox(height: 10),
+            Center(
+              child: Text(
+                user.username,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-              Positioned(
-                height: 360,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Text(
-                    "vanesha@gmail.com",
-                    style: TextStyle(fontSize: 15),
-                  ),
+            SizedBox(height: 8),
+            Center(child: Text(user.email, style: TextStyle(fontSize: 15))),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(12),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 8,
                 ),
-              ),
-            Positioned(
-              height:475,top: 200,
-              child: Container(
-                width: 500,
-                padding: EdgeInsets.all(12),
-                child: Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 9,
-                    ),
-                    itemCount: mod.length,
-                    itemBuilder: (context, index) => CatWidget(
-                      text: mod[index].text,
-                      color: mod[index].color,
-                      icon: mod[index].icon,
-                      page: mod[index].page,
-                    ),
-                  ),
-                ),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: previewCount,
+                itemBuilder: (context, index) => index == mod.length
+                    ? GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Logout?'),
+                              content: Text('Are you sure you want to logout?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      appService.logout();
+                                    });
+                                    if (appService.userModel == null) {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SplashScreen(),
+                                        ),
+                                        (route) => false,
+                                      ).then((value) {
+                                        setState(() {});
+                                      });
+                                    }
+                                  },
+                                  child: Text('Yes'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Card(
+                          elevation: 1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.logout,
+                                    color: Colors.red,
+                                    size: 22,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'Logout',
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 12),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : CatWidget(
+                        text: mod[index].text,
+                        color: mod[index].color,
+                        icon: mod[index].icon,
+                        page: mod[index].page,
+                      ),
               ),
             ),
           ],

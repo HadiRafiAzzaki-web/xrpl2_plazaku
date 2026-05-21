@@ -60,13 +60,11 @@ class SellerOrderIn extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10),
-            //total order
             Text(
               '$total',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            //status order
             Row(
               children: [
                 Expanded(

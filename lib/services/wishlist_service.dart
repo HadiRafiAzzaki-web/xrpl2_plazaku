@@ -7,7 +7,7 @@ class WishlistService {
   //add wishlist
   void addWishlist(ProductModel product, int userId) {
     final isExist = wishlist.any(
-      (e) => e.userId == userId && e.product.id == product.id,
+      (element) => element.userId == userId && element.product.id == product.id,
     );
 
     if (!isExist) {
@@ -19,20 +19,13 @@ class WishlistService {
   //remove wishlist
   void removeWishlist(ProductModel product, int userId) {
     wishlist.removeWhere(
-      (e) => e.userId == userId && e.product.id == product.id,
+      (element) => element.userId == userId && element.product.id == product.id,
     );
     product.isFavorite = false;
   }
 
   //user wishlist
   List<WishlistModel> userWishlist(int userId) {
-    return wishlist.where((e) => e.userId == userId).toList();
-  }
-
-  //check favorite
-  bool isFavorite(ProductModel product, int userId) {
-    return wishlist.any(
-      (e) => e.userId == userId && e.product.id == product.id,
-    );
+    return wishlist.where((element) => element.userId == userId).toList();
   }
 }

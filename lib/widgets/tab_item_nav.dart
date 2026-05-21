@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/models/order_model.dart';
-import 'package:xrpl2_plazaku/utils/display_status.dart';
 
 class TabItemNav extends StatelessWidget {
   final VoidCallback onTap;
-  final ProductStatus label;
+  final String label;
   final bool isActive;
 
   const TabItemNav({
@@ -19,18 +17,17 @@ class TabItemNav extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-        padding: const EdgeInsets.symmetric(vertical: 15),
+        margin: EdgeInsets.only(right: 20),
+        padding: EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
           color: Color(0xFFF5F5F5),
           border: isActive
-              ? Border(bottom: BorderSide(color: Colors.blue, width: 3))
+              ? Border(bottom: BorderSide(color: Colors.blue))
               : null,
         ),
         child: Text(
-          label.displayName,
+          label,
           style: TextStyle(
-            fontSize: 18,
             color: isActive ? Colors.blue : Colors.grey,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           ),
