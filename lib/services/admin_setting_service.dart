@@ -26,5 +26,22 @@ List<AdminSettingModel> set = [
     icon: Icons.fire_truck_outlined,
     page: Center(),
   ),
-
+  AdminSettingModel(
+    text: "Notifikasi",
+    color: Colors.black,
+    icon: Icons.notifications_none_outlined,
+    page: Center(),
+  ),
+  AdminSettingModel(
+    text: "Keamanan",
+    color: Colors.black,
+    icon: Icons.security_outlined,
+    page: Center(),
+  ),
+  AdminSettingModel(
+    text: "Backup Data",
+    color: Colors.black,
+    icon: Icons.backup_outlined,
+    page: Center(),
+  ),
 ];
