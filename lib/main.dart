@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_dashboard_page.dart';
+import 'package:xrpl2_plazaku/pages/admin/admin_setting_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,6 +11,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: AdminDashboardPage(), debugShowCheckedModeBanner: false);
+    return MaterialApp(home: AdminSetting(), debugShowCheckedModeBanner: false);
   }
 }
