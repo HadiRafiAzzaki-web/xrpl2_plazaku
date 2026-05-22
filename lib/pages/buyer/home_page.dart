@@ -111,11 +111,8 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DetailProductPage(
-                          productModel: products[index],
-                          wishlistService: wishlistService,
-                          cartService: cartService,
-                        ),
+                        builder: (context) =>
+                            DetailProductPage(id: products[index].id),
                       ),
                     ).then((value) {
                       setState(() {});

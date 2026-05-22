@@ -39,12 +39,9 @@ List<CatModel> get mod {
     ),
     if (appService.userModel?.isSeller == true)
       CatModel(
-        text: 'Switch to Seller',
+        text: 'Switch to Seller/Buyer',
         color: Colors.black,
         icon: Icons.sell_outlined,
-        onTap: () {
-          appService.switchBetweenBuyerSeller();
-        },
         page: MainDashboardPage(),
       ),
     if (appService.userModel?.isSeller == false)

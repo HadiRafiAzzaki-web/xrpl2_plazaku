@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
-import 'package:xrpl2_plazaku/services/cart_service.dart';
-import 'package:xrpl2_plazaku/services/wishlist_service.dart';
 
 import '../../utils/price_format.dart';
 import '../../utils/product_image.dart';
 import 'detail_product_page.dart';
 
 class WishlistPage extends StatefulWidget {
-  final CartService cartService;
-  final WishlistService wishlistService;
-
-  const WishlistPage({
-    super.key,
-    required this.wishlistService,
-    required this.cartService,
-  });
+  const WishlistPage({super.key});
 
   @override
   State<WishlistPage> createState() => _WishlistPageState();
@@ -28,7 +19,7 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
     final user = appService.userModel;
-    final wishlistProduct = widget.wishlistService
+    final wishlistProduct = wishlistService
         .userWishlist(user!.id)
         .where(
           (element) => element.product.title.toLowerCase().contains(search),
@@ -102,8 +93,8 @@ class _WishlistPageState extends State<WishlistPage> {
                       child: SizedBox(
                         height: 100,
                         width: 100,
-                        child: buildProductImage(
-                          wishlistProduct[index].product,
+                        child: ProductImage(
+                          image: wishlistProduct[index].product.image,
                           heightSize: 100,
                           widthSize: 100,
                         ),
@@ -128,7 +119,7 @@ class _WishlistPageState extends State<WishlistPage> {
                               IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    widget.wishlistService.removeWishlist(
+                                    wishlistService.removeWishlist(
                                       wishlistProduct[index].product,
                                       user.id,
                                     );
@@ -142,10 +133,7 @@ class _WishlistPageState extends State<WishlistPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DetailProductPage(
-                                        productModel:
-                                            wishlistProduct[index].product,
-                                        wishlistService: widget.wishlistService,
-                                        cartService: widget.cartService,
+                                        id: wishlistProduct[index].product.id,
                                       ),
                                     ),
                                   );

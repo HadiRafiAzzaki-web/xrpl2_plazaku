@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/datas/product_data.dart';
 import 'package:xrpl2_plazaku/models/variant_model.dart';
 import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
@@ -6,21 +7,12 @@ import 'package:xrpl2_plazaku/utils/product_image.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 
 import '../../models/product_model.dart';
-import '../../services/cart_service.dart';
-import '../../services/wishlist_service.dart';
 import '../../utils/price_format.dart';
 
 class DetailProductPage extends StatefulWidget {
-  final ProductModel productModel;
-  final WishlistService wishlistService;
-  final CartService cartService;
+  final int id;
 
-  const DetailProductPage({
-    super.key,
-    required this.productModel,
-    required this.wishlistService,
-    required this.cartService,
-  });
+  const DetailProductPage({super.key, required this.id});
 
   @override
   State<DetailProductPage> createState() => _DetailProductPageState();
@@ -28,13 +20,16 @@ class DetailProductPage extends StatefulWidget {
 
 class _DetailProductPageState extends State<DetailProductPage> {
   final user = appService.userModel!;
+
+  late ProductModel product;
   Map<String, String> selectedVariants = {};
   List<VariantModel> selected = [];
 
-  //get default product variant
+  //get default product variant and data product
   @override
   void initState() {
-    for (var variant in widget.productModel.variants) {
+    product = dataProducts.firstWhere((element) => element.id == widget.id);
+    for (var variant in product.variants) {
       if (variant.options.isNotEmpty) {
         selectedVariants[variant.name] = variant.options.first;
         selected.add(
@@ -47,15 +42,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   //add product to cart
   void addToCart() {
-    //check if all variant has been selected
-    if (selectedVariants.length != widget.productModel.variants.length) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Select all variant first")));
-      return;
-    }
-
-    widget.cartService.addProductToCart(user.id, widget.productModel, selected);
+    cartService.addProductToCart(user.id, product, selected);
 
     ScaffoldMessenger.of(
       context,
@@ -64,10 +51,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   //add product to wishlist
   void addWishlist() {
-    if (widget.productModel.isFavorite) {
-      widget.wishlistService.removeWishlist(widget.productModel, user.id);
+    if (product.isFavorite) {
+      wishlistService.removeWishlist(product, user.id);
     } else {
-      widget.wishlistService.addWishlist(widget.productModel, user.id);
+      wishlistService.addWishlist(product, user.id);
     }
   }
 
@@ -129,7 +116,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 height: 300,
                 width: double.infinity,
                 child: PageView(
-                  children: [buildProductImage(widget.productModel)],
+                  children: [
+                    ProductImage(
+                      image: product.image,
+                      heightSize: 100,
+                      widthSize: double.infinity,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -150,7 +143,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              formatRupiah(widget.productModel.price),
+                              formatRupiah(product.price),
                               style: TextStyle(fontSize: 20),
                             ),
                             IconButton(
@@ -161,7 +154,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                               },
                               icon: Icon(
                                 Icons.favorite,
-                                color: widget.productModel.isFavorite
+                                color: product.isFavorite
                                     ? Colors.red
                                     : Colors.grey,
                                 size: 20,
@@ -170,7 +163,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           ],
                         ),
                         Text(
-                          widget.productModel.title,
+                          product.title,
                           style: TextStyle(color: Colors.grey, fontSize: 18),
                         ),
                       ],
@@ -184,7 +177,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Icon(Icons.star, color: Colors.orange, size: 18),
-                              Text('${widget.productModel.rating}'),
+                              Text('${product.rating}'),
                             ],
                           ),
                           SizedBox(width: 10),
@@ -195,7 +188,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            '${widget.productModel.review} Sale',
+                            '${product.review} Sale',
                             style: TextStyle(fontSize: 14),
                           ),
                           SizedBox(width: 10),
@@ -210,7 +203,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                             children: [
                               Icon(Icons.location_on, size: 18),
                               Text(
-                                widget.productModel.location,
+                                product.location,
                                 style: TextStyle(fontSize: 14),
                               ),
                             ],
@@ -223,7 +216,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
               ),
             ),
             SizedBox(height: 10),
-            widget.productModel.variants.isNotEmpty
+            product.variants.isNotEmpty
                 ? Card(
                     elevation: 3,
                     child: Container(
@@ -237,25 +230,25 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: widget.productModel.variants.map((variant) {
+                        children: product.variants.map((e) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                variant.name,
+                                e.name,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 10),
                               Wrap(
                                 spacing: 8,
                                 runSpacing: 8,
-                                children: variant.options.map((e) {
+                                children: e.options.map((er) {
                                   final isSelected =
-                                      selectedVariants[variant.name] == e;
+                                      selectedVariants[e.name] == er;
                                   return GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        selectedVariants[variant.name] = e;
+                                        selectedVariants[e.name] = er;
                                       });
                                     },
                                     child: Container(
@@ -275,7 +268,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                         ),
                                       ),
                                       child: Text(
-                                        e,
+                                        er,
                                         style: TextStyle(
                                           color: isSelected
                                               ? Colors.white

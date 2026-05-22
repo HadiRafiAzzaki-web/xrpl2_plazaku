@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
-import 'package:xrpl2_plazaku/utils/display_status.dart';
 
 import '../utils/price_format.dart';
 
@@ -15,19 +14,28 @@ class SellerOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Color statusColor = Colors.grey;
     Color bgColor = Colors.grey.shade100;
+    String title = '';
 
     if (order.status == ProductStatus.pending) {
       statusColor = Colors.orange;
       bgColor = Colors.orange.shade50;
+      title = 'Pending';
     } else if (order.status == ProductStatus.processed) {
       statusColor = Colors.blue;
       bgColor = Colors.blue.shade50;
+      title = 'Processed';
     } else if (order.status == ProductStatus.sent) {
       statusColor = Colors.green;
       bgColor = Colors.green.shade50;
+      title = 'Sent';
     } else if (order.status == ProductStatus.rejected) {
       statusColor = Colors.red;
       bgColor = Color(0xFFFFEBEE);
+      title = 'Rejected';
+    } else {
+      statusColor = Colors.grey;
+      bgColor = Colors.grey.shade50;
+      title = 'Finish';
     }
     return GestureDetector(
       onTap: onTap,
@@ -55,7 +63,7 @@ class SellerOrderCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    order.status.displayName,
+                    title,
                     style: TextStyle(
                       color: statusColor,
                       fontSize: 10,

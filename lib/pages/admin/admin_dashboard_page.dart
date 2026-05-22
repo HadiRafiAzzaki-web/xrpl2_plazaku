@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/splash_screen.dart';
+import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/dashboard_admin_service.dart';
+
+import '../splash_screen.dart';
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -11,9 +13,9 @@ class AdminDashboardPage extends StatefulWidget {
 
 class _AdminDashboardPageState extends State<AdminDashboardPage> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    final previewCount = dashboardd.length + 1;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -24,10 +26,29 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       ),
       drawer: Drawer(
         backgroundColor: Colors.purple,
-        child: ListView.builder(
-          itemCount: previewCount,
-          itemBuilder: (context, index) => index == dashboardd.length
-              ? ListTile(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: dashboardd.length,
+                itemBuilder: (context, index) => ListTile(
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                    Navigator.pop(context);
+                  },
+                  leading: Icon(dashboardd[index].icon),
+                  title: Text(
+                    dashboardd[index].text,
+                    style: TextStyle(color: dashboardd[index].color),
+                  ),
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                ListTile(
                   onTap: () {
                     showDialog(
                       context: context,
@@ -43,12 +64,19 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SplashScreen(),
-                                ),
-                              );
+                              setState(() {
+                                appService.logout();
+                              });
+                              if (appService.userModel == null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SplashScreen(),
+                                  ),
+                                ).then((value) {
+                                  setState(() {});
+                                });
+                              }
                             },
                             child: Text("yes"),
                           ),
@@ -56,22 +84,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       ),
                     );
                   },
-                  leading: Icon(Icons.logout),
-                  title: Text("log out", style: TextStyle(color: Colors.white)),
-                )
-              : ListTile(
-                  onTap: () {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                    Navigator.pop(context);
-                  },
-                  leading: Icon(dashboardd[index].icon),
-                  title: Text(
-                    dashboardd[index].text,
-                    style: TextStyle(color: dashboardd[index].color),
-                  ),
+                  leading: Icon(Icons.logout, color: Colors.red),
+                  title: Text("log out", style: TextStyle(color: Colors.red)),
                 ),
+              ],
+            ),
+          ],
         ),
       ),
       body: dashboardd[selectedIndex].page,

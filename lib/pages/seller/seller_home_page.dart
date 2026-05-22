@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
 import 'package:xrpl2_plazaku/pages/splash_screen.dart';
@@ -19,37 +18,6 @@ class SellerHomePage extends StatefulWidget {
 
 class _SellerHomePageState extends State<SellerHomePage> {
   DateTimeRange? selectedDate;
-
-  //generate chart
-  List<FlSpot> generateChartData() {
-    //get all finish order
-    try {
-      var orders = orderService.allOrders
-          .where((element) => element.status == ProductStatus.finish)
-          .toList();
-
-      if (selectedDate != null) {
-        orders = orders.where((element) {
-          return element.date.isAfter(
-                selectedDate!.start.subtract(Duration(days: 1)),
-              ) &&
-              element.date.isBefore(selectedDate!.end.add(Duration(days: 1)));
-        }).toList();
-      }
-
-      orders.sort((a, b) => a.date.compareTo(b.date));
-
-      if (orders.isEmpty) {
-        return [FlSpot(0, 0)];
-      }
-
-      return List.generate(orders.length, (i) {
-        return FlSpot(i.toDouble(), orders[i].totalPrice.toDouble());
-      });
-    } catch (e) {
-      return [FlSpot(0, 0)];
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,15 +80,13 @@ class _SellerHomePageState extends State<SellerHomePage> {
                           children: [
                             SellerCard(
                               title: 'Total Sales',
-                              value: formatRupiah(
-                                orderService.totalRevenueByDate(selectedDate),
-                              ),
+                              value: formatRupiah(orderService.totalRevenue),
                               percentage: 12.5,
                             ),
                             SellerCard(
                               title: 'Total Orders',
                               value:
-                                  '${orderService.totalOrdersByDate(selectedDate)}',
+                                  '${orderService.countByStatus(ProductStatus.finish)}',
                               percentage: 12.5,
                             ),
                             SellerCard(
@@ -168,9 +134,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                           ],
                         ),
                   SizedBox(height: 20),
-                  selectedDate != null
-                      ? SellerChart(selectedDate: selectedDate)
-                      : SellerChart(),
+                  SizedBox(height: 300, child: SellerChart()),
                 ],
               ),
               SizedBox(height: 20),

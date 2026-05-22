@@ -14,14 +14,6 @@ class SellerOrderPage extends StatefulWidget {
 
 class _SellerOrderPageState extends State<SellerOrderPage> {
   ProductStatus selectedTab = ProductStatus.all;
-  final List<ProductStatus> tabs = [
-    ProductStatus.all,
-    ProductStatus.pending,
-    ProductStatus.processed,
-    ProductStatus.sent,
-    ProductStatus.finish,
-    ProductStatus.rejected,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -35,30 +27,35 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: Container(
-          color: Color(0xFFF5F5F5),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: tabs
-                  .map(
-                    (e) => TabItemNav(
-                      label: e,
-                      isActive: selectedTab == e,
-                      onTap: () {
-                        setState(() {
-                          selectedTab = e;
-                        });
-                      },
-                    ),
-                  )
-                  .toList(),
+        title: Text('Order', style: TextStyle(color: Colors.blue)),
+        centerTitle: true,
+        backgroundColor: Color(0xFFF5F5F5),
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: Container(
+            color: Color(0xFFF5F5F5),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: orderStatus.entries
+                    .map(
+                      (e) => TabItemNav(
+                        label: e.key,
+                        isActive: selectedTab == e.value,
+                        onTap: () {
+                          setState(() {
+                            selectedTab = e.value;
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ),
         ),
-        backgroundColor: Color(0xFFF5F5F5),
-        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -78,7 +75,7 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                DetailOrderPage(orders: orders[index]),
+                                DetailOrderPage(id: orders[index].id),
                           ),
                         ).then((value) {
                           setState(() {});

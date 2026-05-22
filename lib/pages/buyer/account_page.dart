@@ -67,50 +67,79 @@ class _AccountPageState extends State<AccountPage> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: previewCount,
                 itemBuilder: (context, index) => index == mod.length
-                    ? Card(
-                        elevation: 1,
-                        child: ListTile(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text('Log out?'),
-                                content: Text(
-                                  'Are you sure you want to log out?',
+                    ? GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Logout?'),
+                              content: Text('Are you sure you want to logout?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Cancel'),
                                 ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
                                       appService.logout();
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SplashScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text('Yes'),
+                                    });
+                                    if (appService.userModel != null) return;
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SplashScreen(),
+                                      ),
+                                      (route) => false,
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: Text('Yes'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Card(
+                          elevation: 1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
                                   ),
-                                ],
-                              ),
-                            );
-                          },
-                          title: Text(
-                            'Log out',
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                                  child: Icon(
+                                    Icons.logout,
+                                    color: Colors.red,
+                                    size: 22,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'Logout',
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 12),
+                              ],
                             ),
                           ),
-                          leading: Icon(Icons.logout, color: Colors.black),
                         ),
                       )
                     : CatWidget(
@@ -118,7 +147,6 @@ class _AccountPageState extends State<AccountPage> {
                         color: mod[index].color,
                         icon: mod[index].icon,
                         page: mod[index].page,
-                        onTap: mod[index].onTap,
                       ),
               ),
             ),

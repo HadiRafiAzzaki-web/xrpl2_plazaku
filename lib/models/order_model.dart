@@ -3,6 +3,15 @@ import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 
 enum ProductStatus { all, pending, processed, sent, finish, rejected }
 
+final Map<String, ProductStatus> orderStatus = {
+  'All': ProductStatus.all,
+  'Pending': ProductStatus.pending,
+  'Processed': ProductStatus.processed,
+  'Sent': ProductStatus.sent,
+  'Finish': ProductStatus.finish,
+  'Rejected': ProductStatus.rejected,
+};
+
 class OrderModel {
   final int id;
   final int userId;
@@ -26,11 +35,17 @@ class OrderModel {
 
   //get total price
   int get totalPrice {
-    return items.fold(0, (sum, item) => sum + item.subtotal);
+    return items.fold(
+      0,
+      (previousValue, element) => previousValue + element.subtotal,
+    );
   }
 
   //get all product quantity
   int get totalItem {
-    return items.fold(0, (sum, item) => sum + item.quantity);
+    return items.fold(
+      0,
+      (previousValue, element) => previousValue + element.quantity,
+    );
   }
 }
