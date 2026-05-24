@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/dasbhoard_admin_model.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_home_page.dart';
+import 'package:xrpl2_plazaku/pages/admin/admin_setting_page.dart';
 
 List<DasbhoardAdminModel> dashboardd = [
   DasbhoardAdminModel(
@@ -61,7 +62,7 @@ List<DasbhoardAdminModel> dashboardd = [
     text: "Pengaturan",
     color: Colors.white,
     icon: Icons.settings_outlined,
-    page: Center(),
+    page: AdminSetting(),
   ),
   DasbhoardAdminModel(
     text: "Log Aktivitas",

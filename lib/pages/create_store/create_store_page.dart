@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/models/product_model.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/create_store_success.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/store_information.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/store_settings.dart';
@@ -15,6 +16,16 @@ class CreateStorePage extends StatefulWidget {
 
 class _CreateStorePageState extends State<CreateStorePage> {
   int selectedSteps = 0;
+  Map<String, Category> categories = {
+    'Fashion': Category.fashion,
+    'Smartphone & Tablet': Category.smartphoneTablet,
+    'Otomotif': Category.otomotif,
+    'Sporrt': Category.sport,
+    'Food': Category.food,
+    'Voucher Game': Category.voucherGame,
+    'Electronic': Category.electronic,
+    'Helath & Care': Category.healthCare,
+  };
 
   Map<int, Widget> pages = {
     0: StoreInformation(),

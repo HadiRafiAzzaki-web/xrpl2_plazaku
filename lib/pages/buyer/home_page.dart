@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 import '../../widgets/banner_header.dart';
 import '../../widgets/categories_widget.dart';
 import '../../widgets/product_card.dart';
+import '../../widgets/search_bar_widget.dart';
 import 'detail_product_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,33 +32,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         //searchbar
-        title: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SearchPage()),
-            );
-          },
-          child: Container(
-            height: 40,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              children: [
-                Icon(Icons.search, color: Colors.grey),
-                SizedBox(width: 8),
-                Text(
-                  'Search your product here',
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ),
+        title: SearchBarWidget(title: 'Search product'),
         actions: [
           IconButton(
             onPressed: () {},
@@ -88,15 +62,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             //categories
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              color: Colors.white,
-              child: CategoriesWidget(),
-            ),
+            Container(color: Colors.white, child: CategoriesWidget()),
             SizedBox(height: 10),
             //products
             GridView.builder(
-              padding: EdgeInsets.all(20),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.9,

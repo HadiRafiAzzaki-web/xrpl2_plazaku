@@ -1,9 +1,34 @@
 import 'package:xrpl2_plazaku/models/checkout_model.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
+import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 class CheckoutService {
-  OrderModel createOrder(CheckoutModel checkout) {
+  List<CheckoutModel> checkouts = [];
+
+  void addCheckouts(CheckoutModel checkout, int userId) {
+    final productIndex = checkouts.indexWhere(
+      (element) => element.id == checkout.id && element.userId == userId,
+    );
+
+    if (productIndex == -1) {
+      checkouts.add(
+        CheckoutModel(
+          id: checkout.id,
+          userId: userId,
+          productsQuantity: checkout.productsQuantity,
+          location: checkout.location,
+          paymentMethod: PaymentMethodModel(
+            id: 0,
+            title: 'Cod',
+            paymentMethod: PaymentMethod.cod,
+          ),
+        ),
+      );
+    }
+  }
+
+  OrderModel createOrder(CheckoutModel checkout, int userId) {
     if (checkout.productsQuantity.isEmpty) {
       throw Exception('Cart empty');
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/admin/admin_dashboard_page.dart';
 import 'package:xrpl2_plazaku/pages/splash_screen.dart';
 
 void main() {

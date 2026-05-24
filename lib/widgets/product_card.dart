@@ -28,20 +28,29 @@ class ProductCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-              child: ProductImage(
-                image: product.image,
-                heightSize: 100,
-                widthSize: double.infinity,
+              child: SizedBox(
+                height: 100,
+                width: double.infinity,
+                child: ProductImage(image: product.image),
               ),
             ),
             SizedBox(height: 6),
-            Text(product.title),
-            Text(formatRupiah(product.price)),
-            Row(
-              children: [
-                Icon(Icons.star, size: 14, color: Colors.orange),
-                Text("${product.rating} (${product.review})"),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(product.title),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(formatRupiah(product.price)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Row(
+                children: [
+                  Icon(Icons.star, size: 18, color: Colors.orange),
+                  Text("${product.rating} (${product.review})"),
+                ],
+              ),
             ),
           ],
         ),

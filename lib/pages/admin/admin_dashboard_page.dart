@@ -18,10 +18,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          dashboardd[selectedIndex].text,
-          style: TextStyle(color: Colors.black),
-        ),
+        backgroundColor: Color(0xFFF5F5F5),
+        title: Text(dashboardd[selectedIndex].text),
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -38,7 +36,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                     });
                     Navigator.pop(context);
                   },
-                  leading: Icon(dashboardd[index].icon),
+                  leading: Icon(dashboardd[index].icon, color: Colors.white),
                   title: Text(
                     dashboardd[index].text,
                     style: TextStyle(color: dashboardd[index].color),
@@ -68,14 +66,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                                 appService.logout();
                               });
                               if (appService.userModel == null) {
-                                Navigator.pushReplacement(
+                                Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SplashScreen(),
                                   ),
-                                ).then((value) {
-                                  setState(() {});
-                                });
+                                  (route) => false,
+                                );
                               }
                             },
                             child: Text("yes"),

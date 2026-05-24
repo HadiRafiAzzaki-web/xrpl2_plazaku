@@ -82,18 +82,22 @@ class _SellerProductPageState extends State<SellerProductPage> {
                           myProducts[index].image.startsWith('assets/')
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: ProductImage(
-                                    image: myProducts[index].image,
-                                    heightSize: 100,
-                                    widthSize: 100,
+                                  child: SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: ProductImage(
+                                      image: myProducts[index].image,
+                                    ),
                                   ),
                                 )
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: ProductImage(
-                                    image: myProducts[index].image,
-                                    heightSize: 100,
-                                    widthSize: 100,
+                                  child: SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: ProductImage(
+                                      image: myProducts[index].image,
+                                    ),
                                   ),
                                 ),
                         SizedBox(width: 10),

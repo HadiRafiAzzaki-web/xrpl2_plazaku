@@ -115,15 +115,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
               child: SizedBox(
                 height: 300,
                 width: double.infinity,
-                child: PageView(
-                  children: [
-                    ProductImage(
-                      image: product.image,
-                      heightSize: 100,
-                      widthSize: double.infinity,
-                    ),
-                  ],
-                ),
+                child: PageView(children: [ProductImage(image: product.image)]),
               ),
             ),
             SizedBox(height: 5),

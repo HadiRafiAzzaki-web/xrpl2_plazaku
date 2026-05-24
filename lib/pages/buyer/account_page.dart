@@ -16,7 +16,10 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     final previewCount = mod.length + 1;
-    final user = appService.userModel!;
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -93,9 +96,7 @@ class _AccountPageState extends State<AccountPage> {
                                         builder: (context) => SplashScreen(),
                                       ),
                                       (route) => false,
-                                    ).then((value) {
-                                      setState(() {});
-                                    });
+                                    );
                                   },
                                   child: Text('Yes'),
                                 ),

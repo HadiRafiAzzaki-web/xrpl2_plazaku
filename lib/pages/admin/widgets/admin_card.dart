@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SellerCard extends StatelessWidget {
+class AdminCard extends StatelessWidget {
   final String title;
   final String value;
   final double percentage;
 
-  const SellerCard({
+  const AdminCard({
     super.key,
     required this.title,
     required this.value,

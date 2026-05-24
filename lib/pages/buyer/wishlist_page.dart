@@ -89,14 +89,15 @@ class _WishlistPageState extends State<WishlistPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        topLeft: Radius.circular(12),
+                      ),
                       child: SizedBox(
-                        height: 100,
-                        width: 100,
+                        width: 130,
+                        height: 150,
                         child: ProductImage(
                           image: wishlistProduct[index].product.image,
-                          heightSize: 100,
-                          widthSize: 100,
                         ),
                       ),
                     ),
@@ -112,6 +113,28 @@ class _WishlistPageState extends State<WishlistPage> {
                           Text(
                             formatRupiah(wishlistProduct[index].product.price),
                             style: TextStyle(color: Colors.grey, fontSize: 18),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                      size: 18,
+                                    ),
+                                    Text(
+                                      '${wishlistProduct[index].product.rating} (${wishlistProduct[index].product.review})',
+                                    ),
+                                  ],
+                                ),
+                                Text(wishlistProduct[index].product.location),
+                              ],
+                            ),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
