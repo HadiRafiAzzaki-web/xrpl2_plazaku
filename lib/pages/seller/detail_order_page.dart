@@ -130,10 +130,12 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                         return ListTile(
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: ProductImage(
-                              image: order.items[index].product.image,
-                              heightSize: 60,
-                              widthSize: 60,
+                            child: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: ProductImage(
+                                image: order.items[index].product.image,
+                              ),
                             ),
                           ),
                           title: Text(

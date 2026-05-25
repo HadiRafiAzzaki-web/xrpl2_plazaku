@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/datas/order_data.dart';
 
 import '../models/order_model.dart';
@@ -5,30 +6,63 @@ import '../models/order_model.dart';
 class OrderService {
   List<OrderModel> allOrders = orders;
 
-  //get total sales from finish status
-  int get totalSales {
+  List<OrderModel> sellerOrders(int? sellerId) {
     return allOrders
-        .where((order) => order.status == ProductStatus.finish)
+        .where(
+          (element) => element.items.any(
+            (element) => element.product.sellerId == sellerId,
+          ),
+        )
+        .toList();
+  }
+
+  List<OrderModel> orderFilteredByDate(int? sellerId, DateTimeRange? date) {
+    if (date == null) return sellerOrders(sellerId);
+    final start = DateTime(date.start.year, date.start.month, date.start.day);
+    final end = DateTime(
+      date.end.year,
+      date.end.month,
+      date.end.day,
+      23,
+      59,
+      59,
+    );
+    return sellerOrders(sellerId).where((element) {
+      return element.date.isAfter(start.subtract(Duration(seconds: 1))) &&
+          element.date.isBefore(end.add(Duration(seconds: 1)));
+    }).toList();
+  }
+
+  //get total sales from finish status
+  int totalSales(int? sellerId, DateTimeRange? date) {
+    return orderFilteredByDate(sellerId, date)
+        .where((element) => element.status == ProductStatus.finish)
         .fold(
           0,
           (previousValue, element) =>
               previousValue +
-              element.items.fold(
-                0,
-                (previousValue, element) => previousValue + element.quantity,
-              ),
+              element.items
+                  .where((element) => element.product.sellerId == sellerId)
+                  .fold(
+                    0,
+                    (previousValue, element) =>
+                        previousValue + element.quantity,
+                  ),
         );
   }
 
   //get total order according status
-  int countByStatus(ProductStatus status) {
+  int countByStatus(ProductStatus status, int? sellerId) {
     return allOrders.where((order) => order.status == status).length;
   }
 
   //get total revenue (for card in home page)
-  int get totalRevenue {
-    return allOrders
-        .where((order) => order.status == ProductStatus.finish)
-        .fold(0, (sum, item) => sum + item.totalPrice);
+  int totalRevenue(int? sellerId, DateTimeRange? date) {
+    return orderFilteredByDate(sellerId, date)
+        .where((element) => element.status == ProductStatus.finish)
+        .fold(
+          0,
+          (previousValue, element) => previousValue + element.totalPrice,
+        );
   }
 }

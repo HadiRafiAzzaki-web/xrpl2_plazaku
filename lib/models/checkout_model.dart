@@ -2,12 +2,14 @@ import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 
 class CheckoutModel {
+  final int id;
   final int userId;
   final List<ProductQuantityModel> productsQuantity;
   final String location;
   final PaymentMethodModel paymentMethod;
 
   CheckoutModel({
+    required this.id,
     required this.userId,
     required this.productsQuantity,
     required this.location,

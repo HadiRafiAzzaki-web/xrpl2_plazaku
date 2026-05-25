@@ -8,15 +8,25 @@ import 'package:xrpl2_plazaku/widgets/address_card.dart';
 import '../../widgets/custom_button.dart';
 
 class CheckoutPage extends StatefulWidget {
-  final CheckoutModel checkoutModel;
+  final int checkoutId;
 
-  const CheckoutPage({super.key, required this.checkoutModel});
+  const CheckoutPage({super.key, required this.checkoutId});
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  late CheckoutModel checkout;
+
+  @override
+  void initState() {
+    checkout = checkoutService.checkouts.firstWhere(
+      (element) => element.id == widget.checkoutId,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = appService.userModel!;
@@ -169,13 +179,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Subtotal(${widget.checkoutModel.totalItems})',
+                        'Subtotal(${checkout.totalItems})',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(formatRupiah(widget.checkoutModel.totalPrice)),
+                      Text(formatRupiah(checkout.totalPrice)),
                     ],
                   ),
                   Row(
@@ -203,9 +213,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        formatRupiah(widget.checkoutModel.totalPrice + 10000),
-                      ),
+                      Text(formatRupiah(checkout.totalPrice + 10000)),
                     ],
                   ),
                 ],
@@ -222,8 +230,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
           width: double.infinity,
           title: 'Place Order',
           onPressed: () {
-            final order = checkoutService.createOrder(widget.checkoutModel);
-            orderService.allOrders.add(order);
+            orderService.allOrders.add(
+              checkoutService.createOrder(checkout, user.id),
+            );
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Order success'),

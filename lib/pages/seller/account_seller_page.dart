@@ -16,7 +16,10 @@ class _AccountSellerPageState extends State<AccountSellerPage> {
   @override
   Widget build(BuildContext context) {
     final previewCount = mod.length + 1;
-    final user = appService.userModel!;
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -90,9 +93,7 @@ class _AccountSellerPageState extends State<AccountSellerPage> {
                                           builder: (context) => SplashScreen(),
                                         ),
                                         (route) => false,
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
+                                      );
                                     }
                                   },
                                   child: Text('Yes'),

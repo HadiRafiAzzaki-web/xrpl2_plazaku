@@ -79,7 +79,6 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       ),
-      //check if cart has product or not
       body: cartProduct.isEmpty
           ? Center(child: Text('Cart empty'))
           : ListView.builder(
@@ -89,7 +88,6 @@ class _CartPageState extends State<CartPage> {
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.only(bottom: 12),
-                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -98,14 +96,15 @@ class _CartPageState extends State<CartPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(12),
+                          topLeft: Radius.circular(12),
+                        ),
                         child: SizedBox(
-                          height: 100,
-                          width: 100,
+                          width: 130,
+                          height: 150,
                           child: ProductImage(
                             image: cartProduct[index].product.image,
-                            heightSize: 100,
-                            widthSize: 100,
                           ),
                         ),
                       ),
@@ -221,7 +220,6 @@ class _CartPageState extends State<CartPage> {
                 );
               },
             ),
-      //bottom navbar
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
@@ -262,21 +260,23 @@ class _CartPageState extends State<CartPage> {
                     )
                     .toList();
                 final checkout = CheckoutModel(
+                  id: DateTime.now().millisecondsSinceEpoch,
                   userId: user.id,
                   productsQuantity: selectedProduct,
                   location: user.location,
                   paymentMethod: PaymentMethodModel(
-                    id: 1,
-                    title: 'Cash on delivery',
+                    id: 0,
+                    title: 'Cod',
                     paymentMethod: PaymentMethod.cod,
                   ),
                 );
                 if (selectedProduct.isNotEmpty) {
+                  checkoutService.addCheckouts(checkout, user.id);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          CheckoutPage(checkoutModel: checkout),
+                          CheckoutPage(checkoutId: checkout.id),
                     ),
                   );
                 }

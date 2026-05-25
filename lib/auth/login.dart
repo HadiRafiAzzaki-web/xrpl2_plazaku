@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
               ),
               color: Color(0xFFFFFFFF),
               child: Padding(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _key,
                   child: Column(
@@ -172,14 +172,6 @@ class _LoginState extends State<Login> {
                                   user = null;
                                 }
                                 if (user == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Incorrect name or password',
-                                      ),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
                                   return;
                                 }
                                 appService.login(user);
@@ -188,9 +180,17 @@ class _LoginState extends State<Login> {
                                   MaterialPageRoute(
                                     builder: (context) => MainDashboardPage(),
                                   ),
-                                ).then((value) {
-                                  setState(() {});
-                                });
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Login failed',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
                               }
                             });
                           },

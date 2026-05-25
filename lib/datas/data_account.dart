@@ -15,6 +15,7 @@ List<UserModel> users = [
     role: Role.admin,
     currentMode: AppMode.admin,
     location: 'Malang',
+    phoneNum: '+62 0856-4991-0168',
   ),
   UserModel(
     id: 1,
@@ -26,6 +27,7 @@ List<UserModel> users = [
     role: Role.buyer,
     currentMode: AppMode.buyer,
     location: 'Jakarta',
+    phoneNum: '+62 0745-6253-7647',
   ),
   UserModel(
     id: 2,
@@ -38,6 +40,7 @@ List<UserModel> users = [
     currentMode: AppMode.seller,
     shopName: 'Rafi Store',
     location: 'Medan',
+    phoneNum: '+62 0863-2524-7353',
   ),
   UserModel(
     username: "Deni",
@@ -45,10 +48,11 @@ List<UserModel> users = [
     password: 'helppp',
     currentMode: AppMode.admin,
     id: 3,
-    isSeller: true,
+    isSeller: false,
     role: Role.admin,
     sellerId: 1,
     location: 'Semarang',
+    phoneNum: '+62 0362-7253-8364',
   ),
   UserModel(
     id: 4,
@@ -59,5 +63,6 @@ List<UserModel> users = [
     role: Role.seller,
     currentMode: AppMode.buyer,
     location: 'Bali',
+    phoneNum: '+62 0836-6273-8263',
   ),
 ];

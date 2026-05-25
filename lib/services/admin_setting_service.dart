@@ -4,13 +4,13 @@ import 'package:xrpl2_plazaku/models/admin_setting_model.dart';
 List<AdminSettingModel> set = [
   AdminSettingModel(
     text: "Info Aplikasi",
-    color: Colors.black,
+    color: Colors.white,
     icon: Icons.info_outline,
     page: Center(),
   ),
   AdminSettingModel(
     text: "Pengaturan Umum",
-    color: Colors.black,
+    color: Colors.white,
     icon: Icons.settings,
     page: Center(),
   ),

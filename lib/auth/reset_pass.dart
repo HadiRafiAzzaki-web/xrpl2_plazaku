@@ -52,7 +52,7 @@ class _ResetPassState extends State<ResetPass> {
               ),
               color: Color(0xFFFFFFFF),
               child: Padding(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _key,
                   child: Column(

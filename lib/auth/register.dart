@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/modeOrRole/app_mode.dart';
-import 'package:xrpl2_plazaku/modeOrRole/role.dart';
+import 'package:xrpl2_plazaku/auth/verification.dart';
 
-import '../datas/data_account.dart';
-import '../models/user_model.dart';
 import '../widgets/custom_input_field.dart';
 
 class Register extends StatefulWidget {
@@ -18,6 +15,7 @@ class _RegisterState extends State<Register> {
   final _key = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _email = TextEditingController();
+  final _phoneNum = TextEditingController();
   final _password = TextEditingController();
   final _confirmPass = TextEditingController();
 
@@ -55,7 +53,7 @@ class _RegisterState extends State<Register> {
               ),
               color: Color(0xFFFFFFFF),
               child: Padding(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _key,
                   child: Column(
@@ -120,6 +118,28 @@ class _RegisterState extends State<Register> {
                           }
                           if (!value.contains('@')) {
                             return 'Incorrect email format';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Phone Number',
+                          style: TextStyle(fontSize: 16, color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      CustomInputField(
+                        controller: _phoneNum,
+                        keyboardType: TextInputType.phone,
+                        obscure: false,
+                        hint: '+62 0856-3456-6523',
+                        suffixIcon: Icon(null),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Phone number is required';
                           }
                           return null;
                         },
@@ -206,25 +226,17 @@ class _RegisterState extends State<Register> {
                           onPressed: () {
                             setState(() {
                               if (_key.currentState!.validate()) {
-                                users.add(
-                                  UserModel(
-                                    username: _name.text,
-                                    email: _email.text,
-                                    password: _password.text,
-                                    isSeller: false,
-                                    role: Role.buyer,
-                                    currentMode: AppMode.buyer,
-                                    id: DateTime.now().millisecondsSinceEpoch,
-                                    location: '',
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Verification(
+                                      name: _name.text,
+                                      email: _email.text,
+                                      phoneNum: _phoneNum.text,
+                                      password: _password.text,
+                                    ),
                                   ),
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Sign Up success'),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                                Navigator.pop(context);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -236,7 +248,7 @@ class _RegisterState extends State<Register> {
                             });
                           },
                           child: Text(
-                            'Sign In',
+                            'Sign Up',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
