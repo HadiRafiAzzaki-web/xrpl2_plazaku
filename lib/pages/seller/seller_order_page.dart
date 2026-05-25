@@ -42,6 +42,7 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
                 children: orderStatus.entries
                     .map(
                       (e) => TabItemNav(
+                        color: Colors.blue,
                         label: e.key,
                         isActive: selectedTab == e.value,
                         onTap: () {

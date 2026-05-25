@@ -23,7 +23,7 @@ List<UserModel> users = [
     email: 'rafirofu2@gmail.com',
     password: 'rerere',
     isSeller: false,
-    role: Role.seller,
+    role: Role.buyer,
     currentMode: AppMode.buyer,
     location: 'Jakarta',
   ),
