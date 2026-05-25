@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/dasbhoard_admin_model.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_home_page.dart';
+import 'package:xrpl2_plazaku/pages/admin/admin_product_page.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_setting_page.dart';
 
 List<DasbhoardAdminModel> dashboardd = [
@@ -26,7 +27,7 @@ List<DasbhoardAdminModel> dashboardd = [
     text: "Product",
     color: Colors.white,
     icon: Icons.business_center_outlined,
-    page: Center(),
+    page: AdminProductPage(),
   ),
   DasbhoardAdminModel(
     text: "Pesanan",

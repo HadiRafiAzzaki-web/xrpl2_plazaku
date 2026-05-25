@@ -48,6 +48,7 @@ class _VerificationState extends State<Verification> {
     timer?.cancel();
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!mounted) return;
       if (otpTimer == 0) {
         timer.cancel();
       } else {

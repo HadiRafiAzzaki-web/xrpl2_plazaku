@@ -20,11 +20,11 @@ class _CreateStorePageState extends State<CreateStorePage> {
     'Fashion': Category.fashion,
     'Smartphone & Tablet': Category.smartphoneTablet,
     'Otomotif': Category.otomotif,
-    'Sporrt': Category.sport,
+    'Sport': Category.sport,
     'Food': Category.food,
     'Voucher Game': Category.voucherGame,
     'Electronic': Category.electronic,
-    'Helath & Care': Category.healthCare,
+    'Health & Care': Category.healthCare,
   };
 
   Map<int, Widget> pages = {
