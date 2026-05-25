@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 class TabItemNav extends StatelessWidget {
   final VoidCallback onTap;
   final String label;
+  final Color color;
   final bool isActive;
 
   const TabItemNav({
     super.key,
     required this.label,
     required this.isActive,
-    required this.onTap,
+    required this.onTap, required this.color,
   });
 
   @override
@@ -22,13 +23,13 @@ class TabItemNav extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color(0xFFF5F5F5),
           border: isActive
-              ? Border(bottom: BorderSide(color: Colors.blue))
+              ? Border(bottom: BorderSide(color: color))
               : null,
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isActive ? Colors.blue : Colors.grey,
+            color: isActive ? color : Colors.grey,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           ),
         ),
