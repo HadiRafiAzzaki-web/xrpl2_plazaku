@@ -26,14 +26,13 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
   Widget build(BuildContext context) {
     var user = users;
     if (selectedrole != Role.all) {
-      user = users
-          .where((element) => element.role == selectedrole)
-          .toList();
+      user = users.where((element) => element.role == selectedrole).toList();
     }
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFF5F5F5),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(0),
           child: Container(
             color: Color(0xFFF5F5F5),
             child: SingleChildScrollView(
@@ -70,7 +69,7 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Nama', style: TextStyle(color: Colors.grey),),
+                Text('Nama', style: TextStyle(color: Colors.grey)),
                 Text('Email', style: TextStyle(color: Colors.grey)),
                 Text('Role', style: TextStyle(color: Colors.grey)),
                 Text('Status', style: TextStyle(color: Colors.grey)),
@@ -80,8 +79,11 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
             Expanded(
               child: ListView.builder(
                 itemCount: user.length,
-                itemBuilder: (context, index) =>
-                    ListTile( leading: Text(user[index].username),title: Text(user[index].email),subtitle:Text('${user[index].role}'),),
+                itemBuilder: (context, index) => ListTile(
+                  leading: Text(user[index].username),
+                  title: Text(user[index].email),
+                  subtitle: Text('${user[index].role}'),
+                ),
               ),
             ),
           ],
