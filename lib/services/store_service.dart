@@ -25,6 +25,7 @@ class StoreService {
           phoneNum: store.phoneNum,
           storeDescription: store.storeDescription,
           deliveryMethod: store.deliveryMethod,
+          status: StoreStatus.waiting,
         ),
       );
       appService.userModel!.currentMode = AppMode.seller;

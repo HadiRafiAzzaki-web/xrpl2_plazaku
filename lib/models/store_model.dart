@@ -2,6 +2,8 @@ import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
 import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_model.dart';
 
+enum StoreStatus { waiting, verified, rejected }
+
 class StoreModel {
   final int id;
   final int userId;
@@ -15,8 +17,10 @@ class StoreModel {
   final PaymentMethodModel paymentMethod;
   final DeliveryMethodModel deliveryMethod;
   final List<ProductModel>? products;
+  final StoreStatus status;
 
   StoreModel({
+    required this.status,
     required this.deliveryMethod,
     required this.paymentMethod,
     required this.address,

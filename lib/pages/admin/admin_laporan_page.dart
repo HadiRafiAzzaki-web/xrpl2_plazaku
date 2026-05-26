@@ -67,7 +67,7 @@ class _AdminLaporanPageState extends State<AdminLaporanPage> {
           color: Colors.purple,
           textColor: Colors.white,
           height: 30,
-          width:double.infinity,
+          width:double.infinity, textSize: 18,
         ),
       ),
     );

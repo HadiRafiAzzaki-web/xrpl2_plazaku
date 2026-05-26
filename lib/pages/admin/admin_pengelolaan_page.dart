@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/datas/data_account.dart';
 import 'package:xrpl2_plazaku/modeOrRole/role.dart';
-import 'package:xrpl2_plazaku/models/user_model.dart';
 
 import '../../widgets/tab_item_nav.dart';
 

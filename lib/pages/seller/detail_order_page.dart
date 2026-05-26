@@ -186,6 +186,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                             },
                             color: Color(0xFF002AFF),
                             textColor: Colors.white,
+                            textSize: 18,
                           ),
                           SizedBox(height: 10),
                           CustomButton(
@@ -195,6 +196,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                             onPressed: rejectedShowDialog,
                             color: Colors.red,
                             textColor: Colors.white,
+                            textSize: 18,
                           ),
                         ],
                       ),

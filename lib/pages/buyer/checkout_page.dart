@@ -243,6 +243,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           },
           color: Colors.black,
           textColor: Colors.white,
+          textSize: 18,
         ),
       ),
     );
