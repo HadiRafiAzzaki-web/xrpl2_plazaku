@@ -147,6 +147,7 @@ class _SellerProductPageState extends State<SellerProductPage> {
           },
           color: Color(0xFF002AFF),
           textColor: Colors.white,
+          textSize: 18,
         ),
       ),
     );

@@ -251,6 +251,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
           },
           color: Color(0xFF002AFF),
           textColor: Colors.white,
+          textSize: 18,
         ),
       ),
     );

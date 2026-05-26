@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/datas/data_account.dart';
 import 'package:xrpl2_plazaku/modeOrRole/role.dart';
-import 'package:xrpl2_plazaku/models/user_model.dart';
 
 import '../../widgets/tab_item_nav.dart';
 
@@ -26,9 +25,7 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
   Widget build(BuildContext context) {
     var user = users;
     if (selectedrole != Role.all) {
-      user = users
-          .where((element) => element.role == selectedrole)
-          .toList();
+      user = users.where((element) => element.role == selectedrole).toList();
     }
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +67,7 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Nama', style: TextStyle(color: Colors.grey),),
+                Text('Nama', style: TextStyle(color: Colors.grey)),
                 Text('Email', style: TextStyle(color: Colors.grey)),
                 Text('Role', style: TextStyle(color: Colors.grey)),
                 Text('Status', style: TextStyle(color: Colors.grey)),
@@ -80,8 +77,11 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
             Expanded(
               child: ListView.builder(
                 itemCount: user.length,
-                itemBuilder: (context, index) =>
-                    ListTile( leading: Text(user[index].username),title: Text(user[index].email),subtitle:Text('${user[index].role}'),),
+                itemBuilder: (context, index) => ListTile(
+                  leading: Text(user[index].username),
+                  title: Text(user[index].email),
+                  subtitle: Text('${user[index].role}'),
+                ),
               ),
             ),
           ],

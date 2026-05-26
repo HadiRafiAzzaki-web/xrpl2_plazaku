@@ -296,6 +296,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
           },
           color: Colors.black,
           textColor: Colors.white,
+          textSize: 18,
         ),
       ),
     );

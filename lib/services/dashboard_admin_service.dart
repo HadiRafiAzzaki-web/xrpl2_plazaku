@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/dasbhoard_admin_model.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_home_page.dart';
+import 'package:xrpl2_plazaku/pages/admin/admin_order_page.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_pengelolaan_page.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_product_page.dart';
+import 'package:xrpl2_plazaku/pages/admin/admin_seller_verification_page.dart';
 import 'package:xrpl2_plazaku/pages/admin/admin_setting_page.dart';
 
 List<DasbhoardAdminModel> dashboardd = [
@@ -34,7 +36,7 @@ List<DasbhoardAdminModel> dashboardd = [
     text: "Pesanan",
     color: Colors.white,
     icon: Icons.rectangle,
-    page: Center(),
+    page: AdminOrderPage(),
   ),
   DasbhoardAdminModel(
     text: "Transaksi",
@@ -55,10 +57,10 @@ List<DasbhoardAdminModel> dashboardd = [
     page: Center(),
   ),
   DasbhoardAdminModel(
-    text: "Verivikasi",
+    text: "Verifikasi",
     color: Colors.white,
     icon: Icons.verified_outlined,
-    page: Center(),
+    page: AdminSellerVerificationPage(),
   ),
   DasbhoardAdminModel(
     text: "Pengaturan",

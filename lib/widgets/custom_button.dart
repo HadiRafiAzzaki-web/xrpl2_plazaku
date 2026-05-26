@@ -6,6 +6,7 @@ class CustomButton extends StatelessWidget {
   final String title;
   final double height;
   final double width;
+  final double textSize;
   final VoidCallback onPressed;
 
   const CustomButton({
@@ -16,6 +17,7 @@ class CustomButton extends StatelessWidget {
     required this.textColor,
     required this.height,
     required this.width,
+    required this.textSize,
   });
 
   @override
@@ -29,7 +31,10 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         ),
         onPressed: onPressed,
-        child: Text(title, style: TextStyle(color: textColor, fontSize: 18)),
+        child: Text(
+          title,
+          style: TextStyle(color: textColor, fontSize: textSize),
+        ),
       ),
     );
   }

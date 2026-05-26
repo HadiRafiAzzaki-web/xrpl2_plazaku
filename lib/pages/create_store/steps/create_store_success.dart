@@ -40,6 +40,7 @@ class _CreateStoreSuccessState extends State<CreateStoreSuccess> {
           textColor: Colors.white,
           height: 45,
           width: double.infinity,
+          textSize: 18,
         ),
       ),
     );

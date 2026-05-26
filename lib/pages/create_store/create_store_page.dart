@@ -27,15 +27,14 @@ class _CreateStorePageState extends State<CreateStorePage> {
     'Health & Care': Category.healthCare,
   };
 
-  Map<int, Widget> pages = {
-    0: StoreInformation(),
-    1: StoreSettings(),
-    2: StoreVerification(),
-    3: CreateStoreSuccess(),
-  };
-
   @override
   Widget build(BuildContext context) {
+    Map<int, Widget> pages = {
+      0: StoreInformation(),
+      1: StoreSettings(),
+      2: StoreVerification(),
+      3: CreateStoreSuccess(),
+    };
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -87,7 +86,10 @@ class _CreateStorePageState extends State<CreateStorePage> {
           ),
         ),
       ),
-      body: pages[selectedSteps],
+      body: IndexedStack(
+        index: selectedSteps,
+        children: pages.entries.map((e) => e.value).toList(),
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
         child: Row(
@@ -109,6 +111,7 @@ class _CreateStorePageState extends State<CreateStorePage> {
                 textColor: Colors.white,
                 height: 45,
                 width: 150,
+                textSize: 18,
               ),
             //previous button
             if (selectedSteps > 0 && selectedSteps != 3)
@@ -123,6 +126,7 @@ class _CreateStorePageState extends State<CreateStorePage> {
                 textColor: Colors.black,
                 height: 45,
                 width: 150,
+                textSize: 18,
               ),
           ],
         ),
