@@ -5,16 +5,8 @@ import 'package:xrpl2_plazaku/models/store_model.dart';
 
 List<StoreModel> storesData = [
   StoreModel(
-    deliveryMethod: DeliveryMethodModel(
-      id: 0,
-      title: 'All',
-      deliveryMethod: DeliveryMethod.all,
-    ),
-    paymentMethod: PaymentMethodModel(
-      id: 0,
-      title: 'COD',
-      paymentMethod: PaymentMethod.cod,
-    ),
+    deliveryMethod: DeliveryMethod.all,
+    paymentMethod: PaymentMethod.all,
     address: 'Malang',
     emailStore: 'ShopStore@gmail.com',
     phoneNum: '+62 0876-4546-8786',
@@ -25,19 +17,12 @@ List<StoreModel> storesData = [
     shopName: 'shopName',
     shopLogo: 'assets/images/milea.jpg',
     status: StoreStatus.verified,
+    shopUsername: '',
   ),
   StoreModel(
     status: StoreStatus.rejected,
-    deliveryMethod: DeliveryMethodModel(
-      id: 1,
-      title: 'Expedition Courier',
-      deliveryMethod: DeliveryMethod.expeditionCourier,
-    ),
-    paymentMethod: PaymentMethodModel(
-      id: 1,
-      title: 'E-Wallet',
-      paymentMethod: PaymentMethod.eWallet,
-    ),
+    deliveryMethod: DeliveryMethod.all,
+    paymentMethod: PaymentMethod.all,
     address: 'Semarang',
     emailStore: 'emailStore@gmail.com',
     phoneNum: '+62 4566-9876-5463',
@@ -47,27 +32,21 @@ List<StoreModel> storesData = [
     userId: 4,
     shopName: 'shopName',
     shopLogo: 'assets/images/basketball.jpg',
+    shopUsername: '',
   ),
   StoreModel(
     status: StoreStatus.waiting,
-    deliveryMethod: DeliveryMethodModel(
-      id: 1,
-      title: 'Expedition Courier',
-      deliveryMethod: DeliveryMethod.expeditionCourier,
-    ),
-    paymentMethod: PaymentMethodModel(
-      id: 1,
-      title: 'E-Wallet',
-      paymentMethod: PaymentMethod.eWallet,
-    ),
+    deliveryMethod: DeliveryMethod.all,
+    paymentMethod: PaymentMethod.all,
     address: 'Medan',
     emailStore: 'emailStore2@gmail.com',
     phoneNum: '+62 4569-9846-5863',
     storeDescription: 'storeDescription2',
     category: Category.food,
     id: 2,
-    userId: 1,
+    userId: 3,
     shopName: 'shopName2',
     shopLogo: 'assets/images/food.png',
+    shopUsername: '',
   ),
 ];

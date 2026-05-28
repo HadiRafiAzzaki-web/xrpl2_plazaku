@@ -24,11 +24,8 @@ List<OrderModel> orders = [
     status: ProductStatus.pending,
     date: DateTime.now().subtract(Duration(hours: 2)),
     location: 'Malang',
-    paymentMethod: PaymentMethodModel(
-      id: 0,
-      title: 'Bank Transfer',
-      paymentMethod: PaymentMethod.transfer,
-    ),
+    paymentMethod: PaymentMethod.cod,
+    sellerId: 0,
   ),
   OrderModel(
     id: 1,
@@ -49,11 +46,8 @@ List<OrderModel> orders = [
     status: ProductStatus.finish,
     date: DateTime.now().subtract(Duration(days: 1)),
     location: 'Batu',
-    paymentMethod: PaymentMethodModel(
-      id: 1,
-      title: 'Bank Transfer',
-      paymentMethod: PaymentMethod.transfer,
-    ),
+    paymentMethod: PaymentMethod.transfer,
+    sellerId: 0,
   ),
   OrderModel(
     id: 2,
@@ -74,10 +68,7 @@ List<OrderModel> orders = [
     status: ProductStatus.finish,
     date: DateTime.now().subtract(Duration(days: 2)),
     location: 'Jakarta',
-    paymentMethod: PaymentMethodModel(
-      id: 2,
-      title: 'Cod',
-      paymentMethod: PaymentMethod.cod,
-    ),
+    paymentMethod: PaymentMethod.cod,
+    sellerId: 0,
   ),
 ];

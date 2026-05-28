@@ -8,18 +8,20 @@ class StoreModel {
   final int id;
   final int userId;
   final String shopName;
+  final String shopUsername;
   final String shopLogo;
   final Category category;
   final String address;
   final String phoneNum;
   final String emailStore;
   final String storeDescription;
-  final PaymentMethodModel paymentMethod;
-  final DeliveryMethodModel deliveryMethod;
+  final PaymentMethod paymentMethod;
+  final DeliveryMethod deliveryMethod;
   final List<ProductModel>? products;
   final StoreStatus status;
 
   StoreModel({
+    required this.shopUsername,
     required this.status,
     required this.deliveryMethod,
     required this.paymentMethod,

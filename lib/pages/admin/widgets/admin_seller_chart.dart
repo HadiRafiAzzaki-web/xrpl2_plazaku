@@ -1,19 +1,19 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/datas/order_data.dart';
-import 'package:xrpl2_plazaku/models/order_model.dart';
 
-class SellerChart extends StatelessWidget {
-  final int? sellerId;
+import '../../../datas/order_data.dart';
+import '../../../models/order_model.dart';
+
+class AdminSellerChart extends StatelessWidget {
   final DateTimeRange? date;
 
-  const SellerChart({super.key, this.date, required this.sellerId});
+  const AdminSellerChart({super.key, this.date});
 
   @override
   Widget build(BuildContext context) {
     List<OrderModel> filteredOrder() {
       if (date == null) {
-        return orders.where((element) => element.sellerId == sellerId).toList();
+        return orders;
       }
       final start = DateTime(
         date!.start.year,
@@ -33,8 +33,7 @@ class SellerChart extends StatelessWidget {
         return element.date.isAfter(
               start.subtract(const Duration(seconds: 1)),
             ) &&
-            element.date.isBefore(end.add(const Duration(seconds: 1))) &&
-            element.sellerId == sellerId;
+            element.date.isBefore(end.add(const Duration(seconds: 1)));
       }).toList();
     }
 

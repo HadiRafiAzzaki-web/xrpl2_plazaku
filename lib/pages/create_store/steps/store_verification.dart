@@ -1,9 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../models/create_store_model.dart';
 
 class StoreVerification extends StatefulWidget {
-  const StoreVerification({super.key});
+  final CreateStoreModel storeData;
+
+  const StoreVerification({super.key, required this.storeData});
 
   @override
   State<StoreVerification> createState() => _StoreVerificationState();
@@ -13,6 +18,51 @@ class _StoreVerificationState extends State<StoreVerification> {
   File? idCardImage;
   File? selfPhotoImage;
   File? tinImage;
+
+  void pickImageIdCard() async {
+    ImagePicker imagePicker = ImagePicker();
+
+    final XFile? image = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (image != null) {
+      setState(() {
+        idCardImage = File(image.path);
+        widget.storeData.idCard = idCardImage;
+      });
+    }
+  }
+
+  void pickImageSelfPhoto() async {
+    ImagePicker imagePicker = ImagePicker();
+
+    final XFile? image = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (image != null) {
+      setState(() {
+        selfPhotoImage = File(image.path);
+        widget.storeData.selfie = selfPhotoImage;
+      });
+    }
+  }
+
+  void pickImageTIN() async {
+    ImagePicker imagePicker = ImagePicker();
+
+    final XFile? image = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (image != null) {
+      setState(() {
+        tinImage = File(image.path);
+        widget.storeData.tin = tinImage;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +90,28 @@ class _StoreVerificationState extends State<StoreVerification> {
                   ListTile(
                     leading: Icon(Icons.credit_card),
                     title: Text('ID Card / Identity Card'),
-                    trailing: Text('Not uploaded yet'),
+                    trailing: Text(
+                      idCardImage == null ? 'Not uploaded yet' : 'Uploaded',
+                    ),
+                    onTap: pickImageIdCard,
                   ),
                   Divider(color: Colors.grey),
                   ListTile(
                     leading: Icon(Icons.credit_card),
                     title: Text('Self Photo'),
-                    trailing: Text('Not uploaded yet'),
+                    trailing: Text(
+                      selfPhotoImage == null ? 'Not uploaded yet' : 'Uploaded',
+                    ),
+                    onTap: pickImageSelfPhoto,
                   ),
                   Divider(color: Colors.grey),
                   ListTile(
                     leading: Icon(Icons.credit_card),
                     title: Text('Taxpayer Identification Number'),
-                    trailing: Text('Not uploaded yet'),
+                    trailing: Text(
+                      tinImage == null ? 'Not uploaded yet' : 'Uploaded',
+                    ),
+                    onTap: pickImageTIN,
                   ),
                 ],
               ),

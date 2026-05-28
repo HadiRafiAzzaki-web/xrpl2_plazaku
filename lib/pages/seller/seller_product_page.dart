@@ -18,9 +18,12 @@ class _SellerProductPageState extends State<SellerProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.userModel!;
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final myProducts = productService
-        .sellerProducts(user.sellerId!)
+        .sellerProducts(user.sellerId)
         .where((element) => element.title.toLowerCase().contains(search))
         .toList();
     return Scaffold(

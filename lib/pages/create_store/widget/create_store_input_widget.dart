@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 import '../../../widgets/custom_input_field.dart';
 
 class CreateStoreInputWidget extends StatelessWidget {
+  final TextEditingController controller;
+  final String hint;
+  final String title;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+
   const CreateStoreInputWidget({
     super.key,
     required this.controller,
     required this.hint,
     required this.title,
+    this.validator,
+    this.onChanged,
   });
-
-  final TextEditingController controller;
-  final String hint;
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +34,8 @@ class CreateStoreInputWidget extends StatelessWidget {
           obscure: false,
           hint: hint,
           suffixIcon: Icon(null),
+          validator: validator,
+          onChanged: onChanged,
         ),
       ],
     );

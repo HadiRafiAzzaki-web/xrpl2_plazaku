@@ -17,11 +17,21 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     // get data and filter
-    var orders = orderService.allOrders;
+    var orders = orderService.allOrders
+        .where((element) => element.sellerId == user.sellerId)
+        .toList();
     if (selectedTab != ProductStatus.all) {
       orders = orders
-          .where((element) => element.status == selectedTab)
+          .where(
+            (element) =>
+                element.status == selectedTab &&
+                element.sellerId == user.sellerId,
+          )
           .toList();
     }
     return Scaffold(

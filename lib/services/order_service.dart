@@ -36,7 +36,11 @@ class OrderService {
   //get total sales from finish status
   int totalSales(int? sellerId, DateTimeRange? date) {
     return orderFilteredByDate(sellerId, date)
-        .where((element) => element.status == ProductStatus.finish)
+        .where(
+          (element) =>
+              element.status == ProductStatus.finish &&
+              element.sellerId == sellerId,
+        )
         .fold(
           0,
           (previousValue, element) =>
@@ -53,13 +57,19 @@ class OrderService {
 
   //get total order according status
   int countByStatus(ProductStatus status, int? sellerId) {
-    return allOrders.where((order) => order.status == status).length;
+    return allOrders
+        .where((order) => order.status == status && order.sellerId == sellerId)
+        .length;
   }
 
   //get total revenue (for card in home page)
   int totalRevenue(int? sellerId, DateTimeRange? date) {
     return orderFilteredByDate(sellerId, date)
-        .where((element) => element.status == ProductStatus.finish)
+        .where(
+          (element) =>
+              element.status == ProductStatus.finish &&
+              element.sellerId == sellerId,
+        )
         .fold(
           0,
           (previousValue, element) => previousValue + element.totalPrice,

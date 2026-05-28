@@ -15,10 +15,11 @@ final Map<String, ProductStatus> orderStatus = {
 class OrderModel {
   final int id;
   final int userId;
+  final int? sellerId;
   final String userName;
   final String location;
   final List<ProductQuantityModel> items;
-  final PaymentMethodModel paymentMethod;
+  final PaymentMethod paymentMethod;
   ProductStatus status;
   final DateTime date;
 
@@ -26,6 +27,7 @@ class OrderModel {
     required this.paymentMethod,
     required this.location,
     required this.id,
+    required this.sellerId,
     required this.userId,
     required this.userName,
     required this.items,

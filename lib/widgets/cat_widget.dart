@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/pages/main_dashboard_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 class CatWidget extends StatefulWidget {
@@ -8,6 +7,7 @@ class CatWidget extends StatefulWidget {
   final IconData icon;
   final Widget page;
   final VoidCallback? onTap;
+  final bool isSwitchMode;
 
   const CatWidget({
     super.key,
@@ -16,6 +16,7 @@ class CatWidget extends StatefulWidget {
     required this.icon,
     required this.page,
     this.onTap,
+    this.isSwitchMode = false,
   });
 
   @override
@@ -27,13 +28,14 @@ class _CatWidgetState extends State<CatWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.page is MainDashboardPage) {
+        if (widget.isSwitchMode) {
           setState(() {
             appService.switchBetweenBuyerSeller();
           });
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => widget.page),
+            (route) => false,
           );
         } else {
           Navigator.push(

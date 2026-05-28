@@ -6,10 +6,10 @@ import 'package:xrpl2_plazaku/datas/data_account.dart';
 import 'package:xrpl2_plazaku/datas/order_data.dart';
 import 'package:xrpl2_plazaku/modeOrRole/role.dart';
 import 'package:xrpl2_plazaku/pages/admin/widgets/admin_card.dart';
+import 'package:xrpl2_plazaku/pages/admin/widgets/admin_seller_chart.dart';
 import 'package:xrpl2_plazaku/pages/admin/widgets/order_status_chart_pie.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
-import 'package:xrpl2_plazaku/widgets/seller_chart.dart';
 
 import '../../models/order_model.dart';
 
@@ -135,7 +135,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   SizedBox(height: 20),
-                  SizedBox(height: 300, child: SellerChart()),
+                  SizedBox(height: 300, child: AdminSellerChart()),
                 ],
               ),
             ),

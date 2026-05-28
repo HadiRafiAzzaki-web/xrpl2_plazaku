@@ -4,6 +4,7 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
   final bool obscure;
   final String hint;
   final Widget suffixIcon;
@@ -16,6 +17,7 @@ class CustomInputField extends StatelessWidget {
     required this.obscure,
     required this.hint,
     required this.suffixIcon,
+    this.onChanged,
   });
 
   @override
@@ -25,6 +27,7 @@ class CustomInputField extends StatelessWidget {
       controller: controller,
       obscureText: obscure,
       validator: validator,
+      onChanged: onChanged,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

@@ -34,7 +34,9 @@ class _SellerHomePageState extends State<SellerHomePage> {
       ProductStatus.finish,
       user.sellerId,
     );
-    final totalOrderIn = orderService.allOrders.length;
+    final totalOrderIn = orderService.allOrders
+        .where((element) => element.sellerId == user.sellerId)
+        .length;
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -122,7 +124,10 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       ),
                       SizedBox(
                         height: 300,
-                        child: SellerChart(date: selectedDate),
+                        child: SellerChart(
+                          date: selectedDate,
+                          sellerId: user.sellerId,
+                        ),
                       ),
                     ],
                   ),

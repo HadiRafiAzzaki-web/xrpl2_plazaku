@@ -148,6 +148,7 @@ class _AccountPageState extends State<AccountPage> {
                         color: mod[index].color,
                         icon: mod[index].icon,
                         page: mod[index].page,
+                        isSwitchMode: true,
                       ),
               ),
             ),

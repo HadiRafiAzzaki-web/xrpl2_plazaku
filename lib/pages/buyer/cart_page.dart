@@ -264,11 +264,7 @@ class _CartPageState extends State<CartPage> {
                   userId: user.id,
                   productsQuantity: selectedProduct,
                   location: user.location,
-                  paymentMethod: PaymentMethodModel(
-                    id: 0,
-                    title: 'Cod',
-                    paymentMethod: PaymentMethod.cod,
-                  ),
+                  paymentMethod: PaymentMethod.cod,
                 );
                 if (selectedProduct.isNotEmpty) {
                   checkoutService.addCheckouts(checkout, user.id);

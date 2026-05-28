@@ -18,11 +18,7 @@ class CheckoutService {
           userId: userId,
           productsQuantity: checkout.productsQuantity,
           location: checkout.location,
-          paymentMethod: PaymentMethodModel(
-            id: 0,
-            title: 'Cod',
-            paymentMethod: PaymentMethod.cod,
-          ),
+          paymentMethod: PaymentMethod.cod,
         ),
       );
     }
@@ -41,6 +37,7 @@ class CheckoutService {
       items: checkout.productsQuantity,
       status: ProductStatus.pending,
       date: DateTime.now(),
+      sellerId: appService.userModel!.sellerId,
     );
     return order;
   }

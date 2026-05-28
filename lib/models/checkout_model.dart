@@ -6,7 +6,7 @@ class CheckoutModel {
   final int userId;
   final List<ProductQuantityModel> productsQuantity;
   final String location;
-  final PaymentMethodModel paymentMethod;
+  final PaymentMethod paymentMethod;
 
   CheckoutModel({
     required this.id,

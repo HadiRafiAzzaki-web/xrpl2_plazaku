@@ -6,25 +6,29 @@ import 'package:xrpl2_plazaku/pages/buyer/dashboard_page.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_dashboard_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
-class MainDashboardPage extends StatefulWidget {
+class MainDashboardPage extends StatelessWidget {
   const MainDashboardPage({super.key});
 
   @override
-  State<MainDashboardPage> createState() => _MainDashboardPageState();
-}
-
-class _MainDashboardPageState extends State<MainDashboardPage> {
-  @override
   Widget build(BuildContext context) {
-    final user = appService.userModel!;
+    return AnimatedBuilder(
+      animation: appService,
+      builder: (context, _) {
+        final user = appService.userModel;
+        if (user == null) {
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
 
-    if (user.currentMode == AppMode.seller && user.role == Role.seller) {
-      return SellerDashboardPage();
-    }
+        if (user.role == Role.admin) {
+          return AdminDashboardPage();
+        }
 
-    if (user.role == Role.admin) {
-      return AdminDashboardPage();
-    }
-    return DashboardPage();
+        if (user.role == Role.seller && user.currentMode == AppMode.seller) {
+          return SellerDashboardPage();
+        }
+
+        return DashboardPage();
+      },
+    );
   }
 }

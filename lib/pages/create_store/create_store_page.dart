@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:xrpl2_plazaku/models/product_model.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/create_store_success.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/store_information.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/store_settings.dart';
 import 'package:xrpl2_plazaku/pages/create_store/steps/store_verification.dart';
 import 'package:xrpl2_plazaku/pages/create_store/widget/steps_widget.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
+
+import '../../models/create_store_model.dart';
 
 class CreateStorePage extends StatefulWidget {
   const CreateStorePage({super.key});
@@ -16,25 +17,23 @@ class CreateStorePage extends StatefulWidget {
 
 class _CreateStorePageState extends State<CreateStorePage> {
   int selectedSteps = 0;
-  Map<String, Category> categories = {
-    'Fashion': Category.fashion,
-    'Smartphone & Tablet': Category.smartphoneTablet,
-    'Otomotif': Category.otomotif,
-    'Sport': Category.sport,
-    'Food': Category.food,
-    'Voucher Game': Category.voucherGame,
-    'Electronic': Category.electronic,
-    'Health & Care': Category.healthCare,
-  };
+
+  final CreateStoreModel createStoreData = CreateStoreModel();
+  late final List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      StoreInformation(storeData: createStoreData),
+      StoreSettings(storeData: createStoreData),
+      StoreVerification(storeData: createStoreData),
+      CreateStoreSuccess(storeData: createStoreData),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    Map<int, Widget> pages = {
-      0: StoreInformation(),
-      1: StoreSettings(),
-      2: StoreVerification(),
-      3: CreateStoreSuccess(),
-    };
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -86,25 +85,19 @@ class _CreateStorePageState extends State<CreateStorePage> {
           ),
         ),
       ),
-      body: IndexedStack(
-        index: selectedSteps,
-        children: pages.entries.map((e) => e.value).toList(),
-      ),
+      body: IndexedStack(index: selectedSteps, children: pages),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             //next button
-            if (selectedSteps != 3)
+            if (selectedSteps < pages.length - 1)
               CustomButton(
                 title: 'Next',
                 onPressed: () {
                   setState(() {
-                    if (selectedSteps < pages.length - 1 &&
-                        selectedSteps != 3) {
-                      selectedSteps++;
-                    }
+                    selectedSteps++;
                   });
                 },
                 color: Colors.black,

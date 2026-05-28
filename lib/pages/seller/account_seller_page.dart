@@ -146,6 +146,7 @@ class _AccountSellerPageState extends State<AccountSellerPage> {
                         color: mod[index].color,
                         icon: mod[index].icon,
                         page: mod[index].page,
+                        isSwitchMode: true,
                       ),
               ),
             ),
