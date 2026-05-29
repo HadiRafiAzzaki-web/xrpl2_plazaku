@@ -98,7 +98,11 @@ class _AdminSellerVerificationPageState
                       children: [
                         CustomButton(
                           title: 'Reject',
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              status[index].status = StoreStatus.rejected;
+                            });
+                          },
                           color: Colors.red,
                           textColor: Colors.white,
                           height: 40,
@@ -108,7 +112,11 @@ class _AdminSellerVerificationPageState
                         SizedBox(width: 5),
                         CustomButton(
                           title: 'Accept',
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              status[index].status = StoreStatus.verified;
+                            });
+                          },
                           color: Colors.green,
                           textColor: Colors.white,
                           height: 40,

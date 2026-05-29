@@ -19,6 +19,14 @@ class _StoreVerificationState extends State<StoreVerification> {
   File? selfPhotoImage;
   File? tinImage;
 
+  @override
+  void initState() {
+    super.initState();
+    idCardImage = widget.storeData.idCard;
+    selfPhotoImage = widget.storeData.selfie;
+    tinImage = widget.storeData.tin;
+  }
+
   void pickImageIdCard() async {
     ImagePicker imagePicker = ImagePicker();
 

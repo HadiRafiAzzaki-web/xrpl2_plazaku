@@ -1,6 +1,5 @@
 import 'package:xrpl2_plazaku/models/checkout_model.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
-import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 class CheckoutService {
@@ -18,7 +17,8 @@ class CheckoutService {
           userId: userId,
           productsQuantity: checkout.productsQuantity,
           location: checkout.location,
-          paymentMethod: PaymentMethod.cod,
+          paymentMethod: checkout.paymentMethod,
+          deliveryMethod: checkout.deliveryMethod,
         ),
       );
     }
@@ -37,7 +37,8 @@ class CheckoutService {
       items: checkout.productsQuantity,
       status: ProductStatus.pending,
       date: DateTime.now(),
-      sellerId: appService.userModel!.sellerId,
+      sellerId: checkout.productsQuantity.first.product.sellerId,
+      deliveryMethod: checkout.deliveryMethod,
     );
     return order;
   }

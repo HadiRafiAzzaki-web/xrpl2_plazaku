@@ -18,7 +18,7 @@ class StoreModel {
   final PaymentMethod paymentMethod;
   final DeliveryMethod deliveryMethod;
   final List<ProductModel>? products;
-  final StoreStatus status;
+  StoreStatus status;
 
   StoreModel({
     required this.shopUsername,

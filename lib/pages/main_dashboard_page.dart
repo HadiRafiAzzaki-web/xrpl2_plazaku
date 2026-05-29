@@ -13,7 +13,7 @@ class MainDashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: appService,
-      builder: (context, _) {
+      builder: (context, child) {
         final user = appService.userModel;
         if (user == null) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));

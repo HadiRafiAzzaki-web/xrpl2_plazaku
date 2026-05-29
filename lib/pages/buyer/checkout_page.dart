@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/checkout_model.dart';
+import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
+import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/widgets/address_card.dart';
@@ -18,18 +20,63 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   late CheckoutModel checkout;
+  late DeliveryMethod selectedDelivery;
+  late PaymentMethod selectedPayment;
 
   @override
   void initState() {
     checkout = checkoutService.checkouts.firstWhere(
       (element) => element.id == widget.checkoutId,
     );
+    selectedDelivery = DeliveryMethod.expeditionCourier;
+    selectedPayment = PaymentMethod.cod;
     super.initState();
+  }
+
+  final Map<String, DeliveryMethod> deliveryMethod = {
+    'Take it Yourself': DeliveryMethod.takeItYourself,
+    'Expedition Courier': DeliveryMethod.expeditionCourier,
+  };
+
+  final Map<String, PaymentMethod> paymentMethod = {
+    'Transfer': PaymentMethod.transfer,
+    'Cash on Delivery': PaymentMethod.cod,
+    'E-wallet': PaymentMethod.eWallet,
+  };
+
+  String delivery(DeliveryMethod method) {
+    switch (method) {
+      case DeliveryMethod.takeItYourself:
+        return 'Take it Yourself';
+      case DeliveryMethod.expeditionCourier:
+        return 'Expedition Courier';
+      case DeliveryMethod.all:
+        return '';
+    }
+  }
+
+  String payment(PaymentMethod method) {
+    switch (method) {
+      case PaymentMethod.transfer:
+        return 'Transfer';
+      case PaymentMethod.cod:
+        return 'Cash on Delivery';
+      case PaymentMethod.eWallet:
+        return 'E-wallet';
+      case PaymentMethod.all:
+        return '';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.userModel!;
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    int deliveryFee = selectedDelivery == DeliveryMethod.takeItYourself
+        ? 0
+        : 10000;
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -54,7 +101,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             AddressCard(user: user),
             SizedBox(height: 20),
             Text(
-              'Delivery Time',
+              'Delivery',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             SizedBox(height: 10),
@@ -74,13 +121,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       Icon(CupertinoIcons.car),
                       SizedBox(width: 5),
                       Text(
-                        'Within 2 days',
+                        delivery(selectedDelivery),
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                     ],
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDeliveryMethod();
+                    },
                     child: Text(
                       'Change',
                       style: TextStyle(color: Colors.blueAccent, fontSize: 16),
@@ -111,13 +160,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       Icon(Icons.money),
                       SizedBox(width: 5),
                       Text(
-                        'Cash on delivery',
+                        payment(selectedPayment),
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
                     ],
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showPaymentMethod();
+                    },
                     child: Text(
                       'Change',
                       style: TextStyle(color: Colors.blueAccent, fontSize: 16),
@@ -198,7 +249,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(formatRupiah(10000)),
+                      Text(formatRupiah(deliveryFee)),
                     ],
                   ),
                   Divider(color: Colors.black),
@@ -213,7 +264,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(formatRupiah(checkout.totalPrice + 10000)),
+                      Text(formatRupiah(checkout.totalPrice + deliveryFee)),
                     ],
                   ),
                 ],
@@ -230,6 +281,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           width: double.infinity,
           title: 'Place Order',
           onPressed: () {
+            checkout.paymentMethod = selectedPayment;
+            checkout.deliveryMethod = selectedDelivery;
             orderService.allOrders.add(
               checkoutService.createOrder(checkout, user.id),
             );
@@ -246,6 +299,101 @@ class _CheckoutPageState extends State<CheckoutPage> {
           textSize: 18,
         ),
       ),
+    );
+  }
+
+  void showDeliveryMethod() {
+    final titles = deliveryMethod.keys.toList();
+    final values = deliveryMethod.values.toList();
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 300,
+          child: ListView.builder(
+            itemCount: deliveryMethod.length,
+            padding: EdgeInsets.all(12),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedDelivery = values[index];
+                  });
+
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(titles[index], style: TextStyle(fontSize: 16)),
+                        if (selectedDelivery == values[index])
+                          Icon(Icons.check, color: Colors.green),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void showPaymentMethod() {
+    final titles = paymentMethod.keys.toList();
+    final values = paymentMethod.values.toList();
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 300,
+          child: ListView.builder(
+            itemCount: paymentMethod.length,
+            padding: EdgeInsets.all(12),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedPayment = values[index];
+                  });
+
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(titles[index]),
+
+                        if (selectedPayment == values[index])
+                          Icon(Icons.check, color: Colors.green),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

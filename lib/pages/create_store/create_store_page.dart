@@ -19,18 +19,6 @@ class _CreateStorePageState extends State<CreateStorePage> {
   int selectedSteps = 0;
 
   final CreateStoreModel createStoreData = CreateStoreModel();
-  late final List<Widget> pages;
-
-  @override
-  void initState() {
-    super.initState();
-    pages = [
-      StoreInformation(storeData: createStoreData),
-      StoreSettings(storeData: createStoreData),
-      StoreVerification(storeData: createStoreData),
-      CreateStoreSuccess(storeData: createStoreData),
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,27 +73,12 @@ class _CreateStorePageState extends State<CreateStorePage> {
           ),
         ),
       ),
-      body: IndexedStack(index: selectedSteps, children: pages),
+      body: _buildPage(selectedSteps),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //next button
-            if (selectedSteps < pages.length - 1)
-              CustomButton(
-                title: 'Next',
-                onPressed: () {
-                  setState(() {
-                    selectedSteps++;
-                  });
-                },
-                color: Colors.black,
-                textColor: Colors.white,
-                height: 45,
-                width: 150,
-                textSize: 18,
-              ),
             //previous button
             if (selectedSteps > 0 && selectedSteps != 3)
               CustomButton(
@@ -121,9 +94,39 @@ class _CreateStorePageState extends State<CreateStorePage> {
                 width: 150,
                 textSize: 18,
               ),
+            //next button
+            if (selectedSteps < 3)
+              CustomButton(
+                title: 'Next',
+                onPressed: () {
+                  setState(() {
+                    selectedSteps++;
+                  });
+                },
+                color: Colors.black,
+                textColor: Colors.white,
+                height: 45,
+                width: 150,
+                textSize: 18,
+              ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildPage(int selectedStep) {
+    switch (selectedStep) {
+      case 0:
+        return StoreInformation(storeData: createStoreData);
+      case 1:
+        return StoreSettings(storeData: createStoreData);
+      case 2:
+        return StoreVerification(storeData: createStoreData);
+      case 3:
+        return CreateStoreSuccess(storeData: createStoreData);
+      default:
+        return StoreInformation(storeData: createStoreData);
+    }
   }
 }

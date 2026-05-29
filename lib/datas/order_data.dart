@@ -1,3 +1,4 @@
+import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
 import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 
 import '../models/order_model.dart';
@@ -26,6 +27,7 @@ List<OrderModel> orders = [
     location: 'Malang',
     paymentMethod: PaymentMethod.cod,
     sellerId: 0,
+    deliveryMethod: DeliveryMethod.expeditionCourier,
   ),
   OrderModel(
     id: 1,
@@ -48,6 +50,7 @@ List<OrderModel> orders = [
     location: 'Batu',
     paymentMethod: PaymentMethod.transfer,
     sellerId: 0,
+    deliveryMethod: DeliveryMethod.expeditionCourier,
   ),
   OrderModel(
     id: 2,
@@ -70,5 +73,6 @@ List<OrderModel> orders = [
     location: 'Jakarta',
     paymentMethod: PaymentMethod.cod,
     sellerId: 0,
+    deliveryMethod: DeliveryMethod.expeditionCourier,
   ),
 ];

@@ -62,21 +62,27 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Nama', style: TextStyle(color: Colors.grey)),
-                Text('Email', style: TextStyle(color: Colors.grey)),
-                Text('Role', style: TextStyle(color: Colors.grey)),
-                Text('Status', style: TextStyle(color: Colors.grey)),
-                Text('Aksi', style: TextStyle(color: Colors.grey)),
-              ],
-            ),
-            Expanded(
-              child: ListView.builder(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Nama', style: TextStyle(color: Colors.grey)),
+                  Text('Email', style: TextStyle(color: Colors.grey)),
+                  Text('Role', style: TextStyle(color: Colors.grey)),
+                  Text('Status', style: TextStyle(color: Colors.grey)),
+                  Text('Aksi', style: TextStyle(color: Colors.grey)),
+                ],
+              ),
+              Divider(),
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
                 itemCount: user.length,
                 itemBuilder: (context, index) => ListTile(
                   leading: Text(user[index].username),
@@ -84,8 +90,8 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
                   subtitle: Text('${user[index].role}'),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -17,7 +17,7 @@ class StoreSettings extends StatefulWidget {
 
 class _StoreSettingsState extends State<StoreSettings> {
   final _key = GlobalKey<FormState>();
-  final shopUsername = TextEditingController();
+  late var shopUsername = TextEditingController();
   PaymentMethod? selectedPayment;
   DeliveryMethod? selectedDelivery;
 
@@ -33,6 +33,14 @@ class _StoreSettingsState extends State<StoreSettings> {
     'Expedition Courier': DeliveryMethod.expeditionCourier,
     'Take it Yourself': DeliveryMethod.takeItYourself,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    shopUsername = TextEditingController(text: widget.storeData.shopUsername);
+    selectedDelivery = widget.storeData.deliveryMethod;
+    selectedPayment = widget.storeData.paymentMethod;
+  }
 
   @override
   Widget build(BuildContext context) {

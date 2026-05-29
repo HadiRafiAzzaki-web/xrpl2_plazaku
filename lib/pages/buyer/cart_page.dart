@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/checkout_model.dart';
+import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
 import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 import 'package:xrpl2_plazaku/pages/buyer/checkout_page.dart';
@@ -265,6 +266,7 @@ class _CartPageState extends State<CartPage> {
                   productsQuantity: selectedProduct,
                   location: user.location,
                   paymentMethod: PaymentMethod.cod,
+                  deliveryMethod: DeliveryMethod.takeItYourself,
                 );
                 if (selectedProduct.isNotEmpty) {
                   checkoutService.addCheckouts(checkout, user.id);

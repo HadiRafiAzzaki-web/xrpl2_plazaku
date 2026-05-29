@@ -131,11 +131,12 @@ class _VerificationState extends State<Verification> {
                           );
                           users.add(user);
                           appService.login(user);
-                          Navigator.pushReplacement(
+                          Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (context) => MainDashboardPage(),
                             ),
+                            (route) => false,
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

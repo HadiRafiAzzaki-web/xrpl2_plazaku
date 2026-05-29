@@ -68,35 +68,29 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            orders.isEmpty
-                ? Center(child: Text('Order empty'))
-                : ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.all(16),
-                    itemCount: orders.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 12),
-                    itemBuilder: (context, index) => SellerOrderCard(
-                      order: orders[index],
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                DetailOrderPage(id: orders[index].id),
-                          ),
-                        ).then((value) {
-                          setState(() {});
-                        });
-                      },
-                    ),
-                  ),
-          ],
-        ),
-      ),
+      body: orders.isEmpty
+          ? Center(child: Text('Order empty', style: TextStyle(fontSize: 16)))
+          : ListView.separated(
+              padding: EdgeInsets.all(16),
+              itemCount: orders.length,
+              separatorBuilder: (context, index) => SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                return SellerOrderCard(
+                  order: orders[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailOrderPage(id: orders[index].id),
+                      ),
+                    ).then((value) {
+                      setState(() {});
+                    });
+                  },
+                );
+              },
+            ),
     );
   }
 }

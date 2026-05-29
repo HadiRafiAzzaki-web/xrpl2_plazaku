@@ -20,15 +20,28 @@ class StoreInformation extends StatefulWidget {
 
 class _StoreInformationState extends State<StoreInformation> {
   final _key = GlobalKey<FormState>();
-  final shopNameC = TextEditingController();
-  final shopCategory = TextEditingController();
-  final shopDescription = TextEditingController();
-  final shopAddress = TextEditingController();
-  final shopPhoneNum = TextEditingController();
-  final shopEmail = TextEditingController();
+  late var shopNameC = TextEditingController();
+  late var shopDescription = TextEditingController();
+  late var shopAddress = TextEditingController();
+  late var shopPhoneNum = TextEditingController();
+  late var shopEmail = TextEditingController();
   Category? selectedCategory;
 
   File? shopImage;
+
+  @override
+  void initState() {
+    super.initState();
+    shopNameC = TextEditingController(text: widget.storeData.shopName);
+    shopDescription = TextEditingController(
+      text: widget.storeData.shopDescription,
+    );
+    shopAddress = TextEditingController(text: widget.storeData.shopAddress);
+    shopPhoneNum = TextEditingController(text: widget.storeData.shopPhoneNum);
+    shopEmail = TextEditingController(text: widget.storeData.shopEmail);
+    selectedCategory = widget.storeData.category;
+    shopImage = widget.storeData.shopLogo;
+  }
 
   void pickImage() async {
     ImagePicker imagePicker = ImagePicker();

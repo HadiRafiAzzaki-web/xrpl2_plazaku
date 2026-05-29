@@ -279,6 +279,25 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     ),
                   )
                 : Center(child: Text('Variant empty')),
+            SizedBox(height: 15),
+            Card(
+              elevation: 3,
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                child: Text(
+                  product.description,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
           ],
         ),
       ),

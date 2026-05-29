@@ -1,3 +1,4 @@
+import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
 import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 
@@ -20,10 +21,12 @@ class OrderModel {
   final String location;
   final List<ProductQuantityModel> items;
   final PaymentMethod paymentMethod;
+  final DeliveryMethod deliveryMethod;
   ProductStatus status;
   final DateTime date;
 
   OrderModel({
+    required this.deliveryMethod,
     required this.paymentMethod,
     required this.location,
     required this.id,

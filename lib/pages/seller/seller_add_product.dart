@@ -56,13 +56,13 @@ class _SellerAddProductState extends State<SellerAddProduct> {
     if (!_formKey.currentState!.validate()) {
       return;
     } else {
-      final user = appService.userModel!;
-
+      final user = appService.userModel;
+      if (user == null) return;
       final product = ProductModel(
-        sellerId: user.sellerId!,
+        sellerId: user.sellerId,
         id: DateTime.now().millisecondsSinceEpoch,
         stock: int.parse(stockController.text),
-        descriptionController.text,
+        description: descriptionController.text,
         title: nameController.text,
         image: imageFile?.path ?? 'assets/images/no-image.png',
         price: int.parse(priceController.text),

@@ -1,3 +1,4 @@
+import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
 import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 
@@ -6,7 +7,8 @@ class CheckoutModel {
   final int userId;
   final List<ProductQuantityModel> productsQuantity;
   final String location;
-  final PaymentMethod paymentMethod;
+  PaymentMethod paymentMethod;
+  DeliveryMethod deliveryMethod;
 
   CheckoutModel({
     required this.id,
@@ -14,6 +16,7 @@ class CheckoutModel {
     required this.productsQuantity,
     required this.location,
     required this.paymentMethod,
+    required this.deliveryMethod,
   });
 
   int get totalPrice {
