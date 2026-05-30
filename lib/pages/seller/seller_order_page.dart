@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
 import 'package:xrpl2_plazaku/pages/seller/detail_order_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
-import 'package:xrpl2_plazaku/widgets/seller_order_card.dart';
+import 'package:xrpl2_plazaku/widgets/order_card.dart';
 import 'package:xrpl2_plazaku/widgets/tab_item_nav.dart';
 
 class SellerOrderPage extends StatefulWidget {
@@ -22,9 +22,7 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
       return Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     // get data and filter
-    var orders = orderService.allOrders
-        .where((element) => element.sellerId == user.sellerId)
-        .toList();
+    var orders = orderService.sellerOrders(user.sellerId).toList();
     if (selectedTab != ProductStatus.all) {
       orders = orders
           .where(
@@ -75,8 +73,12 @@ class _SellerOrderPageState extends State<SellerOrderPage> {
               itemCount: orders.length,
               separatorBuilder: (context, index) => SizedBox(height: 12),
               itemBuilder: (context, index) {
-                return SellerOrderCard(
-                  order: orders[index],
+                return OrderCard(
+                  orderId: orders[index].id,
+                  status: orders[index].status,
+                  orderDate: orders[index].date,
+                  totalPrice: orders[index].totalPrice,
+                  userName: orders[index].userName,
                   onTap: () {
                     Navigator.push(
                       context,

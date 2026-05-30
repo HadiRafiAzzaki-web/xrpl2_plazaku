@@ -4,11 +4,23 @@ import 'package:xrpl2_plazaku/models/order_model.dart';
 
 import '../utils/price_format.dart';
 
-class SellerOrderCard extends StatelessWidget {
+class OrderCard extends StatelessWidget {
   final VoidCallback onTap;
-  final OrderModel order;
+  final ProductStatus status;
+  final int orderId;
+  final DateTime orderDate;
+  final String userName;
+  final int totalPrice;
 
-  const SellerOrderCard({super.key, required this.order, required this.onTap});
+  const OrderCard({
+    super.key,
+    required this.onTap,
+    required this.status,
+    required this.orderId,
+    required this.orderDate,
+    required this.userName,
+    required this.totalPrice,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +28,19 @@ class SellerOrderCard extends StatelessWidget {
     Color bgColor = Colors.grey.shade100;
     String title = '';
 
-    if (order.status == ProductStatus.pending) {
+    if (status == ProductStatus.pending) {
       statusColor = Colors.orange;
       bgColor = Colors.orange.shade50;
       title = 'Pending';
-    } else if (order.status == ProductStatus.processed) {
+    } else if (status == ProductStatus.processed) {
       statusColor = Colors.blue;
       bgColor = Colors.blue.shade50;
       title = 'Processed';
-    } else if (order.status == ProductStatus.sent) {
+    } else if (status == ProductStatus.sent) {
       statusColor = Colors.green;
       bgColor = Colors.green.shade50;
       title = 'Sent';
-    } else if (order.status == ProductStatus.rejected) {
+    } else if (status == ProductStatus.rejected) {
       statusColor = Colors.red;
       bgColor = Color(0xFFFFEBEE);
       title = 'Rejected';
@@ -52,10 +64,7 @@ class SellerOrderCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${order.id}',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                Text('$orderId', style: TextStyle(fontWeight: FontWeight.bold)),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
@@ -74,7 +83,7 @@ class SellerOrderCard extends StatelessWidget {
               ],
             ),
             Text(
-              DateFormat('dd MMM yyyy - HH:mm').format(order.date),
+              DateFormat('dd MMM yyyy - HH:mm').format(orderDate),
               style: TextStyle(color: Colors.grey, fontSize: 11),
             ),
             SizedBox(height: 12),
@@ -91,7 +100,7 @@ class SellerOrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        order.userName,
+                        userName,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
@@ -101,7 +110,7 @@ class SellerOrderCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  formatRupiah(order.totalPrice),
+                  formatRupiah(totalPrice),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
               ],

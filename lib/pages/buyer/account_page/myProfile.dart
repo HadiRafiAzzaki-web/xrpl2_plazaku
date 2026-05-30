@@ -115,7 +115,7 @@ class _MyprofileState extends State<Myprofile> {
               child: ListTile(
                 leading: Icon(Icons.phone_outlined),
                 title: Text("Phone Number"),
-                subtitle: Text("(+62) 897654321"),
+                subtitle: Text(user.phoneNum),
               ),
             ),
           ],

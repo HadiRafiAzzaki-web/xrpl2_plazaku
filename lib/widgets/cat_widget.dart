@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/pages/main_dashboard_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 class CatWidget extends StatefulWidget {
@@ -28,7 +29,7 @@ class _CatWidgetState extends State<CatWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.isSwitchMode) {
+        if (widget.isSwitchMode == true && widget.page is MainDashboardPage) {
           setState(() {
             appService.switchBetweenBuyerSeller();
           });

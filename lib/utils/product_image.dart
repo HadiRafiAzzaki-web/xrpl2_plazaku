@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ProductImage extends StatelessWidget {
@@ -12,12 +11,10 @@ class ProductImage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (image.startsWith('assets/')) {
       return Image.asset(image, fit: BoxFit.cover);
-    }
-
-    if (image.isNotEmpty && !kIsWeb) {
+    } else if (image.isNotEmpty) {
       return Image.file(File(image), fit: BoxFit.cover);
+    } else {
+      return Image.asset('assets/images/no-image.png', fit: BoxFit.cover);
     }
-
-    return Image.asset('assets/images/no-image.png', fit: BoxFit.cover);
   }
 }

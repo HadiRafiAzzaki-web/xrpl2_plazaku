@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:xrpl2_plazaku/widgets/add_product_category.dart';
-import 'package:xrpl2_plazaku/widgets/add_product_image_picker.dart';
+import 'package:xrpl2_plazaku/pages/seller/widgets/add_product_category.dart';
+import 'package:xrpl2_plazaku/pages/seller/widgets/add_product_image_picker.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
 import 'package:xrpl2_plazaku/widgets/custom_input_field.dart';
 
@@ -28,7 +28,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
   final variantNameController = TextEditingController();
   final variantOptionsController = TextEditingController();
 
-  Category? selectedCategory;
+  late Category selectedCategory;
 
   File? imageFile;
   List<VariantModel> productVariants = [];
@@ -36,10 +36,10 @@ class _SellerAddProductState extends State<SellerAddProduct> {
 
   void addVariant() {
     String name = variantNameController.text.trim();
-    String optionsRaw = variantOptionsController.text.trim();
+    String options = variantOptionsController.text.trim();
 
-    if (name.isNotEmpty && optionsRaw.isNotEmpty) {
-      List<String> optionsList = optionsRaw
+    if (name.isNotEmpty && options.isNotEmpty) {
+      List<String> optionsList = options
           .split(',')
           .map((e) => e.trim())
           .toList();
@@ -66,7 +66,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
         title: nameController.text,
         image: imageFile?.path ?? 'assets/images/no-image.png',
         price: int.parse(priceController.text),
-        category: selectedCategory!,
+        category: selectedCategory,
         rating: 0,
         review: 0,
         location: locationController.text,
@@ -108,7 +108,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 hint: 'Enter the product name',
                 suffixIcon: Icon(null),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.trim().isEmpty) {
                     return 'Name required';
                   }
                   return null;
@@ -119,7 +119,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 selectedCategory: selectedCategory,
                 onChanged: (p0) {
                   setState(() {
-                    selectedCategory = p0;
+                    selectedCategory = p0!;
                   });
                 },
               ),
@@ -132,7 +132,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 hint: 'Rp 0',
                 suffixIcon: Icon(null),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.trim().isEmpty) {
                     return 'Price required';
                   }
                   return null;
@@ -147,7 +147,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 hint: '0',
                 suffixIcon: Icon(null),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.trim().isEmpty) {
                     return 'Stock required';
                   }
                   return null;
@@ -174,7 +174,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
                 hint: 'Enter your location',
                 suffixIcon: Icon(null),
                 validator: (p0) {
-                  if (p0 == null || p0.isEmpty) {
+                  if (p0 == null || p0.trim().isEmpty) {
                     return 'Location required';
                   }
                   return null;

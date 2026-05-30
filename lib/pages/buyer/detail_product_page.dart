@@ -42,6 +42,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
 
   //add product to cart
   void addToCart() {
+    selected.clear();
+
+    selectedVariants.forEach((key, value) {
+      selected.add(VariantModel(name: key, options: [value]));
+    });
     cartService.addProductToCart(user.id, product, selected);
 
     ScaffoldMessenger.of(

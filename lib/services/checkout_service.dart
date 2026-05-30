@@ -34,7 +34,7 @@ class CheckoutService {
       id: DateTime.now().millisecondsSinceEpoch,
       userId: checkout.userId,
       userName: appService.userModel!.username,
-      items: checkout.productsQuantity,
+      products: checkout.productsQuantity,
       status: ProductStatus.pending,
       date: DateTime.now(),
       sellerId: checkout.productsQuantity.first.product.sellerId,

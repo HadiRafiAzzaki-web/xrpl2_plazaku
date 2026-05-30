@@ -23,13 +23,10 @@ class _AccountSellerPageState extends State<AccountSellerPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Text("Account", style: TextStyle(color: Colors.black))],
-        ),
-        flexibleSpace: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(color: Color(0xFFF5F5F5)),
         ),
       ),
       body: SingleChildScrollView(

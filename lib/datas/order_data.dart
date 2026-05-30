@@ -10,7 +10,7 @@ List<OrderModel> orders = [
     id: 0,
     userId: 0,
     userName: 'Dika Maulana',
-    items: [
+    products: [
       ProductQuantityModel(
         product: productService.products[0],
         quantity: 1,
@@ -33,7 +33,7 @@ List<OrderModel> orders = [
     id: 1,
     userId: 1,
     userName: 'Siti Aisyah',
-    items: [
+    products: [
       ProductQuantityModel(
         product: productService.products[0],
         quantity: 1,
@@ -42,7 +42,7 @@ List<OrderModel> orders = [
       ProductQuantityModel(
         product: productService.products[2],
         quantity: 5,
-        variants: productService.products[0].variants,
+        variants: productService.products[2].variants,
       ),
     ],
     status: ProductStatus.finish,
@@ -56,7 +56,7 @@ List<OrderModel> orders = [
     id: 2,
     userId: 2,
     userName: 'Budi Santoso',
-    items: [
+    products: [
       ProductQuantityModel(
         product: productService.products[0],
         quantity: 1,

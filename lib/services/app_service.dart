@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:xrpl2_plazaku/modeOrRole/app_mode.dart';
 import 'package:xrpl2_plazaku/modeOrRole/role.dart';
 import 'package:xrpl2_plazaku/models/user_model.dart';
@@ -12,17 +11,15 @@ import 'package:xrpl2_plazaku/services/wishlist_service.dart';
 import 'cart_service.dart';
 import 'filter_service.dart';
 
-class AppService extends ChangeNotifier {
+class AppService {
   UserModel? userModel;
 
   void login(UserModel user) {
     userModel = user;
-    notifyListeners();
   }
 
   void logout() {
     userModel = null;
-    notifyListeners();
   }
 
   void switchBetweenBuyerSeller() {
@@ -34,7 +31,6 @@ class AppService extends ChangeNotifier {
     } else {
       userModel?.currentMode = AppMode.buyer;
     }
-    notifyListeners();
   }
 
   void updateUserRole(Role role, AppMode appMode) {
@@ -42,8 +38,6 @@ class AppService extends ChangeNotifier {
     userModel!.role = role;
     userModel!.currentMode = appMode;
     userModel!.isSeller = role == Role.seller;
-
-    notifyListeners();
   }
 }
 

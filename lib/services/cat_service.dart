@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/cat_model.dart';
+import 'package:xrpl2_plazaku/pages/buyer/account_page/location_page.dart';
+import 'package:xrpl2_plazaku/pages/buyer/account_page/myProfile.dart';
+import 'package:xrpl2_plazaku/pages/buyer/account_page/order_page.dart';
 import 'package:xrpl2_plazaku/pages/create_store/create_store_page.dart';
 import 'package:xrpl2_plazaku/pages/main_dashboard_page.dart';
-import 'package:xrpl2_plazaku/pages/myProfile.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 List<CatModel> get mod {
@@ -17,13 +19,13 @@ List<CatModel> get mod {
       text: 'Location',
       color: Colors.black,
       icon: Icons.location_on_outlined,
-      page: Center(),
+      page: LocationPage(),
     ),
     CatModel(
       text: 'My Order',
       color: Colors.black,
       icon: Icons.shopping_bag,
-      page: Center(),
+      page: OrderPage(),
     ),
     CatModel(
       text: 'My Card',

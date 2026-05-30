@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/seller/seller_order_page.dart';
-import 'package:xrpl2_plazaku/widgets/order_status.dart';
+import 'package:xrpl2_plazaku/pages/seller/widgets/order_status.dart';
 
 class SellerOrderIn extends StatelessWidget {
   final int total;

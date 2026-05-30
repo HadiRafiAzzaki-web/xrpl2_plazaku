@@ -28,9 +28,7 @@ class SellerDatePicker extends StatelessWidget {
                   Text(
                     selectedDate == null
                         ? 'Select Date'
-                        : '${selectedDate!.start.day}/${selectedDate!.start.month}/${selectedDate!.start.year}'
-                              ' - '
-                              '${selectedDate!.end.day}/${selectedDate!.end.month}/${selectedDate!.end.year}',
+                        : '${selectedDate!.start.day}/${selectedDate!.start.month}/${selectedDate!.start.year} - ${selectedDate!.end.day}/${selectedDate!.end.month}/${selectedDate!.end.year}',
                   ),
                 ],
               ),

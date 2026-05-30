@@ -19,7 +19,7 @@ class OrderModel {
   final int? sellerId;
   final String userName;
   final String location;
-  final List<ProductQuantityModel> items;
+  final List<ProductQuantityModel> products;
   final PaymentMethod paymentMethod;
   final DeliveryMethod deliveryMethod;
   ProductStatus status;
@@ -33,22 +33,22 @@ class OrderModel {
     required this.sellerId,
     required this.userId,
     required this.userName,
-    required this.items,
+    required this.products,
     required this.status,
     required this.date,
   });
 
   //get total price
   int get totalPrice {
-    return items.fold(
+    return products.fold(
       0,
       (previousValue, element) => previousValue + element.subtotal,
     );
   }
 
   //get all product quantity
-  int get totalItem {
-    return items.fold(
+  int get totalProducts {
+    return products.fold(
       0,
       (previousValue, element) => previousValue + element.quantity,
     );

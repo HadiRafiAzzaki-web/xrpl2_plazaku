@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
+import 'package:xrpl2_plazaku/pages/seller/widgets/seller_card.dart';
+import 'package:xrpl2_plazaku/pages/seller/widgets/seller_order_in.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
-import 'package:xrpl2_plazaku/widgets/seller_card.dart';
 import 'package:xrpl2_plazaku/widgets/seller_date_picker.dart';
-import 'package:xrpl2_plazaku/widgets/seller_order_in.dart';
 
-import '../../widgets/seller_chart.dart';
+import 'widgets/seller_chart.dart';
 
 class SellerHomePage extends StatefulWidget {
   const SellerHomePage({super.key});
@@ -34,9 +34,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
       ProductStatus.finish,
       user.sellerId,
     );
-    final totalOrderIn = orderService.allOrders
-        .where((element) => element.sellerId == user.sellerId)
-        .length;
+    final totalOrderIn = orderService.sellerOrders(user.sellerId).length;
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -81,7 +79,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                     SellerCard(
                       title: 'Total Sales',
                       value: formatRupiah(
-                        orderService.totalRevenue(user.sellerId, selectedDate),
+                        orderService.totalRevenue(user.sellerId),
                       ),
                       percentage: 12.5,
                     ),
@@ -122,13 +120,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                           fontSize: 16,
                         ),
                       ),
-                      SizedBox(
-                        height: 300,
-                        child: SellerChart(
-                          date: selectedDate,
-                          sellerId: user.sellerId,
-                        ),
-                      ),
+                      SizedBox(height: 300, child: SellerChart()),
                     ],
                   ),
                 ),

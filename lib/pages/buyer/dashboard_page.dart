@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/pages/buyer/wishlist_page.dart';
 
-import 'account_page.dart';
+import 'account_page/account_page.dart';
 import 'cart_page.dart';
 import 'home_page.dart';
 

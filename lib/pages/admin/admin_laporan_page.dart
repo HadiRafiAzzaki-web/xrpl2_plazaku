@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/widgets/custom_button.dart';
+import 'package:xrpl2_plazaku/widgets/seller_date_picker.dart';
 
 class AdminLaporanPage extends StatefulWidget {
   const AdminLaporanPage({super.key});
@@ -9,34 +10,17 @@ class AdminLaporanPage extends StatefulWidget {
 }
 
 class _AdminLaporanPageState extends State<AdminLaporanPage> {
+  late DateTimeRange selectedDate;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Card(
-              elevation: 3,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(width: 10),
-                        Text("12 Mei 2026 - 27 Mei 2026"),
-                      ],
-                    ),
-                    Icon(Icons.keyboard_arrow_down),
-                  ],
-                ),
-              ),
-            ),
+            SellerDatePicker(onTap: pickDateRange),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [Text("Total Pendapatan"), Text("   Rp 1.000.000.000")],
@@ -67,9 +51,24 @@ class _AdminLaporanPageState extends State<AdminLaporanPage> {
           color: Colors.purple,
           textColor: Colors.white,
           height: 30,
-          width:double.infinity, textSize: 18,
+          width: double.infinity,
+          textSize: 18,
         ),
       ),
     );
+  }
+
+  Future<void> pickDateRange() async {
+    final result = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2030),
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDate = result;
+      });
+    }
   }
 }

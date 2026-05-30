@@ -3,7 +3,7 @@ import 'package:xrpl2_plazaku/pages/splash_screen.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/services/cat_service.dart';
 
-import '../../widgets/cat_widget.dart';
+import '../../../widgets/cat_widget.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});

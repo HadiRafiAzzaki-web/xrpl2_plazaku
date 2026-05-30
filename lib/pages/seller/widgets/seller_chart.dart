@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class AdminSellerChart extends StatelessWidget {
-  const AdminSellerChart({super.key});
+class SellerChart extends StatelessWidget {
+  const SellerChart({super.key});
 
   @override
   Widget build(BuildContext context) {

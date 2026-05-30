@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
+import 'package:xrpl2_plazaku/pages/seller/widgets/finance_item.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
-import 'package:xrpl2_plazaku/widgets/finance_item.dart';
 
 class SellerFinancePage extends StatefulWidget {
   const SellerFinancePage({super.key});
@@ -18,7 +18,7 @@ class _SellerFinancePageState extends State<SellerFinancePage> {
     final user = appService.userModel!;
     //get seller order
     final sellerOrders = orderService.allOrders.where((order) {
-      return order.items.any(
+      return order.products.any(
         (element) => element.product.sellerId == user.sellerId,
       );
     }).toList();
@@ -31,7 +31,7 @@ class _SellerFinancePageState extends State<SellerFinancePage> {
     );
     final totalSales = finishedOrders.fold(
       0,
-      (sum, order) => sum + order.totalItem,
+      (sum, order) => sum + order.totalProducts,
     );
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),

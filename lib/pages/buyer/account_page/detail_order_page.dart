@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
-import 'package:xrpl2_plazaku/utils/price_format.dart';
-import 'package:xrpl2_plazaku/utils/product_image.dart';
-import 'package:xrpl2_plazaku/widgets/custom_button.dart';
+
+import '../../../utils/price_format.dart';
+import '../../../utils/product_image.dart';
 
 class DetailOrderPage extends StatefulWidget {
   final int id;
@@ -20,10 +20,10 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
 
   @override
   void initState() {
+    super.initState();
     order = orderService.allOrders.firstWhere(
       (element) => element.id == widget.id,
     );
-    super.initState();
   }
 
   @override
@@ -199,83 +199,12 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    if (order.status == ProductStatus.pending)
-                      Column(
-                        children: [
-                          CustomButton(
-                            height: 55,
-                            width: double.infinity,
-                            title: 'Accept Order',
-                            onPressed: () {
-                              setState(() {
-                                order.status = ProductStatus.processed;
-                              });
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Order has been processed'),
-                                ),
-                              );
-                            },
-                            color: Color(0xFF002AFF),
-                            textColor: Colors.white,
-                            textSize: 18,
-                          ),
-                          SizedBox(height: 10),
-                          CustomButton(
-                            width: double.infinity,
-                            height: 55,
-                            title: 'Reject Order',
-                            onPressed: rejectedShowDialog,
-                            color: Colors.red,
-                            textColor: Colors.white,
-                            textSize: 18,
-                          ),
-                        ],
-                      ),
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  rejectedShowDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Reject Order?'),
-        content: Text(
-          'Are you sure you want to reject this order? This action cannot be undone.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Cancel', style: TextStyle(color: Colors.grey)),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                order.status = ProductStatus.rejected;
-              });
-              Navigator.pop(context);
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Order Rejected'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            },
-            child: Text('Yes', style: TextStyle(color: Colors.red)),
-          ),
-        ],
       ),
     );
   }

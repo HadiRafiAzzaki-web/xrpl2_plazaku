@@ -145,6 +145,33 @@ class _CartPageState extends State<CartPage> {
                                   '(${cartProduct[index].product.review})',
                                   style: TextStyle(color: Colors.black),
                                 ),
+                                SizedBox(width: 5),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: cartProduct[index].variants
+                                      .map(
+                                        (e) => Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 6,
+                                            vertical: 2,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '${e.name}: ${e.options.join(", ")}',
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              color: Colors.grey.shade800,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                               ],
                             ),
                             SizedBox(height: 12),
@@ -270,6 +297,14 @@ class _CartPageState extends State<CartPage> {
                 );
                 if (selectedProduct.isNotEmpty) {
                   checkoutService.addCheckouts(checkout, user.id);
+                  final removeSelectedProduct = cartProduct
+                      .where((element) => element.isSelected)
+                      .toList();
+                  for (var element in removeSelectedProduct) {
+                    setState(() {
+                      cartService.removeProductFromCart(element, user.id);
+                    });
+                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(

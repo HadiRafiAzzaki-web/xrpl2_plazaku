@@ -11,24 +11,19 @@ class MainDashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: appService,
-      builder: (context, child) {
-        final user = appService.userModel;
-        if (user == null) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
-        }
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
-        if (user.role == Role.admin) {
-          return AdminDashboardPage();
-        }
+    if (user.role == Role.admin) {
+      return AdminDashboardPage();
+    }
 
-        if (user.role == Role.seller && user.currentMode == AppMode.seller) {
-          return SellerDashboardPage();
-        }
+    if (user.role == Role.seller && user.currentMode == AppMode.seller) {
+      return SellerDashboardPage();
+    }
 
-        return DashboardPage();
-      },
-    );
+    return DashboardPage();
   }
 }
