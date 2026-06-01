@@ -143,7 +143,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                           ],
                         ),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(payment, style: TextStyle(color: Colors.grey)),
                             Text(

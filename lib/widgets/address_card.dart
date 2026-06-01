@@ -47,7 +47,7 @@ class AddressCard extends StatelessWidget {
               ],
             ),
           ),
-          Padding(padding: EdgeInsets.all(10), child: Text(user.location)),
+          Padding(padding: EdgeInsets.all(15), child: Text(user.location)),
         ],
       ),
     );

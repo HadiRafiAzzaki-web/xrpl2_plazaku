@@ -7,6 +7,7 @@ import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/widgets/address_card.dart';
 
+import '../../utils/product_image.dart';
 import '../../widgets/custom_button.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -75,6 +76,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
     if (user == null) {
       return Scaffold(body: Center(child: CircularProgressIndicator()));
     }
+    final productImage = checkout.productsQuantity
+        .map((e) => e.product.image)
+        .toList();
+    final productName = checkout.productsQuantity
+        .map((e) => e.product.title)
+        .toList();
+    final productPrice = checkout.productsQuantity
+        .map((e) => e.product.price)
+        .toList();
+    final productQuantity = checkout.productsQuantity
+        .map((e) => e.quantity)
+        .toList();
     int deliveryFee = selectedDelivery == DeliveryMethod.takeItYourself
         ? 0
         : 10000;
@@ -183,24 +196,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: voucherCode,
-                    decoration: InputDecoration(
-                      hintText: 'Voucher code',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.grey.shade50),
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 165),
+                    child: TextField(
+                      controller: voucherCode,
+                      decoration: InputDecoration(
+                        hintText: 'Voucher code',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.grey.shade50),
+                        ),
                       ),
                     ),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text('data')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Voucher code used')),
+                    );
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
@@ -216,6 +232,80 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Product',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey),
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  ListView.separated(
+                    padding: EdgeInsets.all(12),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => ListTile(
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: ProductImage(image: productImage[index]),
+                        ),
+                      ),
+                      title: Text(
+                        productName[index],
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            formatRupiah(productPrice[index]),
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          SizedBox(height: 5),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: checkout.productsQuantity[index].variants
+                                .map(
+                                  (e) => Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      '${e.name}: ${e.options}',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey.shade800,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ],
+                      ),
+                      trailing: Text('${productQuantity[index]}'),
+                    ),
+                    separatorBuilder: (context, index) => SizedBox(height: 5),
+                    itemCount: checkout.productsQuantity.length,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             Text(

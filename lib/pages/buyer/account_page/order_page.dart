@@ -36,6 +36,7 @@ class _OrderPageState extends State<OrderPage> {
       body: userOrder.isEmpty
           ? Center(child: Text('You don`t have order yet'))
           : ListView.separated(
+              padding: EdgeInsets.all(16),
               itemBuilder: (context, index) => OrderCard(
                 onTap: () {
                   Navigator.push(

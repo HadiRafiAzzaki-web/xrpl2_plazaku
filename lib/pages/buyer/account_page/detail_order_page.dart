@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:xrpl2_plazaku/models/order_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
+import '../../../modeOrRole/delivery_method.dart';
+import '../../../modeOrRole/payment_method.dart';
 import '../../../utils/price_format.dart';
 import '../../../utils/product_image.dart';
 
@@ -31,6 +33,22 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     Color statusColor = Colors.grey;
     Color bgColor = Colors.grey.shade100;
     String title = '';
+    String payment = '';
+    String delivery = '';
+
+    if (order.paymentMethod == PaymentMethod.cod) {
+      payment = 'Cash on Delivery';
+    } else if (order.paymentMethod == PaymentMethod.eWallet) {
+      payment = 'E-Wallet';
+    } else {
+      payment = 'Transfer';
+    }
+
+    if (order.deliveryMethod == DeliveryMethod.expeditionCourier) {
+      delivery = 'Expedition Courier';
+    } else {
+      delivery = 'Take it Yourself';
+    }
 
     if (order.status == ProductStatus.pending) {
       statusColor = Colors.orange;
@@ -105,14 +123,37 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                     Divider(),
                     Text('Customer Data'),
                     SizedBox(height: 5),
-                    Text(
-                      order.userName,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              order.userName,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              order.location,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(payment, style: TextStyle(color: Colors.grey)),
+                            Text(
+                              delivery,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Text(order.location, style: TextStyle(color: Colors.grey)),
                     Divider(),
                     Text(
                       'Product',
