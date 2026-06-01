@@ -27,7 +27,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(minutes: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         now = DateTime.now();
       });

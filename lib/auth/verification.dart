@@ -164,13 +164,7 @@ class _VerificationState extends State<Verification> {
                     Text('You can resend the code in $otpTimer seconds'),
                     SizedBox(height: 20),
                     TextButton(
-                      onPressed: () {
-                        if (otpTimer == 0) {
-                          otpResend();
-                        } else {
-                          null;
-                        }
-                      },
+                      onPressed: otpTimer == 0 ? otpResend : null,
                       child: Text(otpTimer == 0 ? 'Resend' : 'Wait'),
                     ),
                   ],

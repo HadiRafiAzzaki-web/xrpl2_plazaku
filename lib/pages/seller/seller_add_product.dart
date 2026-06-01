@@ -53,9 +53,7 @@ class _SellerAddProductState extends State<SellerAddProduct> {
   }
 
   void saveProduct() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    } else {
+    if (_formKey.currentState!.validate()) {
       final user = appService.userModel;
       if (user == null) return;
       final product = ProductModel(
@@ -77,6 +75,8 @@ class _SellerAddProductState extends State<SellerAddProduct> {
         SnackBar(content: Text('Product added'), backgroundColor: Colors.green),
       );
       Navigator.pop(context);
+    } else {
+      return;
     }
   }
 

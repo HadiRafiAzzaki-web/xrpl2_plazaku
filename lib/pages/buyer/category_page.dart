@@ -44,28 +44,25 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ],
       ),
-      body: Padding(
+      body: GridView.builder(
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.9,
-          ),
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: products.length,
-          itemBuilder: (context, index) => ProductCard(
-            product: products[index],
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      DetailProductPage(id: products[index].id),
-                ),
-              );
-            },
-          ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.9,
+        ),
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: products.length,
+        itemBuilder: (context, index) => ProductCard(
+          product: products[index],
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailProductPage(id: products[index].id),
+              ),
+            );
+          },
         ),
       ),
     );

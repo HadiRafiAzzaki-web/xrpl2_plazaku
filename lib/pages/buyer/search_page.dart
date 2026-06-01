@@ -15,7 +15,10 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.userModel!;
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final searches = searchService.userSearchHistory(user.id);
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
@@ -25,6 +28,19 @@ class _SearchPageState extends State<SearchPage> {
         title: TextField(
           controller: search,
           keyboardType: TextInputType.text,
+          autofocus: true,
+          onSubmitted: (value) {
+            if (value.trim().isEmpty) return;
+            searchService.addSearchToHistory(user.id, value.trim());
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchResult(search: value.trim()),
+              ),
+            ).then((value) {
+              setState(() {});
+            });
+          },
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
@@ -40,8 +56,8 @@ class _SearchPageState extends State<SearchPage> {
         actions: [
           TextButton(
             onPressed: () {
-              if (search.text.isEmpty) return;
-              searchService.addSearchToHistory(user.id, search.text);
+              if (search.text.trim().isEmpty) return;
+              searchService.addSearchToHistory(user.id, search.text.trim());
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -80,9 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                       builder: (context) =>
                           SearchResult(search: searches[index].search),
                     ),
-                  ).then((value) {
-                    setState(() {});
-                  });
+                  );
                   searchService.addSearchToHistory(
                     user.id,
                     searches[index].search,

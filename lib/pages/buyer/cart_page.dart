@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/modeOrRole/delivery_method.dart';
+import 'package:xrpl2_plazaku/modeOrRole/payment_method.dart';
 import 'package:xrpl2_plazaku/models/checkout_model.dart';
-import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
-import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/models/product_quantity_model.dart';
 import 'package:xrpl2_plazaku/pages/buyer/checkout_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
@@ -116,8 +116,6 @@ class _CartPageState extends State<CartPage> {
                           children: [
                             Text(
                               cartProduct[index].product.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
@@ -192,12 +190,32 @@ class _CartPageState extends State<CartPage> {
                                         if (cartProduct[index].quantity > 1) {
                                           cartProduct[index].quantity--;
                                         } else {
-                                          setState(() {
-                                            cart.removeProductFromCart(
-                                              cartProduct[index],
-                                              user.id,
-                                            );
-                                          });
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: Text('Remove Product'),
+                                              content: Text(
+                                                'Remove product from cart?',
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('No'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    cart.removeProductFromCart(
+                                                      cartProduct[index],
+                                                      user.id,
+                                                    );
+                                                  },
+                                                  child: Text('Yes'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
                                         }
                                       });
                                     },
@@ -287,30 +305,34 @@ class _CartPageState extends State<CartPage> {
                       ),
                     )
                     .toList();
-                final checkout = CheckoutModel(
-                  id: DateTime.now().millisecondsSinceEpoch,
-                  userId: user.id,
-                  productsQuantity: selectedProduct,
-                  location: user.location,
-                  paymentMethod: PaymentMethod.cod,
-                  deliveryMethod: DeliveryMethod.takeItYourself,
-                );
                 if (selectedProduct.isNotEmpty) {
+                  final checkout = CheckoutModel(
+                    id: DateTime.now().millisecondsSinceEpoch,
+                    userId: user.id,
+                    productsQuantity: selectedProduct,
+                    location: user.location,
+                    paymentMethod: PaymentMethod.cod,
+                    deliveryMethod: DeliveryMethod.takeItYourself,
+                  );
                   checkoutService.addCheckouts(checkout, user.id);
                   final removeSelectedProduct = cartProduct
                       .where((element) => element.isSelected)
                       .toList();
-                  for (var element in removeSelectedProduct) {
-                    setState(() {
+                  setState(() {
+                    for (var element in removeSelectedProduct) {
                       cartService.removeProductFromCart(element, user.id);
-                    });
-                  }
+                    }
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
                           CheckoutPage(checkoutId: checkout.id),
                     ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Select product first')),
                   );
                 }
               },

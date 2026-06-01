@@ -22,10 +22,8 @@ class _AccountPageState extends State<AccountPage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Account", style: TextStyle(color: Colors.black))],
-        ),
+        title: Text("Account", style: TextStyle(color: Colors.black)),
+        centerTitle: true,
         flexibleSpace: Container(
           width: double.infinity,
           decoration: BoxDecoration(

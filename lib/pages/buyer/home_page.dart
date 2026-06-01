@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/pages/buyer/search_page.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 
 import '../../widgets/banner_header.dart';
@@ -32,7 +33,15 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         //searchbar
-        title: SearchBarWidget(title: 'Search product'),
+        title: SearchBarWidget(
+          title: 'Search product',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchPage()),
+            );
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {},

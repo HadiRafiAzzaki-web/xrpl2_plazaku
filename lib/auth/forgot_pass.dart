@@ -99,7 +99,9 @@ class _ForgotPassState extends State<ForgotPass> {
                           onPressed: () {
                             if (_key.currentState!.validate()) {
                               final isEmailExist = users.any(
-                                (element) => element.email == _email.text,
+                                (element) =>
+                                    element.email.toLowerCase() ==
+                                    _email.text.trim().toLowerCase(),
                               );
                               if (isEmailExist) {
                                 Navigator.pushReplacement(
@@ -112,7 +114,9 @@ class _ForgotPassState extends State<ForgotPass> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Email not registered'),
+                                    content: Text(
+                                      'Enter your registered email address to continue.',
+                                    ),
                                     backgroundColor: Colors.red,
                                   ),
                                 );

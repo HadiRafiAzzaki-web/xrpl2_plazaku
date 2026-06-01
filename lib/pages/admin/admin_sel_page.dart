@@ -12,7 +12,7 @@ class AdminSelPage extends StatefulWidget {
 }
 
 class _AdminSelPageState extends State<AdminSelPage> {
-  List<UserModel> use = [];
+  List<UserModel> userSellers = [];
 
   @override
   void initState() {
@@ -20,7 +20,7 @@ class _AdminSelPageState extends State<AdminSelPage> {
     List<UserModel> sellers = users
         .where((element) => element.role == Role.seller)
         .toList();
-    use.addAll(sellers);
+    userSellers.addAll(sellers);
   }
 
   @override
@@ -53,11 +53,11 @@ class _AdminSelPageState extends State<AdminSelPage> {
               ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: use.length,
+                itemCount: userSellers.length,
                 itemBuilder: (context, index) => ListTile(
-                  leading: Text(use[index].username),
-                  title: Text(use[index].email),
-                  trailing: Text('${use[index].role}'),
+                  leading: Text(userSellers[index].username),
+                  title: Text(userSellers[index].email),
+                  trailing: Text('${userSellers[index].role}'),
                 ),
               ),
             ],

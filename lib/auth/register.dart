@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/auth/verification.dart';
+import 'package:xrpl2_plazaku/datas/data_account.dart';
 
 import '../widgets/custom_input_field.dart';
 
@@ -133,9 +134,9 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 5),
                       CustomInputField(
                         controller: _phoneNum,
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.number,
                         obscure: false,
-                        hint: '+62 0856-3456-6523',
+                        hint: '085634566523',
                         suffixIcon: Icon(null),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -226,6 +227,26 @@ class _RegisterState extends State<Register> {
                           onPressed: () {
                             setState(() {
                               if (_key.currentState!.validate()) {
+                                bool usernameExist = users.any(
+                                  (element) =>
+                                      element.username.toLowerCase() ==
+                                      _name.text.trim().toLowerCase(),
+                                );
+                                bool emailExist = users.any(
+                                  (element) =>
+                                      element.email.toLowerCase() ==
+                                      _email.text.trim().toLowerCase(),
+                                );
+                                if (usernameExist || emailExist) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Username or email is already exist',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -52,7 +52,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text("Log Out?"),
-                        content: Text("Are you sure want to log out?"),
+                        content: Text("Are you sure you want to log out?"),
                         actions: [
                           TextButton(
                             onPressed: () {

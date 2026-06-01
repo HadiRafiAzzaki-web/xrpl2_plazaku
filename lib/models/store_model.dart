@@ -1,5 +1,5 @@
-import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
-import 'package:xrpl2_plazaku/models/payment_method_model.dart';
+import 'package:xrpl2_plazaku/modeOrRole/delivery_method.dart';
+import 'package:xrpl2_plazaku/modeOrRole/payment_method.dart';
 import 'package:xrpl2_plazaku/models/product_model.dart';
 
 enum StoreStatus { waiting, verified, rejected }

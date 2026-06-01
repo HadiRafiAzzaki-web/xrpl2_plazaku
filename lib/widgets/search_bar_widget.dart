@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../pages/buyer/search_page.dart';
-
 class SearchBarWidget extends StatelessWidget {
   final String title;
+  final VoidCallback? onTap;
 
-  const SearchBarWidget({super.key, required this.title});
+  const SearchBarWidget({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => SearchPage()),
-        );
-      },
+      onTap: onTap,
       child: Container(
         height: 40,
         decoration: BoxDecoration(

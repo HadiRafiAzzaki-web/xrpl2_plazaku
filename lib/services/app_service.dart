@@ -48,9 +48,5 @@ final wishlistService = WishlistService();
 final orderService = OrderService();
 final checkoutService = CheckoutService();
 final storeService = StoreService();
-final filterService = FilterService(
-  productService,
-  wishlistService,
-  cartService,
-);
+final filterService = FilterService(productService: productService);
 final searchService = SearchService();

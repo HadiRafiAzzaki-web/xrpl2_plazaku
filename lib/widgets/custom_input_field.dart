@@ -29,13 +29,13 @@ class CustomInputField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       decoration: InputDecoration(
+        hintText: hint,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide(color: Color(0xFF000000)),
         ),
         filled: true,
         fillColor: Colors.white,
-        hint: Text(hint),
         suffixIcon: suffixIcon,
         alignLabelWithHint: true,
       ),

@@ -19,10 +19,14 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   Widget build(BuildContext context) {
     final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final wishlistProduct = wishlistService
-        .userWishlist(user!.id)
+        .userWishlist(user.id)
         .where(
-          (element) => element.product.title.toLowerCase().contains(search),
+          (element) =>
+              element.product.title.trim().toLowerCase().contains(search),
         )
         .toList();
     return Scaffold(
@@ -59,7 +63,7 @@ class _WishlistPageState extends State<WishlistPage> {
                 controller: searchController,
                 onChanged: (value) {
                   setState(() {
-                    search = value;
+                    search = value.trim().toLowerCase();
                   });
                 },
                 decoration: InputDecoration(

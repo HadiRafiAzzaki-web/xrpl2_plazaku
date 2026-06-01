@@ -17,6 +17,7 @@ class _AdminLaporanPageState extends State<AdminLaporanPage> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             SellerDatePicker(onTap: pickDateRange),

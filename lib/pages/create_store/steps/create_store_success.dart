@@ -32,7 +32,10 @@ class _CreateStoreSuccessState extends State<CreateStoreSuccess> {
 
   @override
   Widget build(BuildContext context) {
-    final user = appService.userModel!;
+    final user = appService.userModel;
+    if (user == null) {
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Stack(
       alignment: Alignment.topCenter,
       children: [
@@ -59,7 +62,7 @@ class _CreateStoreSuccessState extends State<CreateStoreSuccess> {
               Icon(Icons.check_circle, color: Colors.green, size: 110),
               SizedBox(height: 24),
               Text(
-                'Shop Created Successfully',
+                '${widget.storeData.shopName} Created Successfully',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -73,25 +76,13 @@ class _CreateStoreSuccessState extends State<CreateStoreSuccess> {
               CustomButton(
                 title: 'Go to Seller Page',
                 onPressed: () {
-                  try {
-                    debugPrint('add store');
-
-                    storeService.addStore(user.id, widget.storeData);
-
-                    debugPrint('add store done');
-
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => MainDashboardPage(),
-                      ),
-                      (route) => false,
-                    );
-                  } catch (e) {
-                    debugPrint('error add store $e');
-                  }
+                  storeService.addStore(user.id, widget.storeData);
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => MainDashboardPage(),
+                    ),
+                    (route) => false,
+                  );
                 },
                 color: Colors.blue,
                 textColor: Colors.white,

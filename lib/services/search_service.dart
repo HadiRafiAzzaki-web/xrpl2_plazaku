@@ -12,7 +12,7 @@ class SearchService {
     final isExist = searchHistory.any(
       (element) =>
           element.userId == userId &&
-          element.search.toLowerCase() == search.toLowerCase(),
+          element.search.trim().toLowerCase() == search.trim().toLowerCase(),
     );
 
     if (!isExist) {

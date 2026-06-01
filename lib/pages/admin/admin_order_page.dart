@@ -17,8 +17,9 @@ class _AdminOrderPageState extends State<AdminOrderPage> {
   Widget build(BuildContext context) {
     final filteredOrders = orders
         .where(
-          (element) =>
-              element.userName.toLowerCase().contains(search.toLowerCase()),
+          (element) => element.userName.toLowerCase().contains(
+            search.trim().toLowerCase(),
+          ),
         )
         .toList();
     return Scaffold(
@@ -44,7 +45,7 @@ class _AdminOrderPageState extends State<AdminOrderPage> {
             },
             decoration: InputDecoration(
               icon: Icon(Icons.search),
-              hintText: 'Search cart',
+              hintText: 'Search order',
               border: InputBorder.none,
             ),
           ),

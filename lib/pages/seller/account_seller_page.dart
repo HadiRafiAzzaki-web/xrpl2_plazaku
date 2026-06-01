@@ -24,10 +24,8 @@ class _AccountSellerPageState extends State<AccountSellerPage> {
       backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Account", style: TextStyle(color: Colors.black))],
-        ),
+        title: Text("Account", style: TextStyle(color: Colors.blue)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),

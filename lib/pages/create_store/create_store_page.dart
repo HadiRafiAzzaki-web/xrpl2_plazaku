@@ -18,8 +18,6 @@ class CreateStorePage extends StatefulWidget {
 class _CreateStorePageState extends State<CreateStorePage> {
   int selectedSteps = 0;
 
-  final CreateStoreModel createStoreData = CreateStoreModel();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

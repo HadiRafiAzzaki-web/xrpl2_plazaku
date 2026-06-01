@@ -19,7 +19,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
     final filteredProducts = dataProducts
         .where(
           (element) =>
-              element.title.toLowerCase().contains(search.toLowerCase()),
+              element.title.toLowerCase().contains(search.trim().toLowerCase()),
         )
         .toList();
     return Scaffold(
@@ -45,7 +45,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
             },
             decoration: InputDecoration(
               icon: Icon(Icons.search),
-              hintText: 'Search cart',
+              hintText: 'Search products',
               border: InputBorder.none,
             ),
           ),

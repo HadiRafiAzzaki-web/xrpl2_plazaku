@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/widgets/product_card.dart';
+import 'package:xrpl2_plazaku/widgets/search_bar_widget.dart';
 
 class SearchResult extends StatefulWidget {
   final String search;
@@ -16,8 +17,9 @@ class _SearchResultState extends State<SearchResult> {
   Widget build(BuildContext context) {
     final filteredProducts = productService.products
         .where(
-          (element) =>
-              element.title.toLowerCase().contains(widget.search.toLowerCase()),
+          (element) => element.title.trim().toLowerCase().contains(
+            widget.search.trim().toLowerCase(),
+          ),
         )
         .toList();
     return Scaffold(
@@ -25,22 +27,11 @@ class _SearchResultState extends State<SearchResult> {
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: Color(0xFFF5F5F5),
-        title: TextField(
+        title: SearchBarWidget(
+          title: widget.search,
           onTap: () {
             Navigator.pop(context);
           },
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: BorderSide(color: Colors.black),
-            ),
-            prefixIcon: Icon(Icons.search, color: Colors.grey),
-            hint: Text(
-              widget.search,
-              style: TextStyle(color: Colors.grey, fontSize: 18),
-            ),
-          ),
         ),
       ),
       body: filteredProducts.isEmpty

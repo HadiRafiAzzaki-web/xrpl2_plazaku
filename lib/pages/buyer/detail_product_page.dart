@@ -33,7 +33,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
       if (variant.options.isNotEmpty) {
         selectedVariants[variant.name] = variant.options.first;
         selected.add(
-          VariantModel(name: variant.name, options: variant.options),
+          VariantModel(name: variant.name, options: [variant.options.first]),
         );
       }
     }
@@ -148,6 +148,15 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                 setState(() {
                                   addWishlist();
                                 });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      product.isFavorite
+                                          ? 'Removed from wishlist'
+                                          : 'Added to wishlist',
+                                    ),
+                                  ),
+                                );
                               },
                               icon: Icon(
                                 Icons.favorite,
@@ -283,7 +292,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       ),
                     ),
                   )
-                : Center(child: Text('Variant empty')),
+                : Text('No variants available'),
             SizedBox(height: 15),
             Card(
               elevation: 3,

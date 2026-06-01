@@ -87,7 +87,7 @@ class _AdminPengelolaanPageState extends State<AdminPengelolaanPage> {
                 itemBuilder: (context, index) => ListTile(
                   leading: Text(user[index].username),
                   title: Text(user[index].email),
-                  subtitle: Text('${user[index].role}'),
+                  trailing: Text('${user[index].role}'),
                 ),
               ),
             ],

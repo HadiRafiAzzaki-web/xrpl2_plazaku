@@ -7,7 +7,6 @@ import '../models/user_model.dart';
 List<UserModel> users = [
   UserModel(
     id: 0,
-    sellerId: null,
     username: 'Hadi',
     email: 'rafirofu4@gmail.com',
     password: 'tytyty',
@@ -19,7 +18,6 @@ List<UserModel> users = [
   ),
   UserModel(
     id: 1,
-    sellerId: null,
     username: 'Merlin',
     email: 'rafirofu2@gmail.com',
     password: 'rerere',
@@ -56,6 +54,7 @@ List<UserModel> users = [
   ),
   UserModel(
     id: 4,
+    sellerId: 1,
     isSeller: true,
     username: 'pipi',
     email: 'pipi@gmail.ccom',

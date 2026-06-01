@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:xrpl2_plazaku/modeOrRole/delivery_method.dart';
+import 'package:xrpl2_plazaku/modeOrRole/payment_method.dart';
 import 'package:xrpl2_plazaku/models/checkout_model.dart';
-import 'package:xrpl2_plazaku/models/delivery_method_model.dart';
-import 'package:xrpl2_plazaku/models/payment_method_model.dart';
 import 'package:xrpl2_plazaku/services/app_service.dart';
 import 'package:xrpl2_plazaku/utils/price_format.dart';
 import 'package:xrpl2_plazaku/widgets/address_card.dart';
@@ -19,6 +19,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  var voucherCode = TextEditingController();
   late CheckoutModel checkout;
   late DeliveryMethod selectedDelivery;
   late PaymentMethod selectedPayment;
@@ -181,20 +182,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.grey),
-                  ),
-                  child: Text(
-                    'Voucher code',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                Expanded(
+                  child: TextField(
+                    controller: voucherCode,
+                    decoration: InputDecoration(
+                      hintText: 'Voucher code',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey.shade50),
+                      ),
+                    ),
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('data')));
+                  },
                   child: Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -230,7 +237,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Subtotal(${checkout.totalItems})',
+                        'Subtotal(${checkout.totalProducts})',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

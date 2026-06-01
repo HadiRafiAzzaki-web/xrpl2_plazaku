@@ -8,20 +8,15 @@ class AddressService {
   }
 
   void addUserAddress(int userId, AddressModel address) {
-    final addressIndex = addresses.indexWhere(
-      (element) => element.userId == userId,
+    addresses.add(
+      AddressModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        userId: userId,
+        label: address.label,
+        address: address.address,
+        phoneNum: address.phoneNum,
+      ),
     );
-    if (addressIndex == -1) {
-      addresses.add(
-        AddressModel(
-          id: DateTime.now().millisecondsSinceEpoch,
-          userId: userId,
-          label: address.label,
-          address: address.address,
-          phoneNum: address.phoneNum,
-        ),
-      );
-    }
   }
 
   void deleteUserAddress(int userId, AddressModel address) {

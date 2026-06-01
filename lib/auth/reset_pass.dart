@@ -159,8 +159,19 @@ class _ResetPassState extends State<ResetPass> {
                               final index = users.indexWhere(
                                 (user) =>
                                     user.email.toLowerCase() ==
-                                    widget.email.toLowerCase(),
+                                    widget.email.trim().toLowerCase(),
                               );
+                              if (users[index].password ==
+                                  _password.text.trim()) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'New password must be different',
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
                               if (index != -1) {
                                 users[index].password = _password.text;
                                 ScaffoldMessenger.of(context).showSnackBar(
